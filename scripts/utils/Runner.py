@@ -274,7 +274,7 @@ class Runner:
 
     def handle_onnx_export(self) -> None:
         """
-        Method used to export the model to ONNX format
+        Method used to export the model to ONNX formatt
         """
         path = self.run_log_path + Constants.DEFAULT_ONNX_EXPORT_PATH
 
