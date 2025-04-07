@@ -1,0 +1,262 @@
+[gd_scene load_steps=11 format=3 uid="uid://d01mqqs2jfphg"]
+
+[ext_resource type="Script" uid="uid://bbg2qperhtb68" path="res://environments/scripts/level.gd" id="1_aenmj"]
+[ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="1_u175t"]
+[ext_resource type="PackedScene" uid="uid://o6t0iemlmcj5" path="res://objects/targets/target_4.5x0.3.tscn" id="2_aenmj"]
+[ext_resource type="PackedScene" uid="uid://f0qwfq835sfr" path="res://objects/targets/final_target_3x3.tscn" id="3_0kj4w"]
+[ext_resource type="PackedScene" uid="uid://cq6t852770172" path="res://objects/targets/target_2x0.3.tscn" id="4_p86fo"]
+[ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="5_44341"]
+[ext_resource type="PackedScene" uid="uid://bv7gefew8eumw" path="res://objects/walls/wall2.tscn" id="6_6enbq"]
+[ext_resource type="PackedScene" uid="uid://cgvrkx5yls8k1" path="res://objects/walls/wall18.tscn" id="7_aeqss"]
+[ext_resource type="Script" uid="uid://dcijup633dkep" path="res://environments/scripts/pedestrian_controller.gd" id="8_padcm"]
+[ext_resource type="PackedScene" uid="uid://eer5gcm7ehuc" path="res://objects/pedestrian/Pedestrian.tscn" id="9_n5gcr"]
+
+[node name="Prova2" type="Node3D"]
+script = ExtResource("1_aenmj")
+
+[node name="Room" parent="." instance=ExtResource("1_u175t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0194159, 0, 0)
+
+[node name="Final" type="Node3D" parent="."]
+
+[node name="ObliqueTarget" parent="Final" instance=ExtResource("2_aenmj")]
+transform = Transform3D(0.953511, 0, 0.54847, 0, 1.1, 0, -0.54847, 0, 0.953511, -8.41645, -0.5, 0.91607)
+collision_layer = 16
+collision_mask = 20
+
+[node name="FinalTarget" parent="Final" instance=ExtResource("3_0kj4w")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -8.5, -1, -8.2)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target" parent="Final" instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.275325, 0, -4.72587)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target2" parent="Final" instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.275325, 0, 7.30508)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target3" parent="Final" instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.53272, 0, -3.21729)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target4" parent="Final" instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.21819, 0, 0.818172)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target5" parent="Final" instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.93251, 0, -3.17957)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target6" parent="Final" instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.60928, 0, -0.69041)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target7" parent="Final" instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.15783, 0, 3.38276)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target8" parent="Final" instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.02414, 0, 9.07767)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target9" parent="Final" instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.44222, 0, 9.30395)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target10" parent="Final" instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.68358, 0, 4.74049)
+collision_layer = 16
+collision_mask = 20
+
+[node name="ObliqueTarget2" parent="Final" instance=ExtResource("2_aenmj")]
+transform = Transform3D(1.06206, 0, -0.286407, 0, 1.1, 0, 0.286407, 0, 1.06206, -8.41645, -0.5, 5.21553)
+collision_layer = 16
+collision_mask = 20
+
+[node name="ObliqueTarget3" parent="Final" instance=ExtResource("2_aenmj")]
+transform = Transform3D(0.953511, 0, 0.54847, 0, 1.1, 0, -0.54847, 0, 0.953511, 8.21568, -0.5, 0.91607)
+collision_layer = 16
+collision_mask = 20
+
+[node name="ObliqueTarget4" parent="Final" instance=ExtResource("2_aenmj")]
+transform = Transform3D(0.951745, 0, -0.55153, 0, 1.1, 0, 0.55153, 0, 0.951745, 8.36654, -0.5, -4.77883)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Reward" parent="." instance=ExtResource("5_44341")]
+
+[node name="Walls" type="Node3D" parent="."]
+
+[node name="Obstacles" type="Node3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0754285)
+
+[node name="Obstacle11" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.48888, 0, -1)
+
+[node name="Obstacle12" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.21652, 0, -0.936146)
+
+[node name="Obstacle13" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.275978, 0, -1)
+
+[node name="Obstacle14" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.36404, 0, 0.885725)
+
+[node name="Obstacle15" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.9275, 0, -1)
+
+[node name="Obstacle17" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.36291, 0, 0.92344)
+
+[node name="Obstacle18" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.38233, 0, 0.396986)
+
+[node name="Obstacle19" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.17344, 0, -0.445574)
+
+[node name="Obstacle20" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8881, 0, 3.26908)
+
+[node name="Obstacle21" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.91989, 0, 3.21364)
+
+[node name="Obstacle22" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.69608, 0, 3.74034)
+
+[node name="Obstacle23" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 2.45685, 0, 4.87199)
+
+[node name="Obstacle24" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.488637, 0, 4.92743)
+
+[node name="Obstacle25" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.26483, 0, 4.40073)
+
+[node name="Obstacle26" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.45647, 0, 3.26908)
+
+[node name="Obstacle27" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.42468, 0, 3.21364)
+
+[node name="Obstacle28" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.64848, 0, 3.74034)
+
+[node name="Obstacle29" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.43439, 0, 7.41768)
+
+[node name="Obstacle30" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.46618, 0, 7.36224)
+
+[node name="Obstacle31" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.24238, 0, 7.88894)
+
+[node name="Obstacle32" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1451, 0, 7.19139)
+
+[node name="Obstacle33" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.11331, 0, 7.13595)
+
+[node name="Obstacle34" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.33711, 0, 7.66265)
+
+[node name="Obstacle35" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.349027, 0, 9.24119)
+
+[node name="Obstacle36" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -1.61918, 0, 9.29663)
+
+[node name="Obstacle37" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.842988, 0, 8.76992)
+
+[node name="Obstacle38" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.81154, 0, -5.02812)
+
+[node name="Obstacle39" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.84332, 0, -5.08356)
+
+[node name="Obstacle40" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.61952, 0, -4.55685)
+
+[node name="Obstacle41" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.42739, 0, -5.02812)
+
+[node name="Obstacle42" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.3956, 0, -5.08356)
+
+[node name="Obstacle43" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.61941, 0, -4.55685)
+
+[node name="Obstacle44" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.824418, 0, -2.87552)
+
+[node name="Obstacle45" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.14379, 0, -2.82008)
+
+[node name="Obstacle46" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -0.367597, 0, -3.34679)
+
+[node name="Obstacle47" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.63475, 0, -9.03755)
+
+[node name="Obstacle48" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.60296, 0, -9.09299)
+
+[node name="Obstacle49" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.82676, 0, -8.56629)
+
+[node name="Obstacle50" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.53577, 0, -7.2083)
+
+[node name="Obstacle51" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.432444, 0, -7.15286)
+
+[node name="Obstacle52" parent="Walls/Obstacles" instance=ExtResource("6_6enbq")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 0.343752, 0, -7.67956)
+
+[node name="Curve" type="Node3D" parent="Walls"]
+
+[node name="InternalWall" parent="Walls/Curve" instance=ExtResource("7_aeqss")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 6)
+
+[node name="InternalWall2" parent="Walls/Curve" instance=ExtResource("7_aeqss")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+
+[node name="InternalWall3" parent="Walls/Curve" instance=ExtResource("7_aeqss")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+
+[node name="InternalWall4" parent="Walls/Curve" instance=ExtResource("7_aeqss")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -6)
+
+[node name="PedestrianController" type="Node3D" parent="."]
+script = ExtResource("8_padcm")
+
+[node name="Pedestrian" parent="PedestrianController" instance=ExtResource("9_n5gcr")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.5, 0, 8.5)
+collision_layer = 6
+collision_mask = 19
+
+[node name="Target" parent="." instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.78278, 0, 4.7782)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target2" parent="." instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.90987, 0, -7.36589)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Target3" parent="." instance=ExtResource("4_p86fo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.592113, 0, -8.9499)
+collision_layer = 16
+collision_mask = 20
