@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://cb27x6fe2m85d"]
 
-[ext_resource type="Script" path="res://testing/level_testing_batch.gd" id="1_fow84"]
+[ext_resource type="Script" uid="uid://d3qxhmynrdbax" path="res://testing/level_testing_batch.gd" id="1_fow84"]
 [ext_resource type="PackedScene" uid="uid://dxyb7sq0yuht7" path="res://environments/levels/testing/DoorChoice.tscn" id="2_1sf67"]
-[ext_resource type="Script" path="res://utils/Sync.gd" id="2_bh1jm"]
+[ext_resource type="Script" uid="uid://dh1f3x81jrt1f" path="res://utils/Sync.gd" id="2_bh1jm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_op7cm"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)

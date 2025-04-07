@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://c83kv17oqe2k6"]
 
-[ext_resource type="Script" path="res://testing/level_testing_batch.gd" id="1_dt2bi"]
+[ext_resource type="Script" uid="uid://d3qxhmynrdbax" path="res://testing/level_testing_batch.gd" id="1_dt2bi"]
 [ext_resource type="PackedScene" uid="uid://n3qvkkmamb7l" path="res://environments/levels/testing/BlindCurve.tscn" id="2_06xvb"]
-[ext_resource type="Script" path="res://utils/Sync.gd" id="3_fsxo6"]
+[ext_resource type="Script" uid="uid://dh1f3x81jrt1f" path="res://utils/Sync.gd" id="3_fsxo6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0a1ol"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)

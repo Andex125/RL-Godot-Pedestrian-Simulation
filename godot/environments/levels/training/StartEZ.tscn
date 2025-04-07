@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://cqswiih3najh4"]
 
-[ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_rvhqc"]
+[ext_resource type="Script" uid="uid://bbg2qperhtb68" path="res://environments/scripts/level.gd" id="1_rvhqc"]
 [ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="1_xtyxy"]
 [ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="4_xdkto"]
 [ext_resource type="PackedScene" uid="uid://f0qwfq835sfr" path="res://objects/targets/final_target_3x3.tscn" id="5_roa4w"]
-[ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="8_us75h"]
+[ext_resource type="Script" uid="uid://dcijup633dkep" path="res://environments/scripts/pedestrian_controller.gd" id="8_us75h"]
 [ext_resource type="PackedScene" uid="uid://eer5gcm7ehuc" path="res://objects/pedestrian/Pedestrian.tscn" id="9_l85fg"]
 
 [node name="StartEZ" type="Node3D"]

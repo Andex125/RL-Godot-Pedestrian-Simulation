@@ -2,7 +2,6 @@
 
 [ext_resource type="Material" uid="uid://ddc5mqmn53adg" path="res://materials/target_material.tres" id="1_xqjtt"]
 
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_ujf8h"]
 size = Vector3(20, 10, 2)
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://dbodk7jdc4sl"]
 
-[ext_resource type="Script" path="res://utils/retraining_scene.gd" id="1_gxppi"]
-[ext_resource type="Script" path="res://utils/Sync.gd" id="2_hiqds"]
+[ext_resource type="Script" uid="uid://c1cuqoc2s2s12" path="res://utils/retraining_scene.gd" id="1_gxppi"]
+[ext_resource type="Script" uid="uid://dh1f3x81jrt1f" path="res://utils/Sync.gd" id="2_hiqds"]
 [ext_resource type="PackedScene" uid="uid://2h58qvivqje8" path="res://environments/levels/training/Start.tscn" id="3_y82wj"]
 [ext_resource type="PackedScene" uid="uid://bxa6hl02an5lq" path="res://environments/levels/training/Observe.tscn" id="4_fh87c"]
 [ext_resource type="PackedScene" uid="uid://cdb484d6vy8fg" path="res://environments/levels/training/NarrowDoorDouble.tscn" id="5_ng5ms"]
