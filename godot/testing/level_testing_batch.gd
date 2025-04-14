@@ -13,7 +13,10 @@ func _ready():
 	batch_size = Constants.TESTING_BATCH_SIZE
 	
 	pedpy_log_file = FileAccess.open(path + name + ".txt", FileAccess.WRITE)
-	init_sample_file()
+	if pedpy_log_file:
+		init_sample_file()
+	else:
+		push_error("Errore: impossibile aprire il file di log: " + path + name + ".txt")
 	spawn_level_managers()
 	
 	sync.onnx_model_path = get_parent().onnx_model_path
