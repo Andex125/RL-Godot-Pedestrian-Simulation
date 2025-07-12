@@ -1,13 +1,13 @@
 [gd_scene load_steps=11 format=3 uid="uid://bnaf50s4kl4yj"]
 
-[ext_resource type="Script" uid="uid://bbg2qperhtb68" path="res://environments/scripts/level.gd" id="1_5y1lp"]
+[ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_5y1lp"]
 [ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="1_pnb5x"]
 [ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="2_h24jd"]
 [ext_resource type="PackedScene" uid="uid://cxphmcstta3bi" path="res://objects/targets/large_final_target.tscn" id="3_wx720"]
 [ext_resource type="PackedScene" uid="uid://wnqy4tem8s1m" path="res://objects/targets/target_2x1.tscn" id="5_jdfwi"]
 [ext_resource type="PackedScene" uid="uid://be4gfujovd4db" path="res://objects/targets/target_7x0.3.tscn" id="6_flyf2"]
 [ext_resource type="PackedScene" uid="uid://eer5gcm7ehuc" path="res://objects/pedestrian/Pedestrian.tscn" id="7_4u527"]
-[ext_resource type="Script" uid="uid://dcijup633dkep" path="res://environments/scripts/pedestrian_controller.gd" id="8_h27lk"]
+[ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="8_h27lk"]
 [ext_resource type="PackedScene" uid="uid://boj0pvmutwu86" path="res://objects/walls/wall4.tscn" id="8_oixqi"]
 [ext_resource type="PackedScene" uid="uid://cnxrsmiy64sai" path="res://objects/walls/wall15.tscn" id="10_0t6io"]
 
@@ -18,6 +18,7 @@ max_steps = 150
 [node name="Room" parent="." instance=ExtResource("1_pnb5x")]
 
 [node name="Reward" parent="." instance=ExtResource("2_h24jd")]
+visible = false
 
 [node name="FinalTarget" parent="." instance=ExtResource("3_wx720")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9)

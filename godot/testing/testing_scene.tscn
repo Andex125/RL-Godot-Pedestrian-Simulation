@@ -1,13 +1,13 @@
 [gd_scene load_steps=7 format=3 uid="uid://buytp40i8mx1h"]
 
-[ext_resource type="Script" uid="uid://b5ww7nriyagcf" path="res://testing/testing_scene.gd" id="1_phwvg"]
-[ext_resource type="PackedScene" uid="uid://djfufvg6fcsd3" path="res://testing/batch/CurveCBatch.tscn" id="3_bsox1"]
-[ext_resource type="PackedScene" uid="uid://b1sjrxanmunx7" path="res://testing/batch/VCrossBatch.tscn" id="3_q5q8o"]
-[ext_resource type="PackedScene" uid="uid://dxg6k34fg01y7" path="res://testing/batch/OmegaBatch.tscn" id="4_5bwfc"]
-[ext_resource type="PackedScene" uid="uid://cb27x6fe2m85d" path="res://testing/batch/DoorChoiceBatch.tscn" id="4_qxnod"]
-[ext_resource type="PackedScene" uid="uid://c83kv17oqe2k6" path="res://testing/batch/BlindCurveBatch.tscn" id="6_pqjbp"]
+[ext_resource type="Script" path="res://testing/testing_scene.gd" id="1_phwvg"]
+[ext_resource type="PackedScene" uid="uid://cb27x6fe2m85d" path="res://testing/batch/DoorChoiceBatch.tscn" id="3_fr0dy"]
+[ext_resource type="PackedScene" uid="uid://dxg6k34fg01y7" path="res://testing/batch/OmegaBatch.tscn" id="3_nwoth"]
+[ext_resource type="PackedScene" uid="uid://chcuiyqxyfeke" path="res://testing/batch/AnchorBatch.tscn" id="4_6gibx"]
+[ext_resource type="PackedScene" uid="uid://c83kv17oqe2k6" path="res://testing/batch/BlindCurveBatch.tscn" id="5_mgqkp"]
+[ext_resource type="PackedScene" uid="uid://djfufvg6fcsd3" path="res://testing/batch/CurveCBatch.tscn" id="6_rlx33"]
 
 [node name="TestingScene" type="Node3D"]
 script = ExtResource("1_phwvg")
-onnx_model_path = "C:\\Users\\asder\\Desktop\\stage\\RL-Godot-Pedestrian-Simulation\\output\\runs\\Andrea\\prova5\\model\\model.onnx"
-levels_path = Array[PackedScene]([ExtResource("3_bsox1"), ExtResource("4_5bwfc"), ExtResource("3_q5q8o"), ExtResource("4_qxnod"), ExtResource("6_pqjbp")])
+onnx_model_path = "C:\\Users\\asder\\Desktop\\pluto\\RL-Godot-Pedestrian-Simulation\\output\\runs\\stage\\p1\\model\\model.onnx"
+levels_path = Array[PackedScene]([ExtResource("3_nwoth"), ExtResource("3_fr0dy"), ExtResource("4_6gibx"), ExtResource("5_mgqkp"), ExtResource("6_rlx33")])

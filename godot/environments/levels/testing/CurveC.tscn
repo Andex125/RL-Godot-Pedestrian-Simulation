@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://55sow7lawgi0"]
 
-[ext_resource type="Script" uid="uid://bbg2qperhtb68" path="res://environments/scripts/level.gd" id="1_d5ked"]
+[ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_d5ked"]
 [ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="2_npav3"]
 [ext_resource type="PackedScene" uid="uid://cgvrkx5yls8k1" path="res://objects/walls/wall18.tscn" id="3_lai6e"]
 [ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="4_1qnrb"]
 [ext_resource type="PackedScene" uid="uid://nqwb7at8dpui" path="res://objects/walls/wall9.tscn" id="4_5ir6d"]
 [ext_resource type="PackedScene" uid="uid://b2cuuh77of8hp" path="res://objects/targets/target_3.5x0.3.tscn" id="6_r7607"]
 [ext_resource type="PackedScene" uid="uid://snbn7wxuhdr2" path="res://objects/targets/final_target_4x1.tscn" id="7_ll7bu"]
-[ext_resource type="Script" uid="uid://dcijup633dkep" path="res://environments/scripts/pedestrian_controller.gd" id="8_3qxak"]
+[ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="8_3qxak"]
 [ext_resource type="PackedScene" uid="uid://eer5gcm7ehuc" path="res://objects/pedestrian/Pedestrian.tscn" id="9_laufr"]
 
 [node name="CurveC" type="Node3D"]

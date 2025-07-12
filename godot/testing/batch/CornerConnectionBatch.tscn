@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dw52dagvl3uvs"]
 
-[ext_resource type="Script" uid="uid://d3qxhmynrdbax" path="res://testing/level_testing_batch.gd" id="1_7ield"]
-[ext_resource type="Script" uid="uid://dh1f3x81jrt1f" path="res://utils/Sync.gd" id="1_cs35w"]
+[ext_resource type="Script" path="res://testing/level_testing_batch.gd" id="1_7ield"]
+[ext_resource type="Script" path="res://utils/Sync.gd" id="1_cs35w"]
 [ext_resource type="PackedScene" uid="uid://2o2kfd7vwhub" path="res://environments/levels/testing/CornerConnection.tscn" id="2_bbfdq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mal34"]
