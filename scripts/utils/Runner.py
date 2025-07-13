@@ -97,7 +97,7 @@ class Runner:
         self.handle_onnx_export()
 
         # Show tensorboard command to see results
-        print("\nTo see tensorboard logs run the following command:")
+        print("\nTo see tensorboard logs run the following command:\n")
         path = os.path.abspath(self.run_log_path)
         print("tensorboard --logdir " + path)
 
@@ -278,5 +278,5 @@ class Runner:
         """
         path = self.run_log_path + Constants.DEFAULT_ONNX_EXPORT_PATH
 
-        print("Exporting onnx to: " + os.path.abspath(path))
+        print("Exporting onnx to:\n" + os.path.abspath(path))
         export_ppo_model_as_onnx(self.model, path)
