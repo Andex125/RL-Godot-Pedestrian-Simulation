@@ -18,6 +18,9 @@ const POSITION_DISABLED: Vector3 = Vector3(-1000, -1000, -1000)
 # Pedestrian controller
 const TICKS_BETWEEN_LOG: int = 2
 
+# Objectives 
+const NUM_OBJECTIVES: int = 1
+
 # Rewards
 const FINAL_TARGET_REW: float = 6.0
 const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 0.5
@@ -29,6 +32,12 @@ const AGENT_COLLISION_MEDIUM_REW: float = -0.005    # -0.0 for high density
 const AGENT_COLLISION_LARGE_REW: float = -0.001     # -0.0 for high density
 const TIMESTEP_REW: float = -0.0001
 const END_OF_TIMESTEPS_REW: float = -6.0
+
+# Objectives Rewards - NUOVE COSTANTI
+const OBJECTIVE_COLLECTED_REW: float = 2.0
+const FINAL_TARGET_WITHOUT_OBJECTIVES_REW: float = -3.0
+const OBJECTIVE_VISIBLE_REW: float = 0.1
+const NO_OBJECTIVE_VISIBLE_REW: float = -0.2
 
 # AI Controller
 const TICKS_PER_STEP: int = 20
@@ -49,6 +58,7 @@ const TARGETS_GROUP: String = "TARGET"
 const WALLS_GROUP: String = "WALL"
 const AGENT_GROUP: String = "AGENT"
 const PEDESTRIAN_GROUP: String = "PEDESTRIAN"
+const OBJECTIVES_GROUP = "OBJECTIVES"   
 
 # Levels
 const DEFAULT_MAX_TIMESTEPS: int = 500

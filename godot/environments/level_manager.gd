@@ -5,11 +5,39 @@ class_name LevelManager
 signal notify_end_episode()
 
 
+var current_level: Node3D
+
+## Resetta tutti gli obiettivi alla fine dell'episodio
+func reset_objectives():
+	
+	if current_level == null:
+		print("ERRORE: current_level è null!")
+		return
+	
+	# Trova tutti gli obiettivi nel level corrente
+	var objectives = current_level.find_children("Objective*")
+	for objective in objectives:
+		# Riattiva l'obiettivo
+		objective.active = true
+		objective.monitoring = true
+		objective.monitorable = true
+		objective.visible = true
+		
+		# Riattiva la collisione
+		var collision = objective.find_child("CollisionShape3D")
+		if collision:
+			collision.disabled = false
+		
+		print("Riattivato obiettivo: ", objective.name)
+
 ## Set all the level elements (pedestrians, targets, ai controllers...)
 func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 	# Instantiating level scene
 	var level = level_scene.instantiate()
 	add_child(level)
+	
+	
+	current_level = level
 	
 	# Setup pedestrian
 	var pedestrians = level.find_children("Pedestrian*", "Pedestrian")
@@ -45,13 +73,15 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 	# Setup random target when end episode
 	var random_target = level.find_child("RandomTarget")
 	if random_target != null: notify_end_episode.connect(random_target.get_end_episode)
-
 	# Setup random spawn when end episode
 	var random_spawn = level.find_child("RandomArea")
 	
 	# Setup random objective when end episode
 	var random_objective = level.find_child("RandomObjective")
 	if random_objective != null: notify_end_episode.connect(random_objective.get_end_episode)
+	
+	# Reset obiettivi quando finisce l'episodio
+	notify_end_episode.connect(reset_objectives)
 	
 	# Setup random passage when end episode
 	var random_passage = level.find_child("RandomPassage")
@@ -71,5 +101,5 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 	pedestrian_controller.set_pedestrians_initial_state()
 
 ## Function called to emit signal for episode ending
-func _notify_end_episode() -> void:
+func trigger_end_episode() -> void:
 	notify_end_episode.emit()

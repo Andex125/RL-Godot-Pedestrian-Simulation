@@ -4,6 +4,6 @@ from scripts.utils.Runner import Runner
 runner = Runner(
     config_path="scripts/configs/sensitivity_studies/net_256_128_64.yaml",
     curriculum_path="scripts/configs/curriculum/curriculum_config.yaml",
-    run_name="stage/p1",
+    run_name="stage/ProvaObbiettivi34",
 )
 runner.run()

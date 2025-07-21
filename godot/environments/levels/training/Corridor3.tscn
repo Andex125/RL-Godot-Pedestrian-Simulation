@@ -37,4 +37,4 @@ script = ExtResource("6_b6tpy")
 [node name="Pedestrian" parent="PedestrianController" instance=ExtResource("7_x6stc")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 collision_layer = 6
-collision_mask = 19
+collision_mask = 18

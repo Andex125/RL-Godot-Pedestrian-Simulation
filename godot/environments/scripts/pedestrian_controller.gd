@@ -89,7 +89,7 @@ func check_end_episode():
 	
 	reset_pedestrians()
 	tot_reward = 0
-	level_manager._notify_end_episode()
+	level_manager.trigger_end_episode()
 	
 ## Check if all pedestrians are done
 func all_pedestrians_done() -> bool:

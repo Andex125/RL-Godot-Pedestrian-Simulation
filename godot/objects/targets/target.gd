@@ -9,3 +9,4 @@ func _ready():
 ## Called when body enter the area
 func _custom_body_entered(body: Node3D):
 	custom_body_entered.emit(self, body)
+	
