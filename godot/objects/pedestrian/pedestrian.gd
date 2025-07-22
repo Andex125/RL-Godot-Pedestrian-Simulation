@@ -34,7 +34,7 @@ var speed: float                                   # Velocità corrente
 var reached_targets := []                    # Array dei target intermedi già raggiunti
 var last_target_reached: Area3D = null       # Ultimo target raggiunto
 
-# ===== VARIABILI PER TRACKING OBIETTIVI - MODIFICATE =====
+# ===== VARIABILI PER TRACKING OBIETTIVI =====
 var reached_objectives := []                 # Array degli obiettivi raccolti (cambiato da costante)
 var objectives_collected: int = 0            # Contatore obiettivi raccolti
 
@@ -72,7 +72,6 @@ func reset():
 	final_target_reached = false
 	reached_targets = []
 	
-	# ===== RESET OBIETTIVI - NUOVE RIGHE =====
 	reached_objectives = []          # Resetta array obiettivi raccolti
 	objectives_collected = 0         # Resetta contatore obiettivi
 	

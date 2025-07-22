@@ -1,17 +1,11 @@
 extends ISensor3D
 
-## PROPRIETÀ CON GETTER E SETTER
-
 ## Max distance at which a raycast can hit
 var ray_length := Constants.RAY_LENGTH:
 	get:
-		# Semplice getter che restituisce il valore corrente
 		return ray_length
 	set(value):
-		# Quando si modifica la lunghezza del raggio:
-		# 1. Salva il nuovo valore
 		ray_length = value
-		# 2. Richiama _update() per ricreare tutti i raggi con la nuova lunghezza
 		_update()
 
 ## Max angle of vision (in deg)
@@ -19,10 +13,7 @@ var max_vision_degrees := Constants.MAX_VISION_DEGREES:
 	get:
 		return max_vision_degrees
 	set(value):
-		# Quando si modifica l'angolo di visione:
-		# 1. Salva il nuovo valore (es. da 45° a 60°)
 		max_vision_degrees = value
-		# 2. Richiama _update() per ricreare i raggi con il nuovo campo visivo
 		_update()
 
 ## Interval between rays	
@@ -30,10 +21,7 @@ var rays_angle_delta := Constants.RAYS_ANGLE_DELTA:
 	get:
 		return rays_angle_delta
 	set(value):
-		# Quando si modifica l'intervallo tra raggi:
-		# 1. Salva il nuovo valore (es. da 5° a 2° per più precisione)
 		rays_angle_delta = value
-		# 2. Richiama _update() per ricreare i raggi con la nuova spaziatura
 		_update()
 
 ## Position of initial ray
@@ -41,10 +29,7 @@ var initial_ray_pos := Constants.INITIAL_RAY_POS:
 	get:
 		return initial_ray_pos
 	set(value):
-		# Quando si modifica la posizione del primo raggio:
-		# 1. Salva il nuovo valore (es. da 0° a 10°)
 		initial_ray_pos = value
-		# 2. Richiama _update() per ricreare i raggi dalla nuova posizione iniziale
 		_update()
 
 ## If true rays will collide with Area3D, if false it wont
@@ -52,10 +37,7 @@ var collide_with_areas := true:
 	get:
 		return collide_with_areas
 	set(value):
-		# Quando si modifica la collisione con le aree:
-		# 1. Salva il nuovo valore
 		collide_with_areas = value
-		# 2. Richiama _update() per applicare la nuova impostazione a tutti i raggi
 		_update()
 
 ## If true rays will collide with bodies, if false it wont
@@ -63,10 +45,7 @@ var collide_with_bodies := true:
 	get:
 		return collide_with_bodies
 	set(value):
-		# Quando si modifica la collisione con i corpi:
-		# 1. Salva il nuovo valore
 		collide_with_bodies = value
-		# 2. Richiama _update() per applicare la nuova impostazione a tutti i raggi
 		_update()
 
 ## VARIABILI DI STATO
@@ -284,19 +263,19 @@ func _create_ray(angle: float, idx: int, mode: String):
 		# Modalità muri/target
 		ray.set_name("wall_target_ray_" + str(idx))
 		ray.show()  # Visibile nel debug di Godot
-		ray.collision_mask = 17
+		ray.collision_mask = 1585
 		
 	elif mode == "agents_walls":
 		# Modalità agenti/muri
 		ray.set_name("agent_wall_ray_" + str(idx))
 		ray.hide()  # Nascosto nel debug di Godot
-		ray.collision_mask = 3
+		ray.collision_mask = 399
 		
 	elif mode == "walls_objectives":
 		# Modalità muri/obiettivi
 		ray.set_name("wall_objective_ray_" + str(idx))
 		ray.show()  # Visibile nel debug di Godot
-		ray.collision_mask = 147
+		ray.collision_mask = 65
 			
 	# FASE 3: Configurazione comune
 	ray.enabled = true
@@ -393,7 +372,6 @@ func calculate_walls_objectives() -> Array:
 				hit_object_type[0] = 1  # Muro
 
 		hit_objects.append_array(hit_object_type)
-		
 	return hit_objects
 	
 	

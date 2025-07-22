@@ -28,7 +28,6 @@ func reset_objectives():
 		if collision:
 			collision.disabled = false
 		
-		print("Riattivato obiettivo: ", objective.name)
 
 ## Set all the level elements (pedestrians, targets, ai controllers...)
 func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
@@ -49,6 +48,7 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 	var objectives = level.find_children("Objective*")
 	if objectives != []:
 		for objective in objectives:
+			objective.collision_layer = 64
 			for pedestrian in pedestrians:
 				if pedestrian.collision_mask & objective.collision_mask != 0:
 					objective.custom_body_entered.connect(pedestrian._on_objective_entered)
