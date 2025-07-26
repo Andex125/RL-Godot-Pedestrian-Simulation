@@ -255,17 +255,11 @@ script = ExtResource("9_vg2g7")
 
 [node name="Pedestrian" parent="PedestrianController" instance=ExtResource("10_m2uoa")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 9.5, 0, 7.5)
-collision_layer = 6
-collision_mask = 19
 
 [node name="Pedestrian2" parent="PedestrianController" instance=ExtResource("10_m2uoa")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 9.5, 0, 9.5)
-collision_layer = 6
-collision_mask = 19
 
 [node name="Pedestrian3" parent="PedestrianController" instance=ExtResource("10_m2uoa")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 7.5, 0, 8.5)
-collision_layer = 6
-collision_mask = 19
 
 [connection signal="body_entered" from="AllTargets/Final/FinalTarget" to="." method="_on_final_target_body_entered"]

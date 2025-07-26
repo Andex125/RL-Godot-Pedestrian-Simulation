@@ -4,8 +4,6 @@
 [ext_resource type="Script" path="res://utils/Sync.gd" id="1_nsifw"]
 [ext_resource type="PackedScene" uid="uid://cr75p04cbnp4a" path="res://environments/levels/training/NarrowDoor.tscn" id="2_sjkup"]
 
-
-
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0c75j"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)
 
@@ -23,7 +21,6 @@ level = ExtResource("2_sjkup")
 
 [node name="Sync" type="Node" parent="."]
 script = ExtResource("1_nsifw")
-speed_up = 10.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_212n7")

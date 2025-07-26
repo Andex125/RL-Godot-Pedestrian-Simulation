@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_25gkr"]
 [ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="2_53g3x"]
 [ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="3_jphyj"]
-[ext_resource type="PackedScene" uid="uid://rb1ar2n6hi0u" path="res://objects/walls/wall.tscn" id="4_c43y3"]
+[ext_resource type="PackedScene" uid="uid://rb1ar2n6hi0u" path="res://objects/walls/wall22.tscn" id="4_c43y3"]
 [ext_resource type="PackedScene" uid="uid://nqwb7at8dpui" path="res://objects/walls/wall9.tscn" id="5_60v7e"]
 [ext_resource type="PackedScene" uid="uid://boj0pvmutwu86" path="res://objects/walls/wall4.tscn" id="6_ha276"]
 [ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="7_mnonv"]
@@ -77,23 +77,19 @@ script = ExtResource("7_mnonv")
 
 [node name="Pedestrian" parent="PedestrianController" instance=ExtResource("8_vmlo5")]
 transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -8, 0, -7.5)
-collision_layer = 6
-collision_mask = 19
 
 [node name="Pedestrian4" parent="PedestrianController" instance=ExtResource("8_vmlo5")]
 transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -6, 0, -3)
-collision_layer = 6
-collision_mask = 19
 
 [node name="Pedestrian2" parent="PedestrianController" instance=ExtResource("8_vmlo5")]
 transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 8, 0, -7.5)
 collision_layer = 10
-collision_mask = 35
+collision_mask = 99
 
 [node name="Pedestrian3" parent="PedestrianController" instance=ExtResource("8_vmlo5")]
 transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 6, 0, -3)
 collision_layer = 10
-collision_mask = 35
+collision_mask = 99
 
 [node name="ObliqueTarget" parent="." instance=ExtResource("9_5sjd1")]
 transform = Transform3D(0.848528, 0, -0.848528, 0, 1.2, 0, 0.848528, 0, 0.848528, 4.61728, -1.1437, -0.5)

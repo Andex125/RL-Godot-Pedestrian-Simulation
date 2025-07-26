@@ -12,7 +12,7 @@ var initial_rot: Dictionary = {}
 var ped_cycle_counter: Dictionary = {}
 
 var random_area: Area3D
-var random_rot: bool
+var random_rot: bool 
 
 var tot_reward: float = 0.0
 
@@ -20,6 +20,16 @@ var log_file: FileAccess
 var sample_frame_count: int = 0
 var ticks_between_log: int = Constants.TICKS_BETWEEN_LOG
 var tick_counter: int = 0
+
+var current_level_objectives_count: int = 0
+
+func set_objectives_count(count: int):
+	current_level_objectives_count = count
+	update_pedestrians_objectives_count()
+
+func update_pedestrians_objectives_count():
+	for p in pedestrians:
+		p.set_objectives_count(current_level_objectives_count)
 
 ## Initialize the pedestrian controller with a level manager
 func init(lm: LevelManager):
@@ -39,9 +49,8 @@ func get_pedestrians():
 func set_pedestrians_initial_state():
 	for p in pedestrians:
 		initial_pos[p] = p.global_position
-		initial_rot[p] = p.rotation if not random_rot else randomize_rot
+		initial_rot[p] = p.rotation if not random_rot else get_randomized_rotation 
 		ped_cycle_counter[p] = 0
-		
 
 ## perform randomization of pedestrian position
 func randomize_pos():
@@ -55,11 +64,11 @@ func randomize_pos():
 		)
 	return random_pos
 	
-	
-## perform randomization of pedestrian rotation
-func randomize_rot():
-	var random_rot = randi_range(0, Constants.ROTATION_STEPS - 1) * (360 / Constants.ROTATION_STEPS)
-	return Vector3(0.0, random_rot, 0)
+## perform randomization of pedestrian rotation 
+func get_randomized_rotation():
+	# ✅ Usa variabile locale con nome diverso
+	var rotation_value = randi_range(0, Constants.ROTATION_STEPS - 1) * (360.0 / float(Constants.ROTATION_STEPS)) 
+	return Vector3(0.0, deg_to_rad(rotation_value), 0.0) 
 
 ## Returns spawn current position
 func get_spawn_position(pedestrian: Pedestrian) -> Vector3:
@@ -112,6 +121,7 @@ func reset_pedestrians():
 		p.reset()
 		pedestrian_done[p] = false
 		p.enable_pedestrian()
+		p.set_objectives_count(current_level_objectives_count)
 		ped_cycle_counter[p] += 1
 	# ai controller done for only the first pedestrian to end the episode only one time
 	pedestrians[0].ai_controller_3d.done = true
@@ -140,4 +150,4 @@ func sample_data():
 		var group = p.collision_layer - 2
 		var data_line = str(id) + " " + str(sample_frame_count) + " " + str(x) + " " + str(-z) + " " + str(y) + " " + str(group)
 		log_file.store_line(data_line)
-	sample_frame_count += 1 
+	sample_frame_count += 1

@@ -46,6 +46,7 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 	
 	# Setup objective
 	var objectives = level.find_children("Objective*")
+	var objectives_count = objectives.size()
 	if objectives != []:
 		for objective in objectives:
 			objective.collision_layer = 64
@@ -98,6 +99,7 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 	pedestrian_controller.random_area = random_spawn
 	pedestrian_controller.random_rot = level.agent_rotate
 	pedestrian_controller.init(self)
+	pedestrian_controller.set_objectives_count(objectives_count) 
 	pedestrian_controller.set_pedestrians_initial_state()
 
 ## Function called to emit signal for episode ending

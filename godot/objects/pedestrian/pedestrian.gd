@@ -37,6 +37,7 @@ var last_target_reached: Area3D = null       # Ultimo target raggiunto
 # ===== VARIABILI PER TRACKING OBIETTIVI =====
 var reached_objectives := []                 # Array degli obiettivi raccolti (cambiato da costante)
 var objectives_collected: int = 0            # Contatore obiettivi raccolti
+var level_objectives_count: int = 0
 
 ## Inizializzazione del pedone quando entra nella scena
 func _ready():
@@ -146,21 +147,32 @@ func compute_rewards() -> void:
 		var agents_and_walls = obs[1]     # Dati su altri agenti e muri
 		var walls_and_objectives = obs[2] # Dati su muri e obiettivi
 		
-		# ===== REWARD PER OBIETTIVI - NUOVA SEZIONE =====
-		var uncollected_objective_visible = false
-		
-		# Controlla se ci sono obiettivi non raccolti visibili
+		# ===== REWARD PER OBIETTIVI - BASATO SU DISTANZA =====
+		var total_distance_reward: float = 0.0
+		var objectives_in_sight: int = 0
+
+		# Itera attraverso tutti gli obiettivi rilevati dal sensore
 		for i in range(0, walls_and_objectives.size(), 4):
-			# Se vede un nuovo obiettivo (non ancora raccolto)
+			# Se vede un obiettivo non ancora raccolto
 			if walls_and_objectives[i+1] == 1:  # Nuovo obiettivo visibile
-				uncollected_objective_visible = true
-				# Piccolo reward per incentivare ad andare verso gli obiettivi
-				tot_reward += Constants.OBJECTIVE_VISIBLE_REW
-				break
-		
-		# Se non ha raccolto tutti gli obiettivi e non ne vede nessuno
-		if objectives_collected < Constants.NUM_OBJECTIVES and not uncollected_objective_visible:
-			tot_reward += Constants.NO_OBJECTIVE_VISIBLE_REW
+				objectives_in_sight += 1
+				
+				# walls_and_objectives[i] contiene la distanza normalizzata (0-1)
+				var normalized_distance = walls_and_objectives[i]
+				
+				# Calcola reward inverso alla distanza
+				var distance_reward = max(0, (1.0 - normalized_distance) * Constants.MAX_OBJECTIVE_DISTANCE_REW)
+				total_distance_reward += distance_reward
+				
+		# Applica il reward totale
+		if objectives_in_sight > 0:
+			total_distance_reward = min(total_distance_reward, Constants.MAX_OBJECTIVE_DISTANCE_REW)
+			tot_reward += total_distance_reward
+
+		# Mantieni la penalty se non vede obiettivi
+		if objectives_collected < level_objectives_count and objectives_in_sight == 0:
+			var remaining_ratio = float(level_objectives_count - objectives_collected) / float(level_objectives_count)
+			tot_reward += Constants.NO_OBJECTIVE_VISIBLE_REW * remaining_ratio
 		
 		# ===== PENALTY PER VICINANZA AI MURI =====
 		var wall_near = false
@@ -220,12 +232,12 @@ func compute_rewards() -> void:
 	# Aggiorna l'interfaccia utente con il reward corrente
 	pedestrian_controller.set_reward_label_text(tot_reward)
 
-## Callback quando il pedone entra nel target finale - MODIFICATA
+## Callback quando il pedone entra nel target finale
 func _on_final_target_entered(body):
 	# Verifica che sia proprio questo pedone
 	if body == self:
 		# ===== CONTROLLO OBIETTIVI RACCOLTI =====
-		if objectives_collected >= Constants.NUM_OBJECTIVES:
+		if objectives_collected >= level_objectives_count:
 			# Ha raccolto tutti gli obiettivi, può finire l'episodio
 			finished = true
 			final_target_reached = true
@@ -234,8 +246,6 @@ func _on_final_target_entered(body):
 		else:
 			# Non ha raccolto tutti gli obiettivi, penalty e non finisce
 			ai_controller_3d.reward += Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW
-			print("Pedone ha raggiunto il target finale senza raccogliere tutti gli obiettivi!")
-			print("Obiettivi raccolti: ", objectives_collected, "/", Constants.NUM_OBJECTIVES)
 		
 ## Callback quando il pedone entra in un target intermedio
 func _on_target_entered(area, body):
@@ -259,17 +269,17 @@ func _on_objective_entered(area, body):
 		ai_controller_3d.reward += Constants.OBJECTIVE_COLLECTED_REW
 		
 		# Debug: stampa informazioni sulla raccolta
-		print("Obiettivo raccolto! Totale: ", objectives_collected, "/", Constants.NUM_OBJECTIVES)
+		print("Obiettivo raccolto! Totale: ", objectives_collected, "/", level_objectives_count)
 		
 		# Disabilita completamente l'obiettivo
 		area.active = false
-		area.monitoring = false
-		area.monitorable = false
+		area.set_deferred("monitoring", false)
+		area.set_deferred("monitorable", false)
 		area.visible = false
 		# Disabilita la collisione
 		var collision = area.find_child("CollisionShape3D")
 		if collision:
-			collision.disabled = true
+			collision.set_deferred("disabled", true)
 ## Restituisce la velocità normalizzata tra 0 e 1
 func get_speed_norm() -> float:
 	# Evita divisione per zero
@@ -290,3 +300,6 @@ func disable_pedestrian():
 func enable_pedestrian():
 	disable = false
 	rotation_sens = Constants.ROTATION_SENS  # Ripristina la sensibilità di rotazione
+	
+func set_objectives_count(count: int):
+	level_objectives_count = count

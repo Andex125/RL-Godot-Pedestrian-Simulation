@@ -32,7 +32,7 @@ func randomize_pos(area):
 
 # Perform randomization of entity rotation
 func randomize_rot():
-	var random_rot = randi_range(0, Constants.ROTATION_STEPS - 1) * (360 / Constants.ROTATION_STEPS)
+	var random_rot = randi_range(0, Constants.ROTATION_STEPS - 1) * (360.0 / Constants.ROTATION_STEPS)
 	entity.rotation_degrees = Vector3(0.0, random_rot, 0)
 
 # Handle the randomization

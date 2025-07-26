@@ -29,8 +29,6 @@ script = ExtResource("4_ersi5")
 
 [node name="Pedestrian" parent="PedestrianController" instance=ExtResource("5_grcmm")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -8, 0, -9)
-collision_layer = 6
-collision_mask = 19
 
 [node name="SmallInternalWall" parent="." instance=ExtResource("6_6ehqh")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.5, 0, -5.5)

@@ -18,26 +18,25 @@ const POSITION_DISABLED: Vector3 = Vector3(-1000, -1000, -1000)
 # Pedestrian controller
 const TICKS_BETWEEN_LOG: int = 2
 
-# Objectives 
-const NUM_OBJECTIVES: int = 1
-
 # Rewards
 const FINAL_TARGET_REW: float = 6.0
+const FINAL_TARGET_WITHOUT_OBJECTIVES_REW: float = -1.0
+
 const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 0.5
 const INTERMEDIATE_TARGET_ALREADY_REACHED_REW: float = -1.0
 const NO_TARGET_VISIBLE_REW: float = -0.5
+
+
+const OBJECTIVE_COLLECTED_REW: float = 0.5
+const MAX_OBJECTIVE_DISTANCE_REW: float = 0.02
+const NO_OBJECTIVE_VISIBLE_REW: float = -0.02
+
 const WALL_COLLISION_REW: float = -0.5
 const AGENT_COLLISION_SMALL_REW: float = -0.5
-const AGENT_COLLISION_MEDIUM_REW: float = -0.005    # -0.0 for high density
-const AGENT_COLLISION_LARGE_REW: float = -0.001     # -0.0 for high density
+const AGENT_COLLISION_MEDIUM_REW: float = -0.005   
+const AGENT_COLLISION_LARGE_REW: float = -0.001     
 const TIMESTEP_REW: float = -0.0001
 const END_OF_TIMESTEPS_REW: float = -6.0
-
-# Objectives Rewards - NUOVE COSTANTI
-const OBJECTIVE_COLLECTED_REW: float = 2.0
-const FINAL_TARGET_WITHOUT_OBJECTIVES_REW: float = -3.0
-const OBJECTIVE_VISIBLE_REW: float = 0.1
-const NO_OBJECTIVE_VISIBLE_REW: float = -0.2
 
 # AI Controller
 const TICKS_PER_STEP: int = 20
@@ -51,7 +50,7 @@ const INITIAL_RAY_POS: float = 0.0
 const RAYS_GRAY_COLOR: String = "#787c82"
 # For better performance set SHOW_RAYS to remove the computation necessary to 
 # draw the rays lines
-const SHOW_RAYS: bool = true
+const SHOW_RAYS: bool = false
 
 # Groups
 const TARGETS_GROUP: String = "TARGET"

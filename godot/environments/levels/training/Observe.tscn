@@ -80,7 +80,6 @@ script = ExtResource("4_624ba")
 
 [node name="FinalTarget" parent="RandomTarget" instance=ExtResource("5_pcis2")]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -3, 0, 5)
-collision_layer = 16
 collision_mask = 20
 
 [node name="Area1" type="Area3D" parent="RandomTarget"]
@@ -137,7 +136,5 @@ shape = SubResource("BoxShape3D_c4g3a")
 script = ExtResource("8_3anii")
 
 [node name="Pedestrian" parent="PedestrianController" instance=ExtResource("9_c24s0")]
-collision_layer = 6
-collision_mask = 19
 
 [connection signal="body_entered" from="RandomTarget/FinalTarget" to="RandomTarget" method="_on_final_target_body_entered"]

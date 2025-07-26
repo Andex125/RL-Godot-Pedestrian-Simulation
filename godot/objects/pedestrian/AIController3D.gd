@@ -40,7 +40,14 @@ func get_obs() -> Dictionary:
 	var obs := []
 	
 	if _player.disable == true:
-		for i in range(185):
+		var temp_raycast = _player.raycast_sensor.get_observation()
+		var total_size = 1  # speed_norm
+		total_size += temp_raycast[0].size()  # walls_targets
+		total_size += temp_raycast[1].size()  # agents_walls
+		total_size += temp_raycast[2].size()  # walls_objectives
+		
+		# Riempi con zeri per la dimensione corretta
+		for i in range(total_size):
 			obs.append(0)
 	else:	
 		var raycast_obs = _player.raycast_sensor.get_observation()
@@ -49,6 +56,7 @@ func get_obs() -> Dictionary:
 		obs.append(speed_norm)
 		obs.append_array(raycast_obs[0])
 		obs.append_array(raycast_obs[1])
+		obs.append_array(raycast_obs[2])
 	
 	return {'obs': obs}
 
