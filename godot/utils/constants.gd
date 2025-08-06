@@ -49,7 +49,7 @@ const INITIAL_RAY_POS: float = 0.0
 const RAYS_GRAY_COLOR: String = "#787c82"
 # For better performance set SHOW_RAYS to remove the computation necessary to 
 # draw the rays lines
-const SHOW_RAYS: bool = false
+const SHOW_RAYS: bool = true
 
 # Groups
 const TARGETS_GROUP: String = "TARGET"

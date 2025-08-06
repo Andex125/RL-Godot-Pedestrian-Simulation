@@ -1,0 +1,69 @@
+Curriculum:
+  StartDynamic:
+    mean_reward: 5.5
+    episode_mean: 120
+    cycles: 8
+  CorridorObjectiveSmall:
+    mean_reward: 4.0
+    episode_mean: 150
+    cycles: 12
+  StartObjectiveRandom:
+    mean_reward: 5.0
+    episode_mean: 100
+    cycles: 6
+  StartIntermediateTarget:
+    mean_reward: 5.9
+    episode_mean: 110
+    cycles: 5
+  Corridor1vs1:
+    mean_reward: 5.0
+    episode_mean: 180
+    cycles: 8
+  PassageOpposite:
+    mean_reward: 5.2
+    episode_mean: 200
+    cycles: 15
+  TakeObjectiveAndPass:
+    mean_reward: 4.5
+    episode_mean: 220
+    cycles: 18
+  EasyChoice:
+    mean_reward: 5.0
+    episode_mean: 160
+    cycles: 10
+  DoubleChoice+:
+    mean_reward: 4.0
+    episode_mean: 240
+    cycles: 20
+  TaskBeforeExit:
+    mean_reward: 2.0
+    episode_mean: 180
+    cycles: 8
+  TwoRooms:
+    mean_reward: 4.5
+    episode_mean: 280
+    cycles: 15
+  Rooms:
+    mean_reward: 4.0
+    episode_mean: 320
+    cycles: 25
+  FindObjective:
+    mean_reward: -1.0
+    episode_mean: 350
+    cycles: 30
+  LibrarySmall:
+    mean_reward: 6.0
+    episode_mean: 300
+    cycles: 22
+  Rows:
+    mean_reward: 5.0
+    episode_mean: 290
+    cycles: 20
+  ChooseDoors:
+    mean_reward: 3.0
+    episode_mean: 380
+    cycles: 35
+  House:
+    mean_reward: 3.0
+    episode_mean: 400
+    cycles: 40
