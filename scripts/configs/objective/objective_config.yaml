@@ -1,8 +1,12 @@
 Curriculum:
-  StartDynamic:
-    mean_reward: 5.5
-    episode_mean: 120
-    cycles: 8
+  StartEz:
+    mean_reward: 5.7
+    episode_mean: 108
+    cycles: 20
+  Start:
+    mean_reward: 3.0
+    episode_mean: 36
+    cycles: 5
   CorridorObjectiveSmall:
     mean_reward: 4.0
     episode_mean: 150
@@ -19,7 +23,7 @@ Curriculum:
     mean_reward: 5.0
     episode_mean: 180
     cycles: 8
-  PassageOpposite:
+  NarrowDoor1:
     mean_reward: 5.2
     episode_mean: 200
     cycles: 15

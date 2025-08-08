@@ -254,32 +254,36 @@ func _on_target_entered(area, body):
 		target_reached = true
 		last_target_reached = area
 		
-## Callback quando il pedone entra in un obiettivo da raccogliere - MODIFICATA
+## Callback quando il pedone entra in un obiettivo da raccogliere
 func _on_objective_entered(area, body):
-	# Verifica che sia questo pedone e che l'obiettivo sia attivo
-	if body == self and area.active:
-		# ===== RACCOLTA OBIETTIVO =====
-		# Incrementa il contatore degli obiettivi raccolti
-		objectives_collected += 1
+	# CONTROLLI BASE
+	if body != self or not area.active or area in reached_objectives:
+		return
+	
+	#print("🔔 Signal triggered da: ", area.name, " ID: ", area.get_instance_id())
+	
+	# DISABILITA IMMEDIATAMENTE il monitoring per bloccare trigger successivi
+	area.monitoring = false
+	area.active = false
+	
+	# PROCESSA IMMEDIATAMENTE (no deferred, no flag, no complicazioni)
+	#print("✅ Obiettivo raccolto: ", area.name, " (LevelManager: ", get_node("../..").get_instance_id(), ")")
+	
+	# Disabilita completamente
+	area.monitorable = false
+	area.visible = false
+	
+	var collision = area.find_child("CollisionShape3D")
+	if collision:
+		collision.disabled = true
+	
+	# Aggiorna contatori
+	objectives_collected += 1
+	reached_objectives.append(area)
+	ai_controller_3d.reward += Constants.OBJECTIVE_COLLECTED_REW
+	
+	#print("   📊 Obiettivi raccolti: ", objectives_collected, "/", level_objectives_count)
 		
-		# Aggiungi l'obiettivo alla lista di quelli raccolti
-		reached_objectives.append(area)
-		
-		# Aggiungi il reward per la raccolta
-		ai_controller_3d.reward += Constants.OBJECTIVE_COLLECTED_REW
-		
-		# Debug: stampa informazioni sulla raccolta
-		print("Obiettivo raccolto! Totale: ", objectives_collected, "/", level_objectives_count)
-		
-		# Disabilita completamente l'obiettivo
-		area.active = false
-		area.set_deferred("monitoring", false)
-		area.set_deferred("monitorable", false)
-		area.visible = false
-		# Disabilita la collisione
-		var collision = area.find_child("CollisionShape3D")
-		if collision:
-			collision.set_deferred("disabled", true)
 ## Restituisce la velocità normalizzata tra 0 e 1
 func get_speed_norm() -> float:
 	# Evita divisione per zero

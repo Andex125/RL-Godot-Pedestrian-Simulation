@@ -9,13 +9,14 @@ var current_level: Node3D
 
 ## Resetta tutti gli obiettivi alla fine dell'episodio
 func reset_objectives():
-	
 	if current_level == null:
 		print("ERRORE: current_level è null!")
 		return
 	
+	#print("🔄 Reset obiettivi per LevelManager: ", get_instance_id())
+	
 	# Trova tutti gli obiettivi nel level corrente
-	var objectives = current_level.find_children("Objective*")
+	var objectives = current_level.find_children("objective*")
 	for objective in objectives:
 		# Riattiva l'obiettivo
 		objective.active = true
@@ -23,10 +24,18 @@ func reset_objectives():
 		objective.monitorable = true
 		objective.visible = true
 		
+		# PULISCI TUTTI I FLAG di processing (per tutti i pedestrian)
+		var meta_list = objective.get_meta_list()
+		for meta_key in meta_list:
+			if meta_key.begins_with("processing_"):
+				objective.remove_meta(meta_key)
+		
 		# Riattiva la collisione
 		var collision = objective.find_child("CollisionShape3D")
 		if collision:
 			collision.disabled = false
+	
+	#print("   ✅ Reset ", objectives.size(), " obiettivi con pulizia flag")
 		
 
 ## Set all the level elements (pedestrians, targets, ai controllers...)
@@ -45,14 +54,29 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 		pedestrian.set_speed_max()
 	
 	# Setup objective
-	var objectives = level.find_children("Objective*")
+	var objectives = level.find_children("objective*")
 	var objectives_count = objectives.size()
+	#print("🎯 OBIETTIVI TROVATI: ", objectives_count)
+
 	if objectives != []:
 		for objective in objectives:
+			#print("📋 Setup obiettivo: ", objective.name, " ID: ", objective.get_instance_id())
 			objective.collision_layer = 64
+			objective.set("active", true)
+			objective.add_to_group(Constants.OBJECTIVES_GROUP)
+			
 			for pedestrian in pedestrians:
 				if pedestrian.collision_mask & objective.collision_mask != 0:
-					objective.custom_body_entered.connect(pedestrian._on_objective_entered)
+					#print("🔗 Connessione per: ", pedestrian.name, " -> ", objective.name)
+					#print("   Objective instance ID: ", objective.get_instance_id())
+					
+					# Usa una lambda unica per evitare connessioni multiple
+					var callback = func(body): 
+						#print("🔔 Signal triggered da: ", objective.name, " ID: ", objective.get_instance_id())
+						pedestrian._on_objective_entered(objective, body)
+					
+					objective.body_entered.connect(callback)
+					
 	
 	# Setup final target
 	var level_goals = level.find_children("FinalTarget*")

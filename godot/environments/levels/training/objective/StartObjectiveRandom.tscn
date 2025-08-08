@@ -1,0 +1,42 @@
+[gd_scene load_steps=10 format=3 uid="uid://pxafstiyc2tm"]
+
+[ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_36icx"]
+[ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="2_8be4f"]
+[ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="3_ler1o"]
+[ext_resource type="PackedScene" uid="uid://eer5gcm7ehuc" path="res://objects/pedestrian/Pedestrian.tscn" id="4_j22wg"]
+[ext_resource type="PackedScene" uid="uid://bjcemydbx83lh" path="res://objects/targets/objective/objective_3x3.tscn" id="6_2q1qu"]
+[ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="7_46ew4"]
+[ext_resource type="Script" path="res://environments/scripts/randomizer/objective.gd" id="7_wtne6"]
+[ext_resource type="PackedScene" uid="uid://f0qwfq835sfr" path="res://objects/targets/final_target_3x3.tscn" id="8_f5mar"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_086hm"]
+size = Vector3(13, 0, 10)
+
+[node name="Start" type="Node3D"]
+script = ExtResource("1_36icx")
+max_steps = 100
+
+[node name="Room" parent="." instance=ExtResource("2_8be4f")]
+
+[node name="PedestrianController" type="Node3D" parent="."]
+script = ExtResource("3_ler1o")
+
+[node name="Pedestrian" parent="PedestrianController" instance=ExtResource("4_j22wg")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 7.30538)
+
+[node name="Reward" parent="." instance=ExtResource("7_46ew4")]
+
+[node name="FinalTarget" parent="." instance=ExtResource("8_f5mar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+
+[node name="RandomTarget" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.20751)
+script = ExtResource("7_wtne6")
+
+[node name="Area" type="Area3D" parent="RandomTarget"]
+collision_layer = 2
+
+[node name="CollisionShapeTarget" type="CollisionShape3D" parent="RandomTarget/Area"]
+shape = SubResource("BoxShape3D_086hm")
+
+[node name="objective" parent="RandomTarget" instance=ExtResource("6_2q1qu")]
