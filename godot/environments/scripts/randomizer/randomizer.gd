@@ -12,12 +12,12 @@ var offset = 1.5
 var areas: Array = []
 
 # Reference to the entity to randomize
-@onready var entity
+@export var entity: Node3D 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	areas = find_children("CollisionShape*")
-	set_random()
+	set_random()	
 
 # Perform randomization of entity position
 func randomize_pos(area):

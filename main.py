@@ -23,7 +23,7 @@ run_name = get_next_run_number_by_checking_dirs()
 
 runner = Runner(
     config_path="scripts/configs/sensitivity_studies/net_256_128_64.yaml",
-    curriculum_path="scripts/configs/curriculum/curriculum_config.yaml",
+    curriculum_path="scripts/configs/objective/objective_config.yaml",
     run_name=run_name,
 )
 runner.run()

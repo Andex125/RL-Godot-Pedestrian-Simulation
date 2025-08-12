@@ -1,7 +1,6 @@
-# Nello script dell'objective
 extends Area3D
 signal custom_body_entered(area: Area3D, body: Node3D)
-var active: bool = false  # ← Inizia DISATTIVATO
+var active: bool = false  
 
 func _ready():
 	# Disabilita monitoring inizialmente
@@ -10,7 +9,7 @@ func _ready():
 	add_to_group(Constants.OBJECTIVES_GROUP)
 	
 	# Attiva dopo un delay per permettere la randomizzazione
-	await get_tree().create_timer(0.5).timeout  # ← DELAY
+	await get_tree().create_timer(0.5).timeout  
 	active = true
 	monitoring = true
 

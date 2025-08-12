@@ -11,6 +11,10 @@ Curriculum:
     mean_reward: 4.0
     episode_mean: 150
     cycles: 12
+  CorridorObjective:
+    mean_reward: 4.0
+    episode_mean: 150
+    cycles: 12
   StartObjectiveRandom:
     mean_reward: 5.0
     episode_mean: 100
@@ -19,10 +23,6 @@ Curriculum:
     mean_reward: 5.9
     episode_mean: 110
     cycles: 5
-  Corridor1vs1:
-    mean_reward: 5.0
-    episode_mean: 180
-    cycles: 8
   NarrowDoor1:
     mean_reward: 5.2
     episode_mean: 200
@@ -31,7 +31,7 @@ Curriculum:
     mean_reward: 4.5
     episode_mean: 220
     cycles: 18
-  EasyChoice:
+  EasyChoice :
     mean_reward: 5.0
     episode_mean: 160
     cycles: 10

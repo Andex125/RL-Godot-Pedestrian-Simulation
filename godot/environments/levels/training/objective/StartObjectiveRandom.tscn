@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://eer5gcm7ehuc" path="res://objects/pedestrian/Pedestrian.tscn" id="4_j22wg"]
 [ext_resource type="PackedScene" uid="uid://bjcemydbx83lh" path="res://objects/targets/objective/objective_3x3.tscn" id="6_2q1qu"]
 [ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="7_46ew4"]
-[ext_resource type="Script" path="res://environments/scripts/randomizer/objective.gd" id="7_wtne6"]
+[ext_resource type="Script" path="res://environments/scripts/randomizer/random_objective.gd" id="7_u1js3"]
 [ext_resource type="PackedScene" uid="uid://f0qwfq835sfr" path="res://objects/targets/final_target_3x3.tscn" id="8_f5mar"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_086hm"]
@@ -29,14 +29,14 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 [node name="FinalTarget" parent="." instance=ExtResource("8_f5mar")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
 
-[node name="RandomTarget" type="Node3D" parent="."]
+[node name="Random" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.20751)
-script = ExtResource("7_wtne6")
+script = ExtResource("7_u1js3")
 
-[node name="Area" type="Area3D" parent="RandomTarget"]
+[node name="Area" type="Area3D" parent="Random"]
 collision_layer = 2
 
-[node name="CollisionShapeTarget" type="CollisionShape3D" parent="RandomTarget/Area"]
+[node name="CollisionShape" type="CollisionShape3D" parent="Random/Area"]
 shape = SubResource("BoxShape3D_086hm")
 
-[node name="objective" parent="RandomTarget" instance=ExtResource("6_2q1qu")]
+[node name="objective" parent="Random" instance=ExtResource("6_2q1qu")]

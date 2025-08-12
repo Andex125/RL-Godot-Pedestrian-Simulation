@@ -260,8 +260,6 @@ func _on_objective_entered(area, body):
 	if body != self or not area.active or area in reached_objectives:
 		return
 	
-	#print("🔔 Signal triggered da: ", area.name, " ID: ", area.get_instance_id())
-	
 	# DISABILITA IMMEDIATAMENTE il monitoring per bloccare trigger successivi
 	area.monitoring = false
 	area.active = false
