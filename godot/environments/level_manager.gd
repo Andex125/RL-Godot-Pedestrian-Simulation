@@ -108,6 +108,11 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 	if random_objective != null:
 		if not notify_end_episode.is_connected(random_objective.get_end_episode):
 			notify_end_episode.connect(random_objective.get_end_episode)
+			
+	# Setup randomizer quando finisce l'episodio
+	var randomizer = level.find_child("Randomizer")
+	if randomizer != null: 
+		notify_end_episode.connect(randomizer.get_end_episode)
 	
 	# Reset obiettivi quando finisce l'episodio
 	if not notify_end_episode.is_connected(reset_objectives):

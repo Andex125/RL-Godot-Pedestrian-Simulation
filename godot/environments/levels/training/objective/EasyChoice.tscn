@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://baclbvs02xfdk" path="res://objects/targets/objective/objective_2x2.tscn" id="11_kdsrd"]
 [ext_resource type="Script" path="res://environments/scripts/randomizer/random_objective.gd" id="12_nxstw"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_23bdb"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_ntude"]
 size = Vector3(6, 0, 6)
 
 [node name="Start" type="Node3D"]
@@ -60,6 +60,6 @@ script = ExtResource("12_nxstw")
 collision_layer = 2
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Random/Area"]
-shape = SubResource("BoxShape3D_23bdb")
+shape = SubResource("BoxShape3D_ntude")
 
 [node name="objective" parent="Random" instance=ExtResource("11_kdsrd")]

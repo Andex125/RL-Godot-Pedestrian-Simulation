@@ -260,20 +260,15 @@ func _on_objective_entered(area, body):
 	if body != self or not area.active or area in reached_objectives:
 		return
 	
-	# DISABILITA IMMEDIATAMENTE il monitoring per bloccare trigger successivi
-	area.monitoring = false
-	area.active = false
+	area.set_deferred("monitoring", false)
+	area.set_deferred("active", false)
+	area.set_deferred("monitorable", false) 
+	area.set_deferred("visible", false)
 	
-	# PROCESSA IMMEDIATAMENTE (no deferred, no flag, no complicazioni)
-	#print("✅ Obiettivo raccolto: ", area.name, " (LevelManager: ", get_node("../..").get_instance_id(), ")")
-	
-	# Disabilita completamente
-	area.monitorable = false
-	area.visible = false
 	
 	var collision = area.find_child("CollisionShape3D")
 	if collision:
-		collision.disabled = true
+		collision.set_deferred("disabled", true)
 	
 	# Aggiorna contatori
 	objectives_collected += 1
