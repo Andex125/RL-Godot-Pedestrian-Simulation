@@ -13,7 +13,7 @@
 [ext_resource type="Script" path="res://environments/scripts/randomizer/random_objective.gd" id="12_nxstw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ntude"]
-size = Vector3(6, 0, 6)
+size = Vector3(7, 0, 7)
 
 [node name="Start" type="Node3D"]
 script = ExtResource("1_birl8")
@@ -53,7 +53,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.9067
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.15715, 0, 6.76163)
 
 [node name="Random" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -0.79249)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -0.79249)
 script = ExtResource("12_nxstw")
 
 [node name="Area" type="Area3D" parent="Random"]
@@ -63,3 +63,15 @@ collision_layer = 2
 shape = SubResource("BoxShape3D_ntude")
 
 [node name="objective" parent="Random" instance=ExtResource("11_kdsrd")]
+
+[node name="Random2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -0.79249)
+script = ExtResource("12_nxstw")
+
+[node name="Area" type="Area3D" parent="Random2"]
+collision_layer = 2
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Random2/Area"]
+shape = SubResource("BoxShape3D_ntude")
+
+[node name="objective" parent="Random2" instance=ExtResource("11_kdsrd")]

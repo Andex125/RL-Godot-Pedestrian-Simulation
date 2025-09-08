@@ -17,11 +17,19 @@ var areas: Array = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	areas = find_children("CollisionShape*")
-	set_random()	
+	# NON chiamare set_random qui, lasciamo che le sottoclassi lo facciano
 
 # Perform randomization of entity position
 func randomize_pos(area):
+	if area == null:
+		push_error("Area è null in randomize_pos per " + str(get_path()))
+		return
+		
 	var shape = area.shape as BoxShape3D
+	if shape == null:
+		push_error("Shape è null o non è BoxShape3D in " + str(get_path()))
+		return
+		
 	var extents = shape.extents
 	var random_pos = Vector3(
 		randf_range(-extents.x + offset, extents.x - offset),
@@ -32,13 +40,32 @@ func randomize_pos(area):
 
 # Perform randomization of entity rotation
 func randomize_rot():
+	if entity == null:
+		push_error("Entity è null in randomize_rot per " + str(get_path()))
+		return
+		
 	var random_rot = randi_range(0, Constants.ROTATION_STEPS - 1) * (360.0 / Constants.ROTATION_STEPS)
 	entity.rotation_degrees = Vector3(0.0, random_rot, 0)
 
 # Handle the randomization
 func set_random():
+	# Controlla che entity non sia null
+	if entity == null:
+		push_error("ERRORE: Entity è null in " + str(get_path()))
+		return
+	
+	# Controlla che ci siano aree disponibili
+	if areas.is_empty():
+		push_error("ERRORE: Nessuna area trovata in " + str(get_path()))
+		return
+	
 	# Randomize which area to place the entity
 	var selected_area = areas[randi_range(0, areas.size() - 1)]
+	
+	if selected_area == null:
+		push_error("ERRORE: Area selezionata è null in " + str(get_path()))
+		return
+	
 	entity.global_position = selected_area.global_position
 	
 	# Randomize position inside the selected area

@@ -1,4 +1,3 @@
-
 import os
 import datetime
 from pathlib import Path
@@ -15,6 +14,8 @@ from scripts.utils import Constants
 from scripts.utils.Callbacks import EndTrainingOnMeanRewardReachedCallback, EndTrainingOnEarlyFailCallback, \
     EndTrainingCombinedCallback
 from scripts.utils.ConfigParser import ConfigParser
+import psutil
+import torch
 
 
 class Runner:
@@ -45,6 +46,33 @@ class Runner:
         self.levels: Collection[Level] = []
         self.configs: Optional[dict[str, Any]] = None
 
+        # Configure GPU/CPU device
+        self.device = self._setup_device()
+
+    def _setup_device(self):
+        """Setup and configure GPU/CUDA if available"""
+        if torch.cuda.is_available():
+            device = torch.device("cuda:0")
+            torch.backends.cudnn.benchmark = True
+        else:
+            device = torch.device("cpu")
+            torch.set_num_threads(4)
+
+        return device
+
+    def log_performance(self):
+        """Log current GPU and CPU usage"""
+        if torch.cuda.is_available():
+            try:
+                gpu_memory_used = torch.cuda.memory_allocated() / 1024 ** 3
+                gpu_memory_total = torch.cuda.get_device_properties(0).total_memory / 1024 ** 3
+                print(f"GPU Memory: {gpu_memory_used:.2f}/{gpu_memory_total:.1f}GB")
+            except:
+                pass
+
+        cpu_usage = psutil.cpu_percent(interval=1)
+        memory_usage = psutil.virtual_memory().percent
+        print(f"CPU Usage: {cpu_usage}%, RAM Usage: {memory_usage}%")
 
     def create_run_log_path(self) -> str:
         """
@@ -84,7 +112,8 @@ class Runner:
         self.log_settings()
 
         # Training phase
-        for level in self.levels:
+        for i, level in enumerate(self.levels):
+            print(f"\n=== TRAINING LEVEL {i + 1}/{len(self.levels)}: {level.name} ===")
             self.train_level(level)
 
         # Retraining phase
@@ -102,7 +131,8 @@ class Runner:
         print("tensorboard --logdir " + path)
 
         # Removing tmp model file
-        os.remove(Constants.DEFAULT_TMP_MODEL_FILE)
+        if os.path.exists(Constants.DEFAULT_TMP_MODEL_FILE):
+            os.remove(Constants.DEFAULT_TMP_MODEL_FILE)
 
     def load_configs(self) -> None:
         """
@@ -122,7 +152,8 @@ class Runner:
         """
         with open(self.run_log_path + "run_configs.txt", "w") as f:
             f.write(f"Curriculum settings: {self.curriculum_path}\n")
-            f.write(f"Model settings: {self.config_path}")
+            f.write(f"Model settings: {self.config_path}\n")
+            f.write(f"Device: {self.device}\n")
         f.close()
 
     def train_level(self, level: Level) -> None:
@@ -142,16 +173,6 @@ class Runner:
         else:
             self.load_model(vec_env)
             reset_num_timesteps = False
-
-        # Setting up callbacks to stop training
-        # mean_reward_callback = EndTrainingOnMeanRewardReachedCallback(monitor_logs_path,
-        #                                                               level.mean_reward,
-        #                                                               level.episodes_for_mean)
-        # early_fail_callback = EndTrainingOnEarlyFailCallback(monitor_logs_path,
-        #                                                      level.mean_reward,
-        #                                                      level.episodes_for_mean,
-        #                                                      level.cycles)
-        # callback = CallbackList([mean_reward_callback, early_fail_callback])
 
         callback = EndTrainingCombinedCallback(
             monitor_logs_path,
@@ -225,11 +246,17 @@ class Runner:
         :param vec_env: The VecMonitor used to create the model.
         """
         print("Creating new model")
+
+        # Add device to hyperparameters if not present
+        hyperparams = self.configs['hyperparameters'].copy()
+        if 'device' not in hyperparams:
+            hyperparams['device'] = self.device
+
         self.model = PPO(
             "MultiInputPolicy",
             vec_env,
             tensorboard_log=self.run_log_path,
-            **self.configs['hyperparameters'],
+            **hyperparams,
         )
 
     def load_model(self, vec_env: VecMonitor) -> None:
@@ -242,6 +269,7 @@ class Runner:
             Constants.DEFAULT_TMP_MODEL_FILE,
             vec_env,
             tensorboard_log=self.run_log_path,
+            device=self.device,
         )
 
     def retraining(self) -> None:

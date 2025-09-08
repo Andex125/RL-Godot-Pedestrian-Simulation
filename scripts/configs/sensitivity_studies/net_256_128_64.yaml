@@ -15,7 +15,7 @@ hyperparameters:
   sde_sample_freq: -1
   target_kl: null
   stats_window_size: 1
-  device: "auto"
+  device: "cuda"
   verbose: 0
   policy_kwargs:
     net_arch:
