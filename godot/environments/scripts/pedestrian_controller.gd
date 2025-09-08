@@ -66,7 +66,7 @@ func randomize_pos():
 	
 ## perform randomization of pedestrian rotation 
 func get_randomized_rotation():
-	# ✅ Usa variabile locale con nome diverso
+	#  Usa variabile locale con nome diverso
 	var rotation_value = randi_range(0, Constants.ROTATION_STEPS - 1) * (360.0 / float(Constants.ROTATION_STEPS)) 
 	return Vector3(0.0, deg_to_rad(rotation_value), 0.0) 
 

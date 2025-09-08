@@ -70,4 +70,4 @@ Curriculum:
   House:
     mean_reward: 3.0
     episode_mean: 400
-    cycles: 40
+    cycles: 406
