@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" path="res://training/level_training_batch.gd" id="1_piws0"]
 [ext_resource type="Script" path="res://utils/Sync.gd" id="2_ltm48"]
-[ext_resource type="PackedScene" uid="uid://baolc0qtc4uei" path="res://environments/levels/training/objective/StartIntermediateTarget.tscn" id="2_yd4hu"]
+[ext_resource type="PackedScene" uid="uid://baolc0qtc4uei" path="res://environments/levels/training/StartIntermediateTarget.tscn" id="2_yd4hu"]
+
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rosjp"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)

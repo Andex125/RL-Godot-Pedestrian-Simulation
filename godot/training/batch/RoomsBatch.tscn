@@ -1,8 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://cebmppfdoshi"]
 
 [ext_resource type="Script" path="res://training/level_training_batch.gd" id="1_jrldw"]
-[ext_resource type="PackedScene" uid="uid://drboaeqt350t3" path="res://environments/levels/training/objective/Rooms.tscn" id="2_o7wv5"]
+[ext_resource type="PackedScene" uid="uid://drboaeqt350t3" path="res://environments/levels/training/Rooms.tscn" id="2_o7wv5"]
 [ext_resource type="Script" path="res://utils/Sync.gd" id="3_djg0d"]
+
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_y8h34"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)

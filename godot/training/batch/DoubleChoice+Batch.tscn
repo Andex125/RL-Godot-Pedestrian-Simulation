@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" path="res://utils/Sync.gd" id="1_1a1y1"]
 [ext_resource type="Script" path="res://training/level_training_batch.gd" id="1_s8m0p"]
-[ext_resource type="PackedScene" uid="uid://q06tmnyt0gxs" path="res://environments/levels/training/objective/DoubleChoice+.tscn" id="2_l230c"]
+[ext_resource type="PackedScene" uid="uid://q06tmnyt0gxs" path="res://environments/levels/training/DoubleChoice+.tscn" id="2_l230c"]
+
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1vlsy"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)

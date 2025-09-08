@@ -1,20 +1,16 @@
-[gd_scene load_steps=16 format=3 uid="uid://brbf8pv144e7h"]
+[gd_scene load_steps=15 format=3 uid="uid://brbf8pv144e7h"]
 
 [ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_yoi8p"]
 [ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="2_xfjt8"]
 [ext_resource type="Script" path="res://environments/scripts/randomizer/passage.gd" id="3_43wms"]
 [ext_resource type="PackedScene" uid="uid://cgvrkx5yls8k1" path="res://objects/walls/wall18.tscn" id="4_be8iv"]
-[ext_resource type="PackedScene" uid="uid://wnqy4tem8s1m" path="res://objects/targets/target_2x1.tscn" id="5_puh3e"]
 [ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="6_5uflg"]
 [ext_resource type="PackedScene" uid="uid://cxphmcstta3bi" path="res://objects/targets/large_final_target.tscn" id="7_tmklv"]
 [ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="8_bmmhi"]
 [ext_resource type="PackedScene" uid="uid://eer5gcm7ehuc" path="res://objects/pedestrian/Pedestrian.tscn" id="9_hdgjv"]
-[ext_resource type="Script" path="res://environments/scripts/randomizer/final_target.gd" id="10_4nwk7"]
+[ext_resource type="PackedScene" uid="uid://bsiiadkfddcmn" path="res://objects/targets/target_4.5x1.tscn" id="11_2wul4"]
 [ext_resource type="PackedScene" uid="uid://baclbvs02xfdk" path="res://objects/targets/objective/objective_2x2.tscn" id="11_dqld5"]
 [ext_resource type="Script" path="res://environments/scripts/randomizer/randomizer.gd" id="12_y2n5p"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ugjbo"]
-size = Vector3(16, 1, 4)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7mh6t"]
 size = Vector3(13, 0, 4)
@@ -22,32 +18,14 @@ size = Vector3(13, 0, 4)
 [sub_resource type="BoxShape3D" id="BoxShape3D_eyxw2"]
 size = Vector3(13, 0, 4)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_umvps"]
+size = Vector3(16, 1, 4)
+
 [node name="NarrowDoor" type="Node3D"]
 script = ExtResource("1_yoi8p")
 max_steps = 150
 
 [node name="Room" parent="." instance=ExtResource("2_xfjt8")]
-
-[node name="RandomPassage" type="Node3D" parent="."]
-script = ExtResource("3_43wms")
-
-[node name="Area" type="Area3D" parent="RandomPassage"]
-
-[node name="CollisionShapePassage" type="CollisionShape3D" parent="RandomPassage/Area"]
-shape = SubResource("BoxShape3D_ugjbo")
-
-[node name="Passage" type="Node3D" parent="RandomPassage"]
-
-[node name="InternalWall" parent="RandomPassage/Passage" instance=ExtResource("4_be8iv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2057, 0, 0)
-
-[node name="InternalWall2" parent="RandomPassage/Passage" instance=ExtResource("4_be8iv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2056, 0, 0)
-
-[node name="Target" parent="RandomPassage/Passage" instance=ExtResource("5_puh3e")]
-transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
-collision_layer = 16
-collision_mask = 20
 
 [node name="Reward" parent="." instance=ExtResource("6_5uflg")]
 
@@ -65,7 +43,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 
 [node name="RandomTarget" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.65477)
-script = ExtResource("10_4nwk7")
+script = ExtResource("12_y2n5p")
 
 [node name="Area" type="Area3D" parent="RandomTarget"]
 collision_layer = 2
@@ -85,3 +63,22 @@ script = ExtResource("12_y2n5p")
 shape = SubResource("BoxShape3D_eyxw2")
 
 [node name="objective" parent="Randomizer" instance=ExtResource("11_dqld5")]
+
+[node name="RandomPassage" type="Node3D" parent="."]
+script = ExtResource("3_43wms")
+
+[node name="Area" type="Area3D" parent="RandomPassage"]
+
+[node name="CollisionShapePassage" type="CollisionShape3D" parent="RandomPassage/Area"]
+shape = SubResource("BoxShape3D_umvps")
+
+[node name="Passage" type="Node3D" parent="RandomPassage"]
+
+[node name="InternalWall" parent="RandomPassage/Passage" instance=ExtResource("4_be8iv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2057, 0, 0)
+
+[node name="InternalWall2" parent="RandomPassage/Passage" instance=ExtResource("4_be8iv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2056, 0, 0)
+
+[node name="ObliqueTarget" parent="RandomPassage/Passage" instance=ExtResource("11_2wul4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)

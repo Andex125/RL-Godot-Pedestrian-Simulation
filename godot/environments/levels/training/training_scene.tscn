@@ -1,0 +1,26 @@
+[gd_scene load_steps=20 format=3 uid="uid://d1b4il1g7l2u3"]
+
+[ext_resource type="Script" path="res://training/training_scene.gd" id="1_cjhfy"]
+[ext_resource type="PackedScene" uid="uid://b5i18lyv0wpap" path="res://training/batch/StartEzBatch.tscn" id="2_spbpb"]
+[ext_resource type="PackedScene" uid="uid://b1r8uag8rqaea" path="res://training/batch/StartBatch.tscn" id="3_8ya20"]
+[ext_resource type="PackedScene" uid="uid://c5skg0a1cpcdo" path="res://training/batch/CorridorObjectiveSmallBatch.tscn" id="4_31h2h"]
+[ext_resource type="PackedScene" uid="uid://bfwa33lh458i8" path="res://training/batch/CorridorObjectiveBatch.tscn" id="5_r2jla"]
+[ext_resource type="PackedScene" uid="uid://dbte6gmeqautg" path="res://training/batch/StartObjectiveRandomBatch.tscn" id="6_7inxe"]
+[ext_resource type="PackedScene" uid="uid://bkfjl1kwbh58q" path="res://training/batch/StartIntermediateTargetBatch.tscn" id="7_bk8bh"]
+[ext_resource type="PackedScene" uid="uid://cscd0dnhycwaw" path="res://training/batch/NarrowDoor1Batch.tscn" id="8_okopt"]
+[ext_resource type="PackedScene" uid="uid://dgpi518rfuaee" path="res://training/batch/TakeObjectiveAndPassBatch.tscn" id="9_gjeks"]
+[ext_resource type="PackedScene" uid="uid://dvs33ukkes5kb" path="res://training/batch/EasyChoiceBatch.tscn" id="10_b3oii"]
+[ext_resource type="PackedScene" uid="uid://ddv86fdpsbvn8" path="res://training/batch/DoubleChoice+Batch.tscn" id="11_i5cuo"]
+[ext_resource type="PackedScene" uid="uid://bsx8t20itb7mf" path="res://training/batch/TaskBeforeExitBatch.tscn" id="12_nehwu"]
+[ext_resource type="PackedScene" uid="uid://c0wowecxhn2km" path="res://training/batch/TwoRoomsBatch.tscn" id="13_jpuu1"]
+[ext_resource type="PackedScene" uid="uid://cebmppfdoshi" path="res://training/batch/RoomsBatch.tscn" id="14_tftrl"]
+[ext_resource type="PackedScene" uid="uid://bnwve02544vh4" path="res://training/batch/FindObjectiveBatch.tscn" id="15_byyv0"]
+[ext_resource type="PackedScene" uid="uid://ddu1uliwbstf8" path="res://training/batch/LibrarySmallBatch.tscn" id="16_inepm"]
+[ext_resource type="PackedScene" uid="uid://bk2yg5pq0j6rr" path="res://training/batch/RowsBatch.tscn" id="17_0c1y0"]
+[ext_resource type="PackedScene" uid="uid://d30sv5y0h80ua" path="res://training/batch/ChooseDoorsBatch.tscn" id="18_icxkk"]
+[ext_resource type="PackedScene" uid="uid://lxylgp0omqha" path="res://training/batch/HouseBatch.tscn" id="19_7h3lt"]
+
+[node name="TrainingScene" type="Node3D"]
+transform = Transform3D(0.999979, 0.00644022, 0, -0.00644022, 0.999979, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1_cjhfy")
+levels_path = Array[PackedScene]([ExtResource("2_spbpb"), ExtResource("3_8ya20"), ExtResource("4_31h2h"), ExtResource("5_r2jla"), ExtResource("6_7inxe"), ExtResource("7_bk8bh"), ExtResource("8_okopt"), ExtResource("9_gjeks"), ExtResource("10_b3oii"), ExtResource("11_i5cuo"), ExtResource("12_nehwu"), ExtResource("13_jpuu1"), ExtResource("14_tftrl"), ExtResource("15_byyv0"), ExtResource("16_inepm"), ExtResource("17_0c1y0"), ExtResource("18_icxkk"), ExtResource("19_7h3lt")])
