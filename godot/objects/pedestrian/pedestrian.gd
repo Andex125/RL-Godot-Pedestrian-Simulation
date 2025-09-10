@@ -73,7 +73,7 @@ func reset():
 	final_target_reached = false
 	reached_targets = []
 	
-	reached_objectives = []          # Resetta array obiettivi raccolti
+	reached_objectives.clear()         # Resetta array obiettivi raccolti
 	objectives_collected = 0         # Resetta contatore obiettivi
 	
 ## Imposta la velocità massima usando una distribuzione gaussiana
@@ -260,8 +260,8 @@ func _on_objective_entered(area, body):
 	if body != self or not area.active or area in reached_objectives:
 		return
 	
-	area.set_deferred("monitoring", false)
-	area.set_deferred("active", false)
+	area.active = false          
+	area.monitoring = false
 	area.set_deferred("monitorable", false) 
 	area.set_deferred("visible", false)
 	

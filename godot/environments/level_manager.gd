@@ -31,6 +31,10 @@ func reset_objectives():
 		var collision = objective.find_child("CollisionShape3D")
 		if collision:
 			collision.disabled = false
+	var pedestrians = current_level.find_children("Pedestrian*", "Pedestrian")
+	for pedestrian in pedestrians:
+		pedestrian.reached_objectives.clear()
+		pedestrian.objectives_collected = 0
 
 ## Set all the level elements (pedestrians, targets, ai controllers...)
 func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
@@ -58,15 +62,14 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 			
 			for pedestrian in pedestrians:
 				if pedestrian.collision_mask & objective.collision_mask != 0:
-					# Usa una lambda unica per evitare connessioni multiple
-					var callback = func(body): 
-						pedestrian._on_objective_entered(objective, body)
-					
 					# Disconnetti eventuali connessioni precedenti
-					if objective.body_entered.is_connected(callback):
-						objective.body_entered.disconnect(callback)
+					if objective.body_entered.is_connected(pedestrian._on_objective_entered):
+						objective.body_entered.disconnect(pedestrian._on_objective_entered)
 					
-					objective.body_entered.connect(callback)
+					# Riconnetti con bind
+					objective.body_entered.connect(
+						pedestrian._on_objective_entered.bind(objective)
+					)
 	
 	# Trova e configura il nodo Random che contiene l'objective
 	var random_node = level.find_child("Random")

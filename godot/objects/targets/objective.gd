@@ -9,7 +9,7 @@ func _ready():
 	add_to_group(Constants.OBJECTIVES_GROUP)
 	
 	# Attiva dopo un delay per permettere la randomizzazione
-	await get_tree().create_timer(0.5).timeout  
+	await get_tree().create_timer(0.1).timeout  
 	active = true
 	monitoring = true
 
