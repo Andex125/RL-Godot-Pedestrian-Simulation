@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://jd0o3pe4uet4"]
+[gd_scene load_steps=12 format=3 uid="uid://jd0o3pe4uet4"]
 
 [ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_birl8"]
 [ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="2_3xrp2"]
@@ -8,8 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="7_oweoc"]
 [ext_resource type="PackedScene" uid="uid://cwi3rl1xa5qxs" path="res://objects/walls/wall7.tscn" id="7_yhobp"]
 [ext_resource type="PackedScene" uid="uid://f0qwfq835sfr" path="res://objects/targets/final_target_3x3.tscn" id="8_f825n"]
-[ext_resource type="PackedScene" uid="uid://be4gfujovd4db" path="res://objects/targets/target_7x0.3.tscn" id="8_jw848"]
-[ext_resource type="PackedScene" uid="uid://baclbvs02xfdk" path="res://objects/targets/objective/objective_2x2.tscn" id="11_kdsrd"]
+[ext_resource type="PackedScene" uid="uid://bjcemydbx83lh" path="res://objects/targets/objective/objective_3x3.tscn" id="11_hfb4m"]
 [ext_resource type="Script" path="res://environments/scripts/randomizer/random_objective.gd" id="12_nxstw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ntude"]
@@ -37,20 +36,8 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 
 
 [node name="target" type="Node3D" parent="."]
 
-[node name="Target2" parent="target" instance=ExtResource("8_jw848")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.36267, 0, 3.40586)
-
-[node name="Target" parent="target" instance=ExtResource("8_jw848")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.01206, 0, 3.45595)
-
 [node name="FinalTarget" parent="target" instance=ExtResource("8_f825n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.85817)
-
-[node name="Target3" parent="target" instance=ExtResource("8_jw848")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.90672, 0, 7.36267)
-
-[node name="Target4" parent="target" instance=ExtResource("8_jw848")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.15715, 0, 6.76163)
 
 [node name="Random" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -0.79249)
@@ -62,7 +49,7 @@ collision_layer = 2
 [node name="CollisionShape" type="CollisionShape3D" parent="Random/Area"]
 shape = SubResource("BoxShape3D_ntude")
 
-[node name="objective" parent="Random" instance=ExtResource("11_kdsrd")]
+[node name="objective" parent="Random" instance=ExtResource("11_hfb4m")]
 
 [node name="Random2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -0.79249)
@@ -74,4 +61,4 @@ collision_layer = 2
 [node name="CollisionShape" type="CollisionShape3D" parent="Random2/Area"]
 shape = SubResource("BoxShape3D_ntude")
 
-[node name="objective" parent="Random2" instance=ExtResource("11_kdsrd")]
+[node name="objective" parent="Random2" instance=ExtResource("11_hfb4m")]

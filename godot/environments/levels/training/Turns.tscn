@@ -134,7 +134,6 @@ script = ExtResource("8_3g4j1")
 
 [node name="Pedestrian" parent="PedestrianController" instance=ExtResource("9_i45uw")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
-collision_layer = 6
 collision_mask = 19
 
 [connection signal="body_entered" from="AllTargets/Final/FinalTarget" to="." method="_on_final_target_body_entered"]

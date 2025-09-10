@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bjcemydbx83lh" path="res://objects/targets/objective/objective_3x3.tscn" id="11_8x4fh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_umvps"]
-size = Vector3(16, 1, 1)
+size = Vector3(16, 1, 3)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3nmna"]
 size = Vector3(13, 0, 4)
@@ -54,8 +54,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2057, 0, 0)
 [node name="InternalWall2" parent="RandomPassage/Passage" instance=ExtResource("4_be8iv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2056, 0, 0)
 
-[node name="ObliqueTarget" parent="RandomPassage/Passage" instance=ExtResource("11_2wul4")]
+[node name="Target" parent="RandomPassage/Passage" instance=ExtResource("11_2wul4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+collision_layer = 16
+collision_mask = 20
 
 [node name="Random" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.79249)
