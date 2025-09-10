@@ -62,14 +62,12 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 			
 			for pedestrian in pedestrians:
 				if pedestrian.collision_mask & objective.collision_mask != 0:
-					# Disconnetti eventuali connessioni precedenti
-					if objective.body_entered.is_connected(pedestrian._on_objective_entered):
-						objective.body_entered.disconnect(pedestrian._on_objective_entered)
+					# Disconnetti se già connesso (per evitare connessioni duplicate)
+					if objective.custom_body_entered.is_connected(pedestrian._on_objective_entered):
+						objective.custom_body_entered.disconnect(pedestrian._on_objective_entered)
 					
-					# Riconnetti con bind
-					objective.body_entered.connect(
-						pedestrian._on_objective_entered.bind(objective)
-					)
+					# Connetti il custom signal
+					objective.custom_body_entered.connect(pedestrian._on_objective_entered)
 	
 	# Trova e configura il nodo Random che contiene l'objective
 	var random_node = level.find_child("Random")

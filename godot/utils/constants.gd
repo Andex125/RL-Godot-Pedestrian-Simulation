@@ -27,7 +27,7 @@ const INTERMEDIATE_TARGET_ALREADY_REACHED_REW: float = -1.0
 const NO_TARGET_VISIBLE_REW: float = -0.5
 
 const OBJECTIVE_COLLECTED_REW: float = 0.5
-const MAX_OBJECTIVE_DISTANCE_REW: float = 0.04
+const MAX_OBJECTIVE_DISTANCE_REW: float = 0.02
 const NO_OBJECTIVE_VISIBLE_REW: float = -0.02
 
 const WALL_COLLISION_REW: float = -0.5
@@ -49,7 +49,7 @@ const INITIAL_RAY_POS: float = 0.0
 const RAYS_GRAY_COLOR: String = "#787c82"
 # For better performance set SHOW_RAYS to remove the computation necessary to 
 # draw the rays lines
-const SHOW_RAYS: bool = false
+const SHOW_RAYS: bool = true
 
 # Groups
 const TARGETS_GROUP: String = "TARGET"

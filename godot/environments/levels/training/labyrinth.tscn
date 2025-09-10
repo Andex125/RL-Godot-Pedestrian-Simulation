@@ -117,9 +117,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 6)
 
 [node name="FinalTarget" parent="." instance=ExtResource("11_vqomn")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7, 0, 11)
+collision_layer = 16
+collision_mask = 20
 
 [node name="Target" parent="." instance=ExtResource("12_ubo21")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 2)
+collision_layer = 16
+collision_mask = 20
 
 [node name="Target2" parent="." instance=ExtResource("12_ubo21")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+collision_layer = 16
+collision_mask = 20

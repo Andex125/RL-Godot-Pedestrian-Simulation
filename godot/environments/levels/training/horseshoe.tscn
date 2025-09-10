@@ -86,15 +86,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 5)
 
 [node name="ObliqueTarget" parent="." instance=ExtResource("15_8jsuf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -4.41039)
+collision_layer = 16
+collision_mask = 20
 
 [node name="ObliqueTarget2" parent="." instance=ExtResource("15_8jsuf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -4.41039)
+collision_layer = 16
+collision_mask = 20
 
 [node name="FinalTarget" parent="." instance=ExtResource("10_b30cu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 13.4907)
+collision_layer = 16
+collision_mask = 20
 
 [node name="Target" parent="." instance=ExtResource("11_p62c4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 8)
+collision_layer = 16
+collision_mask = 20
 
 [node name="Target2" parent="." instance=ExtResource("11_p62c4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 8)
+collision_layer = 16
+collision_mask = 20
