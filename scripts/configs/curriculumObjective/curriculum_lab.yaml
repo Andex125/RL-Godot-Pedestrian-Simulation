@@ -19,6 +19,10 @@ Curriculum:
     mean_reward: 5.0
     episode_mean: 100
     cycles: 6
+  CorridorObjt:
+    mean_reward: 3.5
+    episode_mean: 150
+    cycles: 17
   StartIntermediateTarget:
     mean_reward: 5.9
     episode_mean: 110
@@ -29,17 +33,17 @@ Curriculum:
     cycles: 15
   TakeObjectiveAndPass:
     mean_reward: 4.5
-    episode_mean: 220
-    cycles: 18
+    episode_mean: 150
+    cycles: 20
   Turns:
     mean_reward: 10.0
     episode_mean: 36
     cycles: 10
-  horseshoe:
+  Horseshoe:
     mean_reward: 4.5
     episode_mean: 100
     cycles: 18
-  labyrinth:
+  Labyrinth:
     mean_reward: 4.5
     episode_mean: 100
     cycles: 18

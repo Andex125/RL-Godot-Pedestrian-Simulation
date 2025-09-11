@@ -259,9 +259,9 @@ func _on_objective_entered(area, body):
 	# CONTROLLI BASE
 	if body != self or not area.active or area in reached_objectives:
 		return
-	
-	area.active = false          
-	area.monitoring = false
+		
+	area.set_deferred("active", false) 
+	area.set_deferred("monitoring", false) 
 	area.set_deferred("monitorable", false) 
 	area.set_deferred("visible", false)
 	

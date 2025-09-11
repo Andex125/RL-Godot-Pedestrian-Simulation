@@ -1,7 +1,26 @@
 extends Node3D
 class_name PedestrianController
 
-@onready var reward_label = $"../Reward"
+@onready var reward_label = _find_reward_label()
+
+func _find_reward_label():
+	# Prova prima il percorso standard (altri livelli)
+	var reward = get_node_or_null("../Reward")
+	if reward != null:
+		return reward
+	
+	# Se non trovato, prova il percorso per questo livello specifico  
+	reward = get_node_or_null("../../Reward")
+	if reward != null:
+		return reward
+	
+	# Se ancora non trovato, cerca nell'albero
+	reward = get_tree().get_first_node_in_group("reward_label")
+	if reward != null:
+		return reward
+		
+	print("Warning: Reward label not found!")
+	return null
 
 var level_manager: LevelManager
 

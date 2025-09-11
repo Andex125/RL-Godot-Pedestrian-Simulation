@@ -141,4 +141,5 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 
 ## Function called to emit signal for episode ending
 func trigger_end_episode() -> void:
+	await reset_objectives()
 	notify_end_episode.emit()
