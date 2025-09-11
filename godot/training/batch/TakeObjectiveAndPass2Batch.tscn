@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dgpi518rfuaee"]
+[gd_scene load_steps=7 format=3 uid="uid://65bsemgh10q8"]
 
-[ext_resource type="Script" path="res://training/level_training_batch.gd" id="1_iw8yq"]
-[ext_resource type="PackedScene" uid="uid://brbf8pv144e7h" path="res://environments/levels/training/TakeObjectiveAndPass.tscn" id="2_k8mdh"]
-[ext_resource type="Script" path="res://utils/Sync.gd" id="3_6dv2s"]
+[ext_resource type="Script" path="res://training/level_training_batch.gd" id="1_e625h"]
+[ext_resource type="PackedScene" uid="uid://dutyy6esammqp" path="res://environments/levels/training/TakeObjectiveAndPass2.tscn" id="2_l1pwl"]
+[ext_resource type="Script" path="res://utils/Sync.gd" id="3_p8vdt"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1bhy0"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)
@@ -15,9 +15,9 @@ background_mode = 1
 background_color = Color(0.270171, 0.229928, 0.188594, 1)
 sky = SubResource("Sky_rnfhv")
 
-[node name="TakeObjectiveAndPassBatch" type="Node3D"]
-script = ExtResource("1_iw8yq")
-level = ExtResource("2_k8mdh")
+[node name="TakeObjectiveAndPass2Batch" type="Node3D"]
+script = ExtResource("1_e625h")
+level = ExtResource("2_l1pwl")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 20, 0)
@@ -28,7 +28,7 @@ projection = 1
 size = 22.0
 
 [node name="Sync" type="Node" parent="."]
-script = ExtResource("3_6dv2s")
+script = ExtResource("3_p8vdt")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_xdi1a")
