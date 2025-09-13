@@ -2,7 +2,7 @@ Curriculum:
   StartEz:
     mean_reward: 5.7
     episode_mean: 108
-    cycles: 20
+    cycles: 7
   Start:
     mean_reward: 3.0
     episode_mean: 36
@@ -18,7 +18,7 @@ Curriculum:
   StartObjectiveRandom:
     mean_reward: 5.0
     episode_mean: 100
-    cycles: 6
+    cycles: 11
   CorridorObjtFacile:
     mean_reward: 4.5
     episode_mean: 150
@@ -27,7 +27,15 @@ Curriculum:
     mean_reward: 4.5
     episode_mean: 150
     cycles: 17
+  CorridorObjtMedioTarget:
+    mean_reward: 4.0
+    episode_mean: 150
+    cycles: 17
   CorridorObjt:
+    mean_reward: 4.0
+    episode_mean: 100
+    cycles: 25
+  CorridorObjtAngoloTarget:
     mean_reward: 4.0
     episode_mean: 150
     cycles: 20

@@ -127,6 +127,12 @@ class EndTrainingCombinedCallback(BaseCallback):
             print(f"Target reward: {self.min_mean_reward}")
             print(f"Current mean reward: {mean_reward:.4f}")
             print(f"Recent rewards stats:")
+            avg = 0
+            for r in self.reward_history:
+                avg += r
+            avg /= len(self.reward_history)
+            print("avg reward: {:.4f}".format(avg))
+            print("max reward: {:.4f}".format(np.max(self.reward_history)))
             print(f"  - Min: {recent_rewards.min():.4f}")
             print(f"  - Max: {recent_rewards.max():.4f}")
             print(f"  - Std: {recent_rewards.std():.4f}")

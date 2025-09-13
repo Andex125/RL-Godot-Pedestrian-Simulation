@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d18dawuffaa52"]
+[gd_scene load_steps=16 format=3 uid="uid://d18dawuffaa52"]
 
 [ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_hoeh7"]
 [ext_resource type="PackedScene" uid="uid://cwi3rl1xa5qxs" path="res://objects/walls/wall7.tscn" id="2_5s5bw"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="11_qw7gw"]
 [ext_resource type="PackedScene" uid="uid://14be58l440kt" path="res://objects/walls/wall6.tscn" id="12_nlgdh"]
 [ext_resource type="PackedScene" uid="uid://boj0pvmutwu86" path="res://objects/walls/wall4.tscn" id="12_u7orq"]
+[ext_resource type="PackedScene" uid="uid://dut6hljb3b1ak" path="res://objects/targets/target_5.5x0.3.tscn" id="13_en1ys"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7ihts"]
 size = Vector3(3, 0, 3)
@@ -90,3 +91,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -4.911)
 
 [node name="Wall" parent="." instance=ExtResource("12_u7orq")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.494, 0, 8)
+
+[node name="ObliqueTarget2" parent="." instance=ExtResource("13_en1ys")]
+transform = Transform3D(1, 4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 4.37114e-08, -4.37114e-08, -4.37114e-08, 1, -7.2567, 0, -5)
+collision_layer = 16
+collision_mask = 20
+
+[node name="ObliqueTarget3" parent="." instance=ExtResource("13_en1ys")]
+transform = Transform3D(0, 4.37114e-08, -1, -4.37114e-08, 1, 4.37114e-08, 1, 4.37114e-08, 3.55271e-15, -4.2567, 0, -8)
+collision_layer = 16
+collision_mask = 20
