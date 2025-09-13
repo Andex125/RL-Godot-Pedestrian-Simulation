@@ -149,6 +149,12 @@ class EndTrainingCombinedCallback(BaseCallback):
                 print("TRAINING STOPPED BY EARLY FAIL")
                 print("=" * 50)
                 print("Reward history:", [f"{r:.3f}" for r in self.reward_history])
+                avg = 0
+                for r in self.reward_history:
+                    avg += r
+                avg /= len(self.reward_history)
+                print("avg reward: {:.4f}".format(avg))
+                print("max reward: {:.4f}".format(np.max(self.reward_history)))
                 print("Last 10 episode rewards:", [f"{r:.3f}" for r in self.last_rewards[-10:]])
                 print("Suggestions:")
                 print("1. Lower target reward from", self.min_mean_reward, "to", max(0.0, self.min_mean_reward - 1.0))
