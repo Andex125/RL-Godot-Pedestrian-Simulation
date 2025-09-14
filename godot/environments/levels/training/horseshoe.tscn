@@ -54,6 +54,8 @@ collision_mask = 20
 
 [node name="FinalTarget" parent="." instance=ExtResource("11_w7lwj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.05412, 0, 9.50473)
+collision_layer = 16
+collision_mask = 2
 
 [node name="Wall3" parent="." instance=ExtResource("6_y3ohd")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.35294, 0, 2.07341)

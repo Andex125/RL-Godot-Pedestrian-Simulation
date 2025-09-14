@@ -1,0 +1,55 @@
+[gd_scene load_steps=11 format=3 uid="uid://c22h48l3kbt4h"]
+
+[ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_kntoy"]
+[ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="2_gwk5v"]
+[ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="3_4pjfk"]
+[ext_resource type="PackedScene" uid="uid://eer5gcm7ehuc" path="res://objects/pedestrian/Pedestrian.tscn" id="4_crk0k"]
+[ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="5_oyk52"]
+[ext_resource type="PackedScene" uid="uid://f0qwfq835sfr" path="res://objects/targets/final_target_3x3.tscn" id="6_2v2lr"]
+[ext_resource type="Script" path="res://environments/scripts/randomizer/ObjtMixer.gd" id="7_o0gtv"]
+[ext_resource type="PackedScene" uid="uid://bjcemydbx83lh" path="res://objects/targets/objective/objective_3x3.tscn" id="8_h66ow"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_086hm"]
+size = Vector3(6, 0, 7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sr4xc"]
+size = Vector3(6, 1, 7)
+
+[node name="Start" type="Node3D"]
+script = ExtResource("1_kntoy")
+max_steps = 100
+
+[node name="Room" parent="." instance=ExtResource("2_gwk5v")]
+
+[node name="PedestrianController" type="Node3D" parent="."]
+script = ExtResource("3_4pjfk")
+
+[node name="Pedestrian" parent="PedestrianController" instance=ExtResource("4_crk0k")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 9.30538)
+
+[node name="Reward" parent="." instance=ExtResource("5_oyk52")]
+
+[node name="FinalTarget" parent="." instance=ExtResource("6_2v2lr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+
+[node name="Random" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.20751)
+script = ExtResource("7_o0gtv")
+
+[node name="Area" type="Area3D" parent="Random"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+collision_layer = 2
+
+[node name="CollisionShape1" type="CollisionShape3D" parent="Random/Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.22033)
+shape = SubResource("BoxShape3D_086hm")
+
+[node name="Area2" type="Area3D" parent="Random"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+collision_layer = 2
+
+[node name="CollisionShape2" type="CollisionShape3D" parent="Random/Area2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.26914)
+shape = SubResource("BoxShape3D_sr4xc")
+
+[node name="objective" parent="Random" instance=ExtResource("8_h66ow")]

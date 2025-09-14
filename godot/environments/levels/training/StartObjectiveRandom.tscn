@@ -22,7 +22,7 @@ max_steps = 100
 script = ExtResource("3_ler1o")
 
 [node name="Pedestrian" parent="PedestrianController" instance=ExtResource("4_j22wg")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 7.30538)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 9.30538)
 
 [node name="Reward" parent="." instance=ExtResource("7_46ew4")]
 
