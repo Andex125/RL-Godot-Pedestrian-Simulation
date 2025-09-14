@@ -1,0 +1,13 @@
+[gd_scene load_steps=7 format=3 uid="uid://bposddlhob1m5"]
+
+[ext_resource type="Script" path="res://training/training_scene.gd" id="1_dwmog"]
+[ext_resource type="PackedScene" uid="uid://b5i18lyv0wpap" path="res://training/batch/StartEzBatch.tscn" id="2_s81ph"]
+[ext_resource type="PackedScene" uid="uid://b1r8uag8rqaea" path="res://training/batch/StartBatch.tscn" id="3_0e5nj"]
+[ext_resource type="PackedScene" uid="uid://bfwa33lh458i8" path="res://training/batch/CorridorObjectiveBatch.tscn" id="4_ejca3"]
+[ext_resource type="PackedScene" uid="uid://dbte6gmeqautg" path="res://training/batch/StartObjectiveRandomBatch.tscn" id="5_3qc6f"]
+[ext_resource type="PackedScene" uid="uid://bisi6cshrg7q6" path="res://training/batch/StartObjectiveRandom2Batch.tscn" id="6_igie5"]
+
+[node name="TrainingScene" type="Node3D"]
+transform = Transform3D(0.999979, 0.00644022, 0, -0.00644022, 0.999979, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1_dwmog")
+levels_path = Array[PackedScene]([ExtResource("2_s81ph"), ExtResource("3_0e5nj"), ExtResource("4_ejca3"), ExtResource("5_3qc6f"), ExtResource("6_igie5")])
