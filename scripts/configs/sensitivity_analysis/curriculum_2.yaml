@@ -1,0 +1,37 @@
+Curriculum:
+  StartEz:
+    mean_reward: 5.7
+    episode_mean: 108
+    cycles: 7
+  Start:
+    mean_reward: 3.0
+    episode_mean: 36
+    cycles: 5
+  CorridorObjective:
+    mean_reward: 3.0
+    episode_mean: 100
+    cycles: 12
+  StartObjectiveRandom:
+    mean_reward: 9.0
+    episode_mean: 150
+    cycles: 11
+  StartObjectiveRandom2:
+    mean_reward: 5.0
+    episode_mean: 100
+    cycles: 20
+  Multi2_facile:
+    mean_reward: 5.0
+    episode_mean: 100
+    cycles: 20
+  Multi2_medio:
+    mean_reward: 5.0
+    episode_mean: 100
+    cycles: 20
+  TwoRooms:
+    mean_reward: 2.0
+    episode_mean: 100
+    cycles: 20
+  TwoRooms_2:
+    mean_reward: 2.0
+    episode_mean: 100
+    cycles: 20

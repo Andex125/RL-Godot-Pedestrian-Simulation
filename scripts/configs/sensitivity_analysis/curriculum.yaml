@@ -12,20 +12,20 @@ Curriculum:
     episode_mean: 100
     cycles: 12
   StartObjectiveRandom:
-    mean_reward: 9.0
+    mean_reward: 4.0
     episode_mean: 150
-    cycles: 15
+    cycles: 11
   StartObjectiveRandom2:
     mean_reward: 5.0
     episode_mean: 100
     cycles: 20
   CorridorObjtFacile:
     mean_reward: 6.5
-    episode_mean: 200
+    episode_mean: 150
     cycles: 17
   CorridorObjtMedio:
     mean_reward: 5.5
-    episode_mean: 200
+    episode_mean: 150
     cycles: 17
   CorridorObjtMedioTarget:
     mean_reward: 4.0

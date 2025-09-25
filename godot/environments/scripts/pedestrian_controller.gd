@@ -13,7 +13,12 @@ func _find_reward_label():
 	reward = get_node_or_null("../../Reward")
 	if reward != null:
 		return reward
-	
+	reward = get_node_or_null("../../../Reward")
+	if reward != null:
+		return reward
+	reward = get_node_or_null("../../../../Reward")
+	if reward != null:
+		return reward
 	# Se ancora non trovato, cerca nell'albero
 	reward = get_tree().get_first_node_in_group("reward_label")
 	if reward != null:
@@ -85,7 +90,6 @@ func randomize_pos():
 	
 ## perform randomization of pedestrian rotation 
 func get_randomized_rotation():
-	# ✅ Usa variabile locale con nome diverso
 	var rotation_value = randi_range(0, Constants.ROTATION_STEPS - 1) * (360.0 / float(Constants.ROTATION_STEPS)) 
 	return Vector3(0.0, deg_to_rad(rotation_value), 0.0) 
 

@@ -1,0 +1,32 @@
+[gd_scene load_steps=8 format=3 uid="uid://betwmidprvlo5"]
+
+[ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_0ujas"]
+[ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="2_80aib"]
+[ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="3_ia70d"]
+[ext_resource type="PackedScene" uid="uid://eer5gcm7ehuc" path="res://objects/pedestrian/Pedestrian.tscn" id="4_tj8r4"]
+[ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="5_giypp"]
+[ext_resource type="PackedScene" uid="uid://f0qwfq835sfr" path="res://objects/targets/final_target_3x3.tscn" id="7_gaewx"]
+[ext_resource type="PackedScene" uid="uid://bjcemydbx83lh" path="res://objects/targets/objective/objective_3x3.tscn" id="7_hch8c"]
+
+[node name="Start" type="Node3D"]
+script = ExtResource("1_0ujas")
+max_steps = 100
+
+[node name="Room" parent="." instance=ExtResource("2_80aib")]
+
+[node name="PedestrianController" type="Node3D" parent="."]
+script = ExtResource("3_ia70d")
+
+[node name="Pedestrian" parent="PedestrianController" instance=ExtResource("4_tj8r4")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 9.3895)
+
+[node name="Reward" parent="." instance=ExtResource("5_giypp")]
+
+[node name="objective" parent="." instance=ExtResource("7_hch8c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -2)
+
+[node name="objective2" parent="." instance=ExtResource("7_hch8c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 2)
+
+[node name="FinalTarget" parent="." instance=ExtResource("7_gaewx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)

@@ -3,7 +3,7 @@ import os
 import re
 import torch
 
-def get_next_run_number_by_checking_dirs(base_name="ProvaObbiettivi", base_dir="output/runs/stage"):
+def get_next_run_number_by_checking_dirs(base_name="p", base_dir="output/runs/stage"):
     if not os.path.exists(base_dir):
         os.makedirs(base_dir, exist_ok=True)
         return f"stage/{base_name}1"

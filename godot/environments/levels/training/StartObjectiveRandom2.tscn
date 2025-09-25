@@ -29,9 +29,6 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 
 [node name="Reward" parent="." instance=ExtResource("5_oyk52")]
 
-[node name="FinalTarget" parent="." instance=ExtResource("6_2v2lr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
-
 [node name="Random" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.20751)
 script = ExtResource("7_o0gtv")
@@ -53,3 +50,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.26914)
 shape = SubResource("BoxShape3D_sr4xc")
 
 [node name="objective" parent="Random" instance=ExtResource("8_h66ow")]
+
+[node name="FinalTarget" parent="." instance=ExtResource("6_2v2lr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)

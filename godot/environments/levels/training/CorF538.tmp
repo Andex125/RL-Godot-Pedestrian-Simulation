@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://d18dawuffaa52"]
+[gd_scene load_steps=18 format=3 uid="uid://d18dawuffaa52"]
 
 [ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_puuim"]
 [ext_resource type="PackedScene" uid="uid://cwi3rl1xa5qxs" path="res://objects/walls/wall7.tscn" id="2_5s5bw"]
 [ext_resource type="PackedScene" uid="uid://nqwb7at8dpui" path="res://objects/walls/wall9.tscn" id="3_k2dc2"]
+[ext_resource type="Script" path="res://environments/scripts/randomizer/LevelRotator.gd" id="3_usopo"]
 [ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="3_vqi3o"]
 [ext_resource type="PackedScene" uid="uid://bjcemydbx83lh" path="res://objects/targets/objective/objective_3x3.tscn" id="5_athvm"]
 [ext_resource type="Script" path="res://environments/scripts/randomizer/PedestrianMixer.gd" id="7_2wa8y"]
@@ -14,6 +15,9 @@
 [ext_resource type="PackedScene" uid="uid://14be58l440kt" path="res://objects/walls/wall6.tscn" id="12_nlgdh"]
 [ext_resource type="PackedScene" uid="uid://dut6hljb3b1ak" path="res://objects/targets/target_5.5x0.3.tscn" id="13_en1ys"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_b8nug"]
+size = Vector3(20, 0, 20)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_7ihts"]
 size = Vector3(3, 0, 3)
 
@@ -23,86 +27,94 @@ size = Vector3(3, 0, 3)
 [node name="Start" type="Node3D"]
 script = ExtResource("1_puuim")
 
-[node name="AllTargets" type="Node3D" parent="."]
-
-[node name="objective" parent="AllTargets" instance=ExtResource("5_athvm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.80608, 0, 2.09285)
-
-[node name="objective2" parent="AllTargets" instance=ExtResource("5_athvm")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.393448, 0, -4.45076)
-
-[node name="ObliqueTarget2" parent="AllTargets" instance=ExtResource("13_en1ys")]
-transform = Transform3D(1, 4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 4.37114e-08, -4.37114e-08, -4.37114e-08, 1, -7.2567, 0, -5)
-collision_layer = 16
-collision_mask = 20
-
-[node name="ObliqueTarget3" parent="AllTargets" instance=ExtResource("13_en1ys")]
-transform = Transform3D(0, 4.37114e-08, -1, -4.37114e-08, 1, 4.37114e-08, 1, 4.37114e-08, 3.55271e-15, -4.2567, 0, -8)
-collision_layer = 16
-collision_mask = 20
-
 [node name="Room" parent="." instance=ExtResource("3_vqi3o")]
 
 [node name="Randomizer" type="Node3D" parent="."]
-script = ExtResource("7_2wa8y")
+script = ExtResource("3_usopo")
 
-[node name="up" type="Area3D" parent="Randomizer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
+[node name="Area" type="Area3D" parent="Randomizer"]
 
-[node name="CollisionShape1" type="CollisionShape3D" parent="Randomizer/up"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 15, 0, -8.16567)
-shape = SubResource("BoxShape3D_7ihts")
-
-[node name="down" type="Area3D" parent="Randomizer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
-
-[node name="CollisionShape2" type="CollisionShape3D" parent="Randomizer/down"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05094, 0, 8)
-shape = SubResource("BoxShape3D_kw4n1")
-
-[node name="FinalTarget" parent="Randomizer" instance=ExtResource("8_mwkk2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.05094, 0, 7.99571)
-
-[node name="PedestrianController" type="Node3D" parent="Randomizer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
-script = ExtResource("9_g281n")
-
-[node name="Pedestrian" parent="Randomizer/PedestrianController" instance=ExtResource("10_m0ebr")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.09175, 0, 8.53513)
-
-[node name="livello" type="Node3D" parent="Randomizer"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Randomizer/Area"]
+shape = SubResource("BoxShape3D_b8nug")
 
 [node name="Reward" parent="Randomizer" instance=ExtResource("11_qw7gw")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -9.9947, 5, -10.5945)
 
-[node name="Curve" type="Node3D" parent="."]
+[node name="livello" type="Node3D" parent="Randomizer"]
+
+[node name="AllTargets" type="Node3D" parent="Randomizer/livello"]
+
+[node name="objective" parent="Randomizer/livello/AllTargets" instance=ExtResource("5_athvm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.80608, 0, 2.09285)
+
+[node name="objective2" parent="Randomizer/livello/AllTargets" instance=ExtResource("5_athvm")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.393448, 0, -4.45076)
+
+[node name="ObliqueTarget2" parent="Randomizer/livello/AllTargets" instance=ExtResource("13_en1ys")]
+transform = Transform3D(1, 4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 4.37114e-08, -4.37114e-08, -4.37114e-08, 1, -7.2567, 0, -5)
+collision_layer = 16
+collision_mask = 20
+
+[node name="ObliqueTarget3" parent="Randomizer/livello/AllTargets" instance=ExtResource("13_en1ys")]
+transform = Transform3D(0, 4.37114e-08, -1, -4.37114e-08, 1, 4.37114e-08, 1, 4.37114e-08, 3.55271e-15, -4.2567, 0, -8)
+collision_layer = 16
+collision_mask = 20
+
+[node name="Randomizer" type="Node3D" parent="Randomizer/livello/AllTargets"]
+script = ExtResource("7_2wa8y")
+
+[node name="up" type="Area3D" parent="Randomizer/livello/AllTargets/Randomizer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
+
+[node name="CollisionShape1" type="CollisionShape3D" parent="Randomizer/livello/AllTargets/Randomizer/up"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 15, 0, -8.16567)
+shape = SubResource("BoxShape3D_7ihts")
+
+[node name="down" type="Area3D" parent="Randomizer/livello/AllTargets/Randomizer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
+
+[node name="CollisionShape2" type="CollisionShape3D" parent="Randomizer/livello/AllTargets/Randomizer/down"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05094, 0, 8)
+shape = SubResource("BoxShape3D_kw4n1")
+
+[node name="FinalTarget" parent="Randomizer/livello/AllTargets/Randomizer" instance=ExtResource("8_mwkk2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.05094, 0, 7.99571)
+
+[node name="PedestrianController" type="Node3D" parent="Randomizer/livello/AllTargets/Randomizer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
+script = ExtResource("9_g281n")
+
+[node name="Pedestrian" parent="Randomizer/livello/AllTargets/Randomizer/PedestrianController" instance=ExtResource("10_m0ebr")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.09175, 0, 8.53513)
+
+[node name="Curve" type="Node3D" parent="Randomizer/livello"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.58764, 0, 8.10788)
 
-[node name="Wall" parent="Curve" instance=ExtResource("2_5s5bw")]
+[node name="Wall" parent="Randomizer/livello/Curve" instance=ExtResource("2_5s5bw")]
 
-[node name="Wall9" parent="Curve" instance=ExtResource("11_mefad")]
+[node name="Wall9" parent="Randomizer/livello/Curve" instance=ExtResource("11_mefad")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.0189, 0, 1.09264)
 
-[node name="Wall8" parent="Curve" instance=ExtResource("12_nlgdh")]
+[node name="Wall8" parent="Randomizer/livello/Curve" instance=ExtResource("12_nlgdh")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 11.5206, 0, 0.0936704)
 
-[node name="Wall7" parent="Curve" instance=ExtResource("12_nlgdh")]
+[node name="Wall7" parent="Randomizer/livello/Curve" instance=ExtResource("12_nlgdh")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 11.5206, 0, 2.09367)
 
-[node name="Wall6" parent="Curve" instance=ExtResource("12_nlgdh")]
+[node name="Wall6" parent="Randomizer/livello/Curve" instance=ExtResource("12_nlgdh")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 11.5206, 0, 8.12195)
 
-[node name="Wall5" parent="Curve" instance=ExtResource("2_5s5bw")]
+[node name="Wall5" parent="Randomizer/livello/Curve" instance=ExtResource("2_5s5bw")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 9.02522, 0, 5.10573)
 
-[node name="Wall4" parent="Curve" instance=ExtResource("12_nlgdh")]
+[node name="Wall4" parent="Randomizer/livello/Curve" instance=ExtResource("12_nlgdh")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 3.00644, 0, 2.61777)
 
-[node name="Wall3" parent="Curve" instance=ExtResource("2_5s5bw")]
+[node name="Wall3" parent="Randomizer/livello/Curve" instance=ExtResource("2_5s5bw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.0185, 0, 5.11317)
 
-[node name="Wall2" parent="Curve" instance=ExtResource("12_nlgdh")]
+[node name="Wall2" parent="Randomizer/livello/Curve" instance=ExtResource("12_nlgdh")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 9.03472, 0, 2.61777)
 
-[node name="Wall10" parent="Curve" instance=ExtResource("3_k2dc2")]
+[node name="Wall10" parent="Randomizer/livello/Curve" instance=ExtResource("3_k2dc2")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 14.0132, 0, 12.1286)

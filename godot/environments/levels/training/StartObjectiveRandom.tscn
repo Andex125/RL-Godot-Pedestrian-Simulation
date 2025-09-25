@@ -26,11 +26,8 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 
 [node name="Reward" parent="." instance=ExtResource("7_46ew4")]
 
-[node name="FinalTarget" parent="." instance=ExtResource("8_f5mar")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
-
 [node name="Random" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.20751)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.133159)
 script = ExtResource("7_u1js3")
 
 [node name="Area" type="Area3D" parent="Random"]
@@ -40,3 +37,6 @@ collision_layer = 2
 shape = SubResource("BoxShape3D_086hm")
 
 [node name="objective" parent="Random" instance=ExtResource("6_2q1qu")]
+
+[node name="FinalTarget" parent="." instance=ExtResource("8_f5mar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)

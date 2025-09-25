@@ -59,7 +59,7 @@ const PEDESTRIAN_GROUP: String = "PEDESTRIAN"
 const OBJECTIVES_GROUP = "OBJECTIVES"   
 
 # Levels
-const DEFAULT_MAX_TIMESTEPS: int = 1000
+const DEFAULT_MAX_TIMESTEPS: int = 100
 
 # Random area 
 const SPAWN_OFFSET: float = 0.5
