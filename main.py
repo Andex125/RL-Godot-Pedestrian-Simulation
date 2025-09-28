@@ -1,3 +1,4 @@
+
 from scripts.utils.Runner import Runner
 import os
 import re
@@ -20,14 +21,26 @@ def get_next_run_number_by_checking_dirs(base_name="p", base_dir="output/runs/st
     next_number = max(existing_numbers, default=0) + 1
     return f"stage/{base_name}{next_number}"
 
-run_name = get_next_run_number_by_checking_dirs()
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'  # usa prima GPU
-torch.backends.cudnn.benchmark = True
 
-runner = Runner(
-    config_path="scripts/configs/sensitivity_studies/net_256_128_64.yaml",
-    curriculum_path="scripts/configs/curriculumObjective/curriculum_lab2.yaml",
-    run_name=run_name,
-)
-runner.run()
+def auto():
+    run_name = get_next_run_number_by_checking_dirs()
+
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+    torch.backends.cudnn.benchmark = True
+
+    runner = Runner(
+        config_path="scripts/configs/sensitivity_studies/net_256_128_64.yaml",
+        curriculum_path="scripts/configs/curriculumObjective/curriculum_lab2.yaml",
+        run_name=run_name,
+    )
+    runner.run()
+def manu():
+    runner = Runner(
+        config_path="scripts/configs/sensitivity_studies/net_256_128_64.yaml",
+        curriculum_path="scripts/configs/curriculumObjective/curriculum_lab2.yaml",
+        run_name="stage/sensitivity_studies/net10",
+    )
+    runner.run()
+
+manu()
