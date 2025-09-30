@@ -70,6 +70,7 @@ shape = SubResource("BoxShape3D_2bdjv")
 
 [node name="objective" parent="Randomizer" instance=ExtResource("10_eew3v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.55338)
+collision_mask = 66
 
 [node name="FinalTarget" parent="Randomizer" instance=ExtResource("8_56nkx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.99571)

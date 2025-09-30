@@ -1,0 +1,16 @@
+[gd_scene load_steps=10 format=3 uid="uid://dwrddpvp8krwq"]
+
+[ext_resource type="Script" path="res://training/training_scene.gd" id="1_wmkyk"]
+[ext_resource type="PackedScene" uid="uid://b5i18lyv0wpap" path="res://training/batch/StartEzBatch.tscn" id="2_jly21"]
+[ext_resource type="PackedScene" uid="uid://b1r8uag8rqaea" path="res://training/batch/StartBatch.tscn" id="3_tpilg"]
+[ext_resource type="PackedScene" uid="uid://c3bmsctq8jt0i" path="res://training/batch/ObserveBatch.tscn" id="4_dauwc"]
+[ext_resource type="PackedScene" uid="uid://bqix8f1yfntnn" path="res://training/batch/StartCorridorBatch.tscn" id="5_kn763"]
+[ext_resource type="PackedScene" uid="uid://degmj8pdveieh" path="res://training/batch/TurnsBatch.tscn" id="6_4sery"]
+[ext_resource type="PackedScene" uid="uid://c63gqblvqprnx" path="res://training/batch/TurnsObstaclesBatch.tscn" id="7_hmvbn"]
+[ext_resource type="PackedScene" uid="uid://da3pu3dw0hppl" path="res://training/batch/NarrowDoorBatch.tscn" id="8_cniuc"]
+[ext_resource type="PackedScene" uid="uid://3sts7kaayjvt" path="res://training/batch/T-JunctionBatch.tscn" id="9_10clf"]
+
+[node name="TrainingScene" type="Node3D"]
+transform = Transform3D(0.999979, 0.00644022, 0, -0.00644022, 0.999979, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1_wmkyk")
+levels_path = Array[PackedScene]([ExtResource("2_jly21"), ExtResource("3_tpilg"), ExtResource("4_dauwc"), ExtResource("5_kn763"), ExtResource("6_4sery"), ExtResource("7_hmvbn"), ExtResource("8_cniuc"), ExtResource("9_10clf")])

@@ -31,12 +31,4 @@ Curriculum:
     mean_reward: 4.0
     episode_mean: 36
     cycles: 5
-  Intersection4:
-    mean_reward: 5.0
-    episode_mean: 36
-    cycles: 15
-  NarrowDoorDouble:
-    mean_reward: 4.0
-    episode_mean: 36
-    cycles: 15
 

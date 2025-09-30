@@ -8,7 +8,7 @@ hyperparameters:
   clip_range: 0.2
   clip_range_vf: null
   normalize_advantage: True
-  ent_coef: 0.01
+  ent_coef: 0.0001
   vf_coef: 0.5
   max_grad_norm: 0.5
   use_sde: False
@@ -19,8 +19,8 @@ hyperparameters:
   verbose: 0
   policy_kwargs:
     net_arch:
-      - 256
       - 128
-      - 64
+      - 128
+      - 128
 max_steps: 100000000000000000
 retraining_steps: 0

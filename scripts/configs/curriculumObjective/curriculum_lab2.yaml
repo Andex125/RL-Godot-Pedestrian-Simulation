@@ -17,29 +17,25 @@ Curriculum:
     cycles: 15
   StartObjectiveRandom2:
     mean_reward: 5.0
-    episode_mean: 100
+    episode_mean: 150
     cycles: 20
   CorridorObjtFacile:
-    mean_reward: 6.5
+    mean_reward: 9.5
     episode_mean: 200
     cycles: 17
   CorridorObjtMedio:
-    mean_reward: 5.5
-    episode_mean: 200
+    mean_reward: 7.5
+    episode_mean: 150
     cycles: 17
   CorridorObjtMedioTarget:
     mean_reward: 4.0
-    episode_mean: 150
+    episode_mean: 200
     cycles: 17
   CorridorObjt:
-    mean_reward: 4.0
-    episode_mean: 100
+    mean_reward: 6.0
+    episode_mean: 150
     cycles: 25
   CorridorObjtAngolo:
-    mean_reward: 3.5
-    episode_mean: 100
-    cycles: 20
-  Horseshoe:
-    mean_reward: 3.5
+    mean_reward: 6.5
     episode_mean: 100
     cycles: 20

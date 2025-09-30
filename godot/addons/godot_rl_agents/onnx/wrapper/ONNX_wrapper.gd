@@ -17,8 +17,16 @@ func _init(model_path, batch_size):
 func run_inference(obs: Array, state_ins: int) -> Dictionary:
 	if inferencer == null:
 		printerr("Inferencer not initialized")
-		return {}
-	return inferencer.RunInference(obs, state_ins)
+		return {"output": []}  # Restituisci un Dictionary con struttura base
+	
+	var result = inferencer.RunInference(obs, state_ins)
+	
+	# Se RunInference restituisce null, ritorna un Dictionary vuoto
+	if result == null:
+		printerr("RunInference returned null")
+		return {"output": []}
+	
+	return result
 
 
 func _notification(what):

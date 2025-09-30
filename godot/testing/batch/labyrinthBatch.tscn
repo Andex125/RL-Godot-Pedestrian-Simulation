@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://3tw08trik3u3"]
+[gd_scene load_steps=7 format=3 uid="uid://kg7otqqubexg"]
 
-[ext_resource type="Script" path="res://training/level_training_batch.gd" id="1_1x3bo"]
-[ext_resource type="PackedScene" uid="uid://cijjngioxgwnt" path="res://environments/levels/training/Horseshoe.tscn" id="2_un33g"]
-[ext_resource type="Script" path="res://utils/Sync.gd" id="3_gqe48"]
-
+[ext_resource type="Script" path="res://testing/level_testing_batch.gd" id="1_yuw4g"]
+[ext_resource type="PackedScene" uid="uid://bsig8pfg4lcs5" path="res://environments/levels/testing/labyrinth.tscn" id="2_101eq"]
+[ext_resource type="Script" path="res://utils/Sync.gd" id="3_sbe52"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4frgi"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)
@@ -16,9 +15,9 @@ background_mode = 1
 background_color = Color(0.270171, 0.229928, 0.188594, 1)
 sky = SubResource("Sky_rnfhv")
 
-[node name="horseshoeBatch" type="Node3D"]
-script = ExtResource("1_1x3bo")
-level = ExtResource("2_un33g")
+[node name="labyrinthBatch" type="Node3D"]
+script = ExtResource("1_yuw4g")
+level = ExtResource("2_101eq")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 20, 0)
@@ -29,7 +28,8 @@ projection = 1
 size = 22.0
 
 [node name="Sync" type="Node" parent="."]
-script = ExtResource("3_gqe48")
+script = ExtResource("3_sbe52")
+control_mode = 2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nr2vt")

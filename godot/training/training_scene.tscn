@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d1b4il1g7l2u3"]
+[gd_scene load_steps=12 format=3 uid="uid://d1b4il1g7l2u3"]
 
 [ext_resource type="Script" path="res://training/training_scene.gd" id="1_cxbx3"]
 [ext_resource type="PackedScene" uid="uid://b5i18lyv0wpap" path="res://training/batch/StartEzBatch.tscn" id="2_70rpg"]
@@ -11,9 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://4h2c81blcidh" path="res://training/batch/CorridorObjtMedioTargetBatch.tscn" id="10_5kqm6"]
 [ext_resource type="PackedScene" uid="uid://cwc57mpkxpawv" path="res://training/batch/CorridorObjtAngoloBatch.tscn" id="11_drknb"]
 [ext_resource type="PackedScene" uid="uid://o3uvtb4mlyxr" path="res://training/batch/CorridorObjtBatch.tscn" id="11_egr16"]
-[ext_resource type="PackedScene" uid="uid://3tw08trik3u3" path="res://training/batch/horseshoeBatch.tscn" id="13_odx8b"]
 
 [node name="TrainingScene" type="Node3D"]
 transform = Transform3D(0.999979, 0.00644022, 0, -0.00644022, 0.999979, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_cxbx3")
-levels_path = Array[PackedScene]([ExtResource("2_70rpg"), ExtResource("3_nyig3"), ExtResource("5_j8jcc"), ExtResource("6_0hpos"), ExtResource("7_qwkm6"), ExtResource("8_jcj6x"), ExtResource("9_abkky"), ExtResource("10_5kqm6"), ExtResource("11_egr16"), ExtResource("11_drknb"), ExtResource("13_odx8b")])
+levels_path = Array[PackedScene]([ExtResource("2_70rpg"), ExtResource("3_nyig3"), ExtResource("5_j8jcc"), ExtResource("6_0hpos"), ExtResource("7_qwkm6"), ExtResource("8_jcj6x"), ExtResource("9_abkky"), ExtResource("10_5kqm6"), ExtResource("11_egr16"), ExtResource("11_drknb")])

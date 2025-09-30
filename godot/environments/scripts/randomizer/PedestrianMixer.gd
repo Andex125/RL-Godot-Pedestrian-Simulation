@@ -16,7 +16,7 @@ func set_random():
 	randomize_level_configuration()
 
 func randomize_level_configuration():
-	current_configuration = randi() % 2
+	current_configuration = (current_configuration + 1) % 2
 	apply_configuration()
 
 func apply_configuration():	

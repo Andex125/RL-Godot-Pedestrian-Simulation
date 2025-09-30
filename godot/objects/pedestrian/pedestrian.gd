@@ -171,8 +171,8 @@ func compute_rewards() -> void:
 
 		# Mantieni la penalty se non vede obiettivi
 		if objectives_collected < level_objectives_count and objectives_in_sight == 0:
-			var remaining_ratio = float(level_objectives_count - objectives_collected) / float(level_objectives_count)
-			tot_reward += Constants.NO_OBJECTIVE_VISIBLE_REW * remaining_ratio
+			var missing_objectives = level_objectives_count - objectives_collected
+			tot_reward += Constants.NO_OBJECTIVE_VISIBLE_REW * missing_objectives
 		
 		# ===== PENALTY PER VICINANZA AI MURI =====
 		var wall_near = false
