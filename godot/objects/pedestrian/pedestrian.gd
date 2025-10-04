@@ -1,6 +1,8 @@
 extends CharacterBody3D
 class_name Pedestrian
 
+
+var level_manager: LevelManager = null
 # ===== VARIABILI DI VELOCITÀ =====
 ## Velocità minima del pedone
 var speed_min: float = Constants.MIN_SPEED
@@ -24,6 +26,8 @@ var final_target_reached: bool = false       # Flag per indicare se ha raggiunto
 var target_reached: bool = false             # Flag per target intermedi raggiunti
 var disable: bool = false                    # Flag per disabilitare completamente il pedone
 var finished: bool = false                   # Flag per indicare se ha completato l'episodio
+var objective_just_collected: bool = false   # Flag per obiettivo appena raccolto
+var last_objective_collected: Area3D = null	 # Riferimento all'ultimo obiettivo
 
 # ===== VARIABILI DI MOVIMENTO =====
 var rotation_sens: int = Constants.ROTATION_SENS  # Sensibilità di rotazione
@@ -39,6 +43,36 @@ var reached_objectives := []                 # Array degli obiettivi raccolti (c
 var objectives_collected: int = 0            # Contatore obiettivi raccolti
 var level_objectives_count: int = 0
 
+
+func get_debug_info() -> Dictionary:
+	var info = {}
+
+	# --- Informazioni sul Level Manager ---
+	if level_manager:
+		info["level_manager_id"] = level_manager.get_instance_id()
+		info["level_manager_name"] = level_manager.name
+		
+		# --- Informazioni sul livello corrente ---
+		if level_manager.current_level:
+			var current_level = level_manager.current_level
+			info["level_id"] = current_level.get_instance_id()
+			info["level_name"] = current_level.name
+		else:
+			info["level_id"] = "N/A"
+			info["level_name"] = "N/A"
+	else:
+		info["level_manager_id"] = "N/A"
+		info["level_manager_name"] = "N/A"
+		info["level_id"] = "N/A"
+		info["level_name"] = "N/A"
+	
+	# --- Informazioni sul pedone ---
+	info["pedestrian_id"] = get_instance_id()
+	info["pedestrian_name"] = name
+
+	return info
+	
+	
 ## Inizializzazione del pedone quando entra nella scena
 func _ready():
 	# Imposta la velocità iniziale alla velocità minima
@@ -71,6 +105,8 @@ func reset():
 	finished = false
 	target_reached = false
 	final_target_reached = false
+	objective_just_collected = false  
+	last_objective_collected = null
 	reached_targets = []
 	
 	reached_objectives.clear()         # Resetta array obiettivi raccolti
@@ -148,6 +184,10 @@ func compute_rewards() -> void:
 		var walls_and_objectives = obs[2] # Dati su muri e obiettivi
 		
 		# ===== REWARD PER OBIETTIVI =====
+		if objective_just_collected:
+			tot_reward += Constants.OBJECTIVE_COLLECTED_REW
+			objective_just_collected = false
+			last_objective_collected = null
 		# Conta quanti obiettivi sono visibili
 		var objectives_in_sight: int = 0
 		for i in range(0, walls_and_objectives.size(), 4):
@@ -155,7 +195,7 @@ func compute_rewards() -> void:
 				objectives_in_sight += 1
 
 		# Penalty se non vede obiettivi e non li ha raccolti tutti
-		if objectives_collected < level_objectives_count and objectives_in_sight == 0:
+		if objectives_collected < level_objectives_count:
 			var remaining_ratio = float(level_objectives_count - objectives_collected) / float(level_objectives_count)
 			tot_reward += Constants.NO_OBJECTIVE_VISIBLE_REW * remaining_ratio
 		
@@ -211,6 +251,14 @@ func compute_rewards() -> void:
 func _on_final_target_entered(body):
 	# Verifica che sia proprio questo pedone
 	if body == self:
+		# ====== DEBUG: STAMPA CONTROLLO FINALE ======
+		var debug_info = get_debug_info()
+		print("\n🏁 === TARGET FINALE RAGGIUNTO ===")
+		print("📍 Level Manager: %s (ID: %s)" % [debug_info.get("level_manager_name", "N/A"), debug_info.get("level_manager_id", "N/A")])
+		print("📍 Livello: %s (ID: %s)" % [debug_info.get("level_name", "N/A"), debug_info.get("level_id", "N/A")])
+		print("📍 Pedone: %s (ID: %s)" % [debug_info.get("pedestrian_name", "N/A"), debug_info.get("pedestrian_id", "N/A")])
+		print("📍 Obiettivi raccolti: %d/%d" % [objectives_collected, level_objectives_count])
+		
 		# ===== CONTROLLO OBIETTIVI RACCOLTI =====
 		if objectives_collected >= level_objectives_count:
 			# Ha raccolto tutti gli obiettivi, può finire l'episodio
@@ -218,9 +266,13 @@ func _on_final_target_entered(body):
 			final_target_reached = true
 			# Aggiungi il reward finale completo
 			ai_controller_3d.reward += Constants.FINAL_TARGET_REW
+			print("✅ TUTTI GLI OBIETTIVI RACCOLTI - Reward: %.3f" % Constants.FINAL_TARGET_REW)
 		else:
 			# Non ha raccolto tutti gli obiettivi, penalty e non finisce
 			ai_controller_3d.reward += Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW
+			print("❌ OBIETTIVI MANCANTI - Penalty: %.3f" % Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW)
+		print("====================================\n")
+
 		
 ## Callback quando il pedone entra in un target intermedio
 func _on_target_entered(area, body):
@@ -234,23 +286,33 @@ func _on_objective_entered(area, body):
 	# CONTROLLI BASE
 	if body != self or not area.active or area in reached_objectives:
 		return
-		
+	
+	var debug_info = get_debug_info()
+	print("\n🎯 === OBIETTIVO RACCOLTO ===")
+	print("📍 Level Manager: %s (ID: %s)" % [debug_info.get("level_manager_name", "N/A"), debug_info.get("level_manager_id", "N/A")])
+	print("📍 Livello: %s (ID: %s)" % [debug_info.get("level_name", "N/A"), debug_info.get("level_id", "N/A")])
+	print("📍 Pedone: %s (ID: %s)" % [debug_info.get("pedestrian_name", "N/A"), debug_info.get("pedestrian_id", "N/A")])
+	print("📍 Obiettivo: %s (ID: %s)" % [area.name, area.get_instance_id()])
+	print("📍 Obiettivi raccolti: %d/%d" % [objectives_collected + 1, level_objectives_count])
+	print("📍 Reward assegnato: %.3f" % Constants.OBJECTIVE_COLLECTED_REW)
+	print("================================\n")
+	
 	area.set_deferred("active", false) 
 	area.set_deferred("monitoring", false) 
 	area.set_deferred("monitorable", false) 
 	area.set_deferred("visible", false)
 	
-	
 	var collision = area.find_child("CollisionShape3D")
 	if collision:
 		collision.set_deferred("disabled", true)
 	
-	# Aggiorna contatori
+	# Aggiorna contatori e imposta flag
 	objectives_collected += 1
 	reached_objectives.append(area)
-	ai_controller_3d.reward += Constants.OBJECTIVE_COLLECTED_REW
 	
-	#print("   📊 Obiettivi raccolti: ", objectives_collected, "/", level_objectives_count)
+	# Imposta i flag invece di assegnare direttamente la reward
+	objective_just_collected = true
+	last_objective_collected = area
 		
 ## Restituisce la velocità normalizzata tra 0 e 1
 func get_speed_norm() -> float:

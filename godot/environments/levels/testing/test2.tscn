@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://mgcrfee7k54e"]
+[gd_scene load_steps=14 format=3 uid="uid://mgcrfee7k54e"]
 
 [ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_wj77c"]
 [ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="2_gxwyy"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dwldo3mo3cqv2" path="res://objects/walls/wall2_02.tscn" id="10_h604j"]
 [ext_resource type="PackedScene" uid="uid://dut6hljb3b1ak" path="res://objects/targets/target_5.5x0.3.tscn" id="11_8voai"]
 [ext_resource type="PackedScene" uid="uid://o6t0iemlmcj5" path="res://objects/targets/target_4.5x0.3.tscn" id="12_5gff8"]
+[ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="13_6t1fl"]
 
 [node name="Start" type="Node3D"]
 script = ExtResource("1_wj77c")
@@ -185,3 +186,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.55559, 0, -2.06666)
 
 [node name="ObliqueTarget5" parent="." instance=ExtResource("12_5gff8")]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, 12.2247)
+
+[node name="Reward" parent="." instance=ExtResource("13_6t1fl")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -13, 5, -14.5)
+visible = false

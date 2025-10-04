@@ -13,7 +13,14 @@ func reset_objectives():
 		return
 	
 	# Trova tutti gli obiettivi nel level corrente
+	print("\n♻️ === RESET OBIETTIVI ===")
+	print("📍 Level Manager: %s (ID: %s)" % [name, get_instance_id()])
+	print("📍 Livello: %s (ID: %s)" % [current_level.name, current_level.get_instance_id()])
+	
+	# Trova tutti gli obiettivi nel level corrente
 	var objectives = current_level.find_children("objective*")
+	print("📍 Numero obiettivi da resettare: %d" % objectives.size())
+	
 	for objective in objectives:
 		# Riattiva l'obiettivo
 		objective.active = true
@@ -47,6 +54,7 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 	# Setup pedestrian
 	var pedestrians = level.find_children("Pedestrian*", "Pedestrian")
 	for pedestrian in pedestrians:
+		pedestrian.level_manager = self
 		pedestrian.can_move = level.can_move
 		pedestrian.set_speed_max()
 	
