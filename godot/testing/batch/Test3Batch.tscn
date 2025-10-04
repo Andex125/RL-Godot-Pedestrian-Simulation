@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3rrg3fpqd1dd"]
+[gd_scene load_steps=7 format=3 uid="uid://cehcym84pjn18"]
 
-[ext_resource type="Script" path="res://testing/level_testing_batch.gd" id="1_agbk4"]
-[ext_resource type="PackedScene" uid="uid://craqbwsoct6xh" path="res://environments/levels/testing/Anchor.tscn" id="2_ep0r2"]
-[ext_resource type="Script" path="res://utils/Sync.gd" id="3_noou1"]
+[ext_resource type="Script" path="res://testing/level_testing_batch.gd" id="1_npd41"]
+[ext_resource type="PackedScene" uid="uid://bp3ikds5wrrgk" path="res://environments/levels/testing/test3.tscn" id="2_mhqtn"]
+[ext_resource type="Script" path="res://utils/Sync.gd" id="3_d8v0g"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yj8b3"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)
@@ -15,12 +15,12 @@ background_mode = 1
 background_color = Color(0.270171, 0.229928, 0.188594, 1)
 sky = SubResource("Sky_cvcu2")
 
-[node name="Anchor8Batch" type="Node3D"]
-script = ExtResource("1_agbk4")
-level = ExtResource("2_ep0r2")
+[node name="Test3Batch" type="Node3D"]
+script = ExtResource("1_npd41")
+level = ExtResource("2_mhqtn")
 
 [node name="Sync" type="Node" parent="."]
-script = ExtResource("3_noou1")
+script = ExtResource("3_d8v0g")
 control_mode = 2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -32,4 +32,4 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 20, 0)
 projection = 1
-size = 22.0
+size = 30.0

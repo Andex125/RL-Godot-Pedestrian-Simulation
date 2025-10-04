@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://buytp40i8mx1h"]
+[gd_scene load_steps=6 format=3 uid="uid://buytp40i8mx1h"]
 
 [ext_resource type="Script" path="res://testing/testing_scene.gd" id="1_phwvg"]
-[ext_resource type="PackedScene" uid="uid://djfufvg6fcsd3" path="res://testing/batch/CurveCBatch.tscn" id="2_yfags"]
+[ext_resource type="PackedScene" uid="uid://bdpcstajnc83i" path="res://testing/batch/Final_30Batch.tscn" id="2_4af2e"]
+[ext_resource type="PackedScene" uid="uid://3tw08trik3u3" path="res://training/batch/HorseshoeBatch.tscn" id="2_ldp0o"]
+[ext_resource type="PackedScene" uid="uid://kg7otqqubexg" path="res://training/batch/LabyrinthBatch.tscn" id="3_22eaj"]
+[ext_resource type="PackedScene" uid="uid://bvisl3o762vnt" path="res://training/batch/FinalBatch.tscn" id="4_owtvk"]
 
 [node name="TestingScene" type="Node3D"]
 script = ExtResource("1_phwvg")
 onnx_model_path = "C:\\Users\\asder\\OneDrive\\Desktop\\stage\\RL-Godot-Pedestrian-Simulation\\output\\runs\\stage\\sensitivity_studies\\net1\\model\\model.onnx"
-levels_path = Array[PackedScene]([ExtResource("2_yfags")])
+levels_path = Array[PackedScene]([ExtResource("2_4af2e"), ExtResource("2_ldp0o"), ExtResource("3_22eaj"), ExtResource("4_owtvk")])

@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bvisl3o762vnt"]
 
-[ext_resource type="Script" path="res://testing/level_testing_batch.gd" id="1_xf60j"]
-[ext_resource type="PackedScene" uid="uid://byj73ririrrms" path="res://environments/levels/testing/final.tscn" id="2_ruep6"]
+[ext_resource type="Script" path="res://training/level_training_batch.gd" id="1_nrgal"]
+[ext_resource type="PackedScene" uid="uid://byj73ririrrms" path="res://environments/levels/training/final.tscn" id="2_ruep6"]
 [ext_resource type="Script" path="res://utils/Sync.gd" id="2_tmmgc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4frgi"]
@@ -16,7 +16,7 @@ background_color = Color(0.270171, 0.229928, 0.188594, 1)
 sky = SubResource("Sky_rnfhv")
 
 [node name="finalBatch" type="Node3D"]
-script = ExtResource("1_xf60j")
+script = ExtResource("1_nrgal")
 level = ExtResource("2_ruep6")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -29,7 +29,6 @@ size = 22.0
 
 [node name="Sync" type="Node" parent="."]
 script = ExtResource("2_tmmgc")
-control_mode = 2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nr2vt")

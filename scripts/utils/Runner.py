@@ -3,7 +3,7 @@ import datetime
 from pathlib import Path
 from typing import Collection, Optional, Any
 
-from godot_rl.wrappers.onnx.stable_baselines_export import export_ppo_model_as_onnx
+from godot_rl.wrappers.onnx.stable_baselines_export import export_model_as_onnx
 from godot_rl.wrappers.stable_baselines_wrapper import StableBaselinesGodotEnv
 from stable_baselines3 import PPO
 from stable_baselines3.common.callbacks import CallbackList
@@ -92,6 +92,7 @@ class Runner:
         os.makedirs(log_path + "tensorboard_export", exist_ok=True)
         os.makedirs(log_path + "model", exist_ok=True)
         os.makedirs(log_path + "plots", exist_ok=True)
+        os.makedirs("output/pedpy", exist_ok=True)
 
         return log_path
 
@@ -307,4 +308,4 @@ class Runner:
         path = self.run_log_path + Constants.DEFAULT_ONNX_EXPORT_PATH
 
         print("Exporting onnx to:\n" + os.path.abspath(path))
-        export_ppo_model_as_onnx(self.model, path)
+        export_model_as_onnx(self.model, path)

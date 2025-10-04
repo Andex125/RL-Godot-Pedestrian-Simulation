@@ -34,6 +34,16 @@ func spawn_level_managers() -> void:
 		level_managers.append(level_manager_instance)
 		add_child(level_manager_instance)
 		level_manager_instance.set_level(level, pedpy_log_file)
+		
+		var level_node = level_manager_instance.current_level
+		if level_node:
+			level_node.max_steps = Constants.TESTING_MAX_TIMESTEPS
+			# Aggiorna anche l'AI controller
+			var pedestrians = level_node.find_children("Pedestrian*", "Pedestrian")
+			for pedestrian in pedestrians:
+				var ai_controller = pedestrian.find_child("AIController3D")
+				if ai_controller:
+					ai_controller.set_reset_after(Constants.TESTING_MAX_TIMESTEPS)
 
 ## Initialize the sample file
 func init_sample_file():

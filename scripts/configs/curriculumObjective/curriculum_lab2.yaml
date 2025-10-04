@@ -39,3 +39,19 @@ Curriculum:
     mean_reward: 6.5
     episode_mean: 100
     cycles: 20
+  Horseshoe:
+    mean_reward: 4.5
+    episode_mean: 150
+    cycles: 20
+  Labyrinth:
+    mean_reward: 3.5
+    episode_mean: 150
+    cycles: 20
+  Labyrinth2:
+    mean_reward: 3.5
+    episode_mean: 150
+    cycles: 20
+  Final:
+    mean_reward: 3.5
+    episode_mean: 150
+    cycles: 20

@@ -38,9 +38,9 @@ def auto():
 def manu():
     runner = Runner(
         config_path="scripts/configs/sensitivity_studies/net_256_128_64.yaml",
-        curriculum_path="scripts/configs/curriculum/curriculum_config.yaml",
-        run_name="stage/sensitivity_studies/net1",
+        curriculum_path="scripts/configs/curriculumObjective/curriculum_lab2.yaml",
+        run_name="stage/sensitivity_studies/net2",
     )
     runner.run()
 
-manu()
+auto()

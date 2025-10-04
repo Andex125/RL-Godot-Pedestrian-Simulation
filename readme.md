@@ -129,6 +129,9 @@ from [here](https://www.anaconda.com/download)!
     ```
     pip install pedpy
     ```
+   ```
+    pip install psutil
+    ```
 
 5. If you try to run the code, it should give a "Failed to build project" error. This is because we don't have C#'s onnx 
     dependencies. Go to [Microsoft OnnxRuntime](https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime) and copy the 

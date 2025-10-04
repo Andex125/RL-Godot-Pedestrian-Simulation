@@ -19,8 +19,8 @@ hyperparameters:
   verbose: 0
   policy_kwargs:
     net_arch:
+      - 256
       - 128
-      - 128
-      - 128
+      - 64
 max_steps: 100000000000000000
 retraining_steps: 0

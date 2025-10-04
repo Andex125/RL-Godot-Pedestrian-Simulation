@@ -147,32 +147,17 @@ func compute_rewards() -> void:
 		var agents_and_walls = obs[1]     # Dati su altri agenti e muri
 		var walls_and_objectives = obs[2] # Dati su muri e obiettivi
 		
-		# ===== REWARD PER OBIETTIVI - BASATO SU DISTANZA =====
-		var total_distance_reward: float = 0.0
+		# ===== REWARD PER OBIETTIVI =====
+		# Conta quanti obiettivi sono visibili
 		var objectives_in_sight: int = 0
-
-		# Itera attraverso tutti gli obiettivi rilevati dal sensore
 		for i in range(0, walls_and_objectives.size(), 4):
-			# Se vede un obiettivo non ancora raccolto
 			if walls_and_objectives[i+1] == 1:  # Nuovo obiettivo visibile
 				objectives_in_sight += 1
-				
-				# walls_and_objectives[i] contiene la distanza normalizzata (0-1)
-				var normalized_distance = walls_and_objectives[i]
-				
-				# Calcola reward inverso alla distanza
-				var distance_reward = max(0, (1.0 - normalized_distance) * Constants.MAX_OBJECTIVE_DISTANCE_REW)
-				total_distance_reward += distance_reward
-				
-		# Applica il reward totale
-		if objectives_in_sight > 0:
-			total_distance_reward = min(total_distance_reward, Constants.MAX_OBJECTIVE_DISTANCE_REW)
-			tot_reward += total_distance_reward
 
-		# Mantieni la penalty se non vede obiettivi
+		# Penalty se non vede obiettivi e non li ha raccolti tutti
 		if objectives_collected < level_objectives_count and objectives_in_sight == 0:
-			var missing_objectives = level_objectives_count - objectives_collected
-			tot_reward += Constants.NO_OBJECTIVE_VISIBLE_REW * missing_objectives
+			var remaining_ratio = float(level_objectives_count - objectives_collected) / float(level_objectives_count)
+			tot_reward += Constants.NO_OBJECTIVE_VISIBLE_REW * remaining_ratio
 		
 		# ===== PENALTY PER VICINANZA AI MURI =====
 		var wall_near = false
@@ -215,16 +200,6 @@ func compute_rewards() -> void:
 					break
 			if agent_near:
 				tot_reward += Constants.AGENT_COLLISION_LARGE_REW  # Penalty bassa
-		
-		# ===== PENALTY PER NON VEDERE TARGET =====
-		var no_target = true
-		# Controlla se almeno un target è visibile
-		for i in range(0, walls_and_targets.size(), 4):
-			if walls_and_targets[i+2] == 1 or walls_and_targets[i+3] == 1:
-				no_target = false
-		
-		if no_target:
-			tot_reward += Constants.NO_TARGET_VISIBLE_REW  # Penalty per non vedere target
 			
 	# Aggiorna il reward cumulativo e invia all'AI
 	cumulated_reward += tot_reward
