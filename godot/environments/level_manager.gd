@@ -13,13 +13,13 @@ func reset_objectives():
 		return
 	
 	# Trova tutti gli obiettivi nel level corrente
-	print("\n♻️ === RESET OBIETTIVI ===")
-	print("📍 Level Manager: %s (ID: %s)" % [name, get_instance_id()])
-	print("📍 Livello: %s (ID: %s)" % [current_level.name, current_level.get_instance_id()])
+	#print("\n♻️ === RESET OBIETTIVI ===")
+	#print("📍 Level Manager: %s (ID: %s)" % [name, get_instance_id()])
+	#print("📍 Livello: %s (ID: %s)" % [current_level.name, current_level.get_instance_id()])
 	
 	# Trova tutti gli obiettivi nel level corrente
 	var objectives = current_level.find_children("objective*")
-	print("📍 Numero obiettivi da resettare: %d" % objectives.size())
+	#print("📍 Numero obiettivi da resettare: %d" % objectives.size())
 	
 	for objective in objectives:
 		# Riattiva l'obiettivo
@@ -149,5 +149,4 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 
 ## Function called to emit signal for episode ending
 func trigger_end_episode() -> void:
-	await reset_objectives()
 	notify_end_episode.emit()

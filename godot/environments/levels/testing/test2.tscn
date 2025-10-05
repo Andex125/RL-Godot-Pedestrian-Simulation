@@ -111,6 +111,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12)
 
 [node name="FinalTarget" parent="." instance=ExtResource("7_x7h5x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -6)
+collision_mask = 18
 
 [node name="Wall" parent="." instance=ExtResource("8_0tx10")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.60432, 0, -9)
@@ -172,17 +173,11 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.796
 [node name="Wall23" parent="." instance=ExtResource("10_h604j")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.00475, 0, -9)
 
-[node name="ObliqueTarget" parent="." instance=ExtResource("11_8voai")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.44441, 0, 9.93334)
-
 [node name="ObliqueTarget4" parent="." instance=ExtResource("11_8voai")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.35852, 0, -8.95215)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.35852, 0, -5.31511)
 
-[node name="ObliqueTarget2" parent="." instance=ExtResource("11_8voai")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.55559, 0, 9.93334)
-
-[node name="ObliqueTarget3" parent="." instance=ExtResource("11_8voai")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.55559, 0, -2.06666)
+[node name="ObliqueTarget6" parent="." instance=ExtResource("11_8voai")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.35852, 0, 8.68489)
 
 [node name="ObliqueTarget5" parent="." instance=ExtResource("12_5gff8")]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, 12.2247)

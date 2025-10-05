@@ -71,7 +71,13 @@ func get_debug_info() -> Dictionary:
 	info["pedestrian_name"] = name
 
 	return info
-	
+
+func calculate_position_penalty(target_index: int) -> float:
+	if reached_targets.size() <= 1:
+		return 1.0
+	var t = float(target_index) / float(reached_targets.size() - 1)
+	var penalty_multiplier = 3.0 - t
+	return penalty_multiplier
 	
 ## Inizializzazione del pedone quando entra nella scena
 func _ready():
@@ -167,9 +173,10 @@ func compute_rewards() -> void:
 		if target_reached:
 			# Penalty se il target è già stato raggiunto prima
 			if last_target_reached in reached_targets:
-				tot_reward += Constants.INTERMEDIATE_TARGET_ALREADY_REACHED_REW
+				var target_index = reached_targets.find(last_target_reached)
+				var penalty_multiplier = calculate_position_penalty(target_index)
+				tot_reward += Constants.INTERMEDIATE_TARGET_ALREADY_REACHED_REW * penalty_multiplier
 			else:
-				# Reward positivo per nuovo target raggiunto
 				reached_targets.append(last_target_reached)
 				tot_reward += Constants.INTERMEDIATE_TARGET_FIRST_TIME_REW
 			
@@ -194,7 +201,7 @@ func compute_rewards() -> void:
 			if walls_and_objectives[i+1] == 1:  # Nuovo obiettivo visibile
 				objectives_in_sight += 1
 
-		# Penalty se non vede obiettivi e non li ha raccolti tutti
+		# Penalty se non ha raccolti tutti gli obbiettivi
 		if objectives_collected < level_objectives_count:
 			var remaining_ratio = float(level_objectives_count - objectives_collected) / float(level_objectives_count)
 			tot_reward += Constants.NO_OBJECTIVE_VISIBLE_REW * remaining_ratio
@@ -252,12 +259,12 @@ func _on_final_target_entered(body):
 	# Verifica che sia proprio questo pedone
 	if body == self:
 		# ====== DEBUG: STAMPA CONTROLLO FINALE ======
-		var debug_info = get_debug_info()
-		print("\n🏁 === TARGET FINALE RAGGIUNTO ===")
-		print("📍 Level Manager: %s (ID: %s)" % [debug_info.get("level_manager_name", "N/A"), debug_info.get("level_manager_id", "N/A")])
-		print("📍 Livello: %s (ID: %s)" % [debug_info.get("level_name", "N/A"), debug_info.get("level_id", "N/A")])
-		print("📍 Pedone: %s (ID: %s)" % [debug_info.get("pedestrian_name", "N/A"), debug_info.get("pedestrian_id", "N/A")])
-		print("📍 Obiettivi raccolti: %d/%d" % [objectives_collected, level_objectives_count])
+		#var debug_info = get_debug_info()
+		#print("\n🏁 === TARGET FINALE RAGGIUNTO ===")
+		#print("📍 Level Manager: %s (ID: %s)" % [debug_info.get("level_manager_name", "N/A"), debug_info.get("level_manager_id", "N/A")])
+		#print("📍 Livello: %s (ID: %s)" % [debug_info.get("level_name", "N/A"), debug_info.get("level_id", "N/A")])
+		#print("📍 Pedone: %s (ID: %s)" % [debug_info.get("pedestrian_name", "N/A"), debug_info.get("pedestrian_id", "N/A")])
+		#print("📍 Obiettivi raccolti: %d/%d" % [objectives_collected, level_objectives_count])
 		
 		# ===== CONTROLLO OBIETTIVI RACCOLTI =====
 		if objectives_collected >= level_objectives_count:
@@ -266,12 +273,12 @@ func _on_final_target_entered(body):
 			final_target_reached = true
 			# Aggiungi il reward finale completo
 			ai_controller_3d.reward += Constants.FINAL_TARGET_REW
-			print("✅ TUTTI GLI OBIETTIVI RACCOLTI - Reward: %.3f" % Constants.FINAL_TARGET_REW)
+			#print("✅ TUTTI GLI OBIETTIVI RACCOLTI - Reward: %.3f" % Constants.FINAL_TARGET_REW)
 		else:
 			# Non ha raccolto tutti gli obiettivi, penalty e non finisce
 			ai_controller_3d.reward += Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW
-			print("❌ OBIETTIVI MANCANTI - Penalty: %.3f" % Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW)
-		print("====================================\n")
+			#print("❌ OBIETTIVI MANCANTI - Penalty: %.3f" % Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW)
+		#print("====================================\n")
 
 		
 ## Callback quando il pedone entra in un target intermedio
@@ -286,6 +293,12 @@ func _on_objective_entered(area, body):
 	# CONTROLLI BASE
 	if body != self or not area.active or area in reached_objectives:
 		return
+		
+	if area.has_meta("processing_" + str(get_instance_id())):
+		return 
+	
+	area.set_meta("processing_" + str(get_instance_id()), true)
+	
 	
 	var debug_info = get_debug_info()
 	print("\n🎯 === OBIETTIVO RACCOLTO ===")

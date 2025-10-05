@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://objects/targets/target.gd" id="1_y48rx"]
 [ext_resource type="Material" uid="uid://ddc5mqmn53adg" path="res://materials/target_material.tres" id="2_3cpys"]
 
-
 [sub_resource type="BoxMesh" id="BoxMesh_6ugpf"]
 material = ExtResource("2_3cpys")
 size = Vector3(3.5, 10, 1.4)
@@ -12,8 +11,8 @@ size = Vector3(3.5, 10, 1.4)
 size = Vector3(3.5, 10, 1.4)
 
 [node name="Target" type="Area3D" groups=["TARGET"]]
-collision_layer = 0
-collision_mask = 0
+collision_layer = 16
+collision_mask = 20
 script = ExtResource("1_y48rx")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
