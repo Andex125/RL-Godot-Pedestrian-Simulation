@@ -12,11 +12,11 @@ Curriculum:
     episode_mean: 50
     cycles: 12
   StartObjectiveRandom:
-    mean_reward: 9.0
+    mean_reward: 8.5
     episode_mean: 70
     cycles: 15
   StartObjectiveRandom2:
-    mean_reward: 9.0
+    mean_reward: 8.5
     episode_mean: 100
     cycles: 20
   CorridorObjtFacile:
