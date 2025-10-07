@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://degmj8pdveieh"]
+[gd_scene load_steps=7 format=3 uid="uid://ceep1arreun7e"]
 
-[ext_resource type="Script" path="res://training/level_training_batch.gd" id="1_7d27v"]
-[ext_resource type="PackedScene" uid="uid://bjb1wqvx5nrla" path="res://environments/levels/training/Turns.tscn" id="2_wt2ex"]
-[ext_resource type="Script" path="res://utils/Sync.gd" id="3_6bd71"]
+[ext_resource type="Script" path="res://training/level_training_batch.gd" id="1_3edp8"]
+[ext_resource type="PackedScene" uid="uid://6b6iqqhgp5p" path="res://environments/levels/training/TurnObj.tscn" id="2_bit6n"]
+[ext_resource type="Script" path="res://utils/Sync.gd" id="3_5jd6i"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s5svq"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)
@@ -15,12 +15,12 @@ background_mode = 1
 background_color = Color(0.270171, 0.229928, 0.188594, 1)
 sky = SubResource("Sky_crgtv")
 
-[node name="TurnsBatch" type="Node3D"]
-script = ExtResource("1_7d27v")
-level = ExtResource("2_wt2ex")
+[node name="TurnObjBatch" type="Node3D"]
+script = ExtResource("1_3edp8")
+level = ExtResource("2_bit6n")
 
 [node name="Sync" type="Node" parent="."]
-script = ExtResource("3_6bd71")
+script = ExtResource("3_5jd6i")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_uhbyy")

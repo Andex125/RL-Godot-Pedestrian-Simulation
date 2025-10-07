@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1v41yugbv4mi"]
+[gd_scene load_steps=7 format=3 uid="uid://bksdelrhdswi2"]
 
-[ext_resource type="Script" path="res://training/level_training_batch.gd" id="1_t7r6f"]
-[ext_resource type="PackedScene" uid="uid://bf1nlo5plglfk" path="res://environments/levels/training/CorridorObjtMedio.tscn" id="2_h1jvp"]
-[ext_resource type="Script" path="res://utils/Sync.gd" id="3_gllno"]
+[ext_resource type="Script" path="res://training/level_training_batch.gd" id="1_sqpiw"]
+[ext_resource type="PackedScene" uid="uid://bt61iaqwrh2rm" path="res://environments/levels/training/labyrinth3.tscn" id="2_ug8pw"]
+[ext_resource type="Script" path="res://utils/Sync.gd" id="3_ulbiv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4frgi"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)
@@ -15,9 +15,9 @@ background_mode = 1
 background_color = Color(0.270171, 0.229928, 0.188594, 1)
 sky = SubResource("Sky_rnfhv")
 
-[node name="CorridorObjtMedioBatch" type="Node3D"]
-script = ExtResource("1_t7r6f")
-level = ExtResource("2_h1jvp")
+[node name="labyrinth2Batch" type="Node3D"]
+script = ExtResource("1_sqpiw")
+level = ExtResource("2_ug8pw")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 20, 0)
@@ -28,7 +28,7 @@ projection = 1
 size = 22.0
 
 [node name="Sync" type="Node" parent="."]
-script = ExtResource("3_gllno")
+script = ExtResource("3_ulbiv")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nr2vt")

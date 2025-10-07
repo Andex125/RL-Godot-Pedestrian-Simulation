@@ -119,8 +119,5 @@ transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 
 [node name="ObliqueTarget2" parent="." instance=ExtResource("12_mrgll")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -8, 0, -8.51164)
 
-[node name="ObliqueTarget3" parent="." instance=ExtResource("12_mrgll")]
-transform = Transform3D(0.258819, -8.73073e-07, -0.965926, 5.75284e-07, 1, -7.49725e-07, 0.965926, -3.61639e-07, 0.258819, 6.31219, 0, 3.6992)
-
 [node name="ObliqueTarget4" parent="." instance=ExtResource("12_mrgll")]
 transform = Transform3D(1, -5.75284e-07, -7.45058e-08, 5.75284e-07, 1, -7.49725e-07, 7.45058e-08, 7.49725e-07, 1, 7.98254, 0, -2.88791)

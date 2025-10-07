@@ -183,5 +183,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.35852, 0, 8.68489)
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, 12.2247)
 
 [node name="Reward" parent="." instance=ExtResource("13_6t1fl")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -13, 5, -14.5)
-visible = false
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -12.9947, 5, -14.5945)

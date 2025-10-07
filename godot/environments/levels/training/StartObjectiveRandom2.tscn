@@ -38,7 +38,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 collision_layer = 2
 
 [node name="CollisionShape1" type="CollisionShape3D" parent="Random/Area"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.22033)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1.22033)
 shape = SubResource("BoxShape3D_086hm")
 
 [node name="Area2" type="Area3D" parent="Random"]
@@ -46,7 +46,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
 collision_layer = 2
 
 [node name="CollisionShape2" type="CollisionShape3D" parent="Random/Area2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.26914)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1.26914)
 shape = SubResource("BoxShape3D_sr4xc")
 
 [node name="objective" parent="Random" instance=ExtResource("8_h66ow")]

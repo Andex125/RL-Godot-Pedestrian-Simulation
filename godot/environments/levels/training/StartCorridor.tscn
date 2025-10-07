@@ -23,11 +23,11 @@ agent_rotate = true
 [node name="Room" parent="." instance=ExtResource("1_g7vly")]
 
 [node name="RandomTarget" type="Node3D" parent="."]
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 0, 0, 0)
 script = ExtResource("3_hcajg")
 
 [node name="FinalTarget" parent="RandomTarget" instance=ExtResource("4_3mtdm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.5)
-collision_mask = 20
 
 [node name="AreaUp" type="Area3D" parent="RandomTarget"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.5)
@@ -44,6 +44,7 @@ shape = SubResource("BoxShape3D_mpudw")
 [node name="Reward" parent="." instance=ExtResource("1_qwv06")]
 
 [node name="Corridor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 0, 0, 0)
 
 [node name="Wall" parent="Corridor" instance=ExtResource("8_1k4fn")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, 0, 0)
@@ -52,6 +53,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, 0, 
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2, 0, 0)
 
 [node name="PedestrianController" type="Node3D" parent="."]
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 0, 0, 0)
 script = ExtResource("8_6nd80")
 
 [node name="Pedestrian" parent="PedestrianController" instance=ExtResource("9_76pp3")]

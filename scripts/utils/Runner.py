@@ -92,8 +92,8 @@ class Runner:
         os.makedirs(log_path + "tensorboard_export", exist_ok=True)
         os.makedirs(log_path + "model", exist_ok=True)
         os.makedirs(log_path + "plots", exist_ok=True)
-        os.makedirs("output/pedpy", exist_ok=True)
-
+        os.makedirs(Constants.OUTPUT_PATH + "pedpy", exist_ok=True)
+        os.makedirs(Constants.OUTPUT_PATH + "plots", exist_ok=True)
         return log_path
 
     def run(self) -> None:

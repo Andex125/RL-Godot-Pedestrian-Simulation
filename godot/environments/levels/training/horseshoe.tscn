@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cijjngioxgwnt"]
+[gd_scene load_steps=16 format=3 uid="uid://cijjngioxgwnt"]
 
 [ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_fbakv"]
 [ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="2_tcyop"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://f0qwfq835sfr" path="res://objects/targets/final_target_3x3.tscn" id="10_dpad0"]
 [ext_resource type="PackedScene" uid="uid://ck4lwabd57rts" path="res://objects/walls/wall3_05.tscn" id="10_v006j"]
 [ext_resource type="PackedScene" uid="uid://bjcemydbx83lh" path="res://objects/targets/objective/objective_3x3.tscn" id="11_8rj8f"]
+[ext_resource type="PackedScene" uid="uid://cn8xu77glysrd" path="res://objects/walls/wall2_05.tscn" id="12_j3iuo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f3mcg"]
 size = Vector3(3, 0, 3)
@@ -25,25 +26,23 @@ max_steps = 100
 
 [node name="Room" parent="." instance=ExtResource("4_lbv53")]
 
-[node name="Reward" parent="." instance=ExtResource("4_bfarw")]
+[node name="ObliqueTarget" parent="Room" instance=ExtResource("9_a1mic")]
+transform = Transform3D(1, 2.55972e-06, 0, -2.55972e-06, 1, 1.06027e-06, 0, -1.06027e-06, 1, 8, 0, -2.50445)
+
+[node name="ObliqueTarget2" parent="Room" instance=ExtResource("9_a1mic")]
+transform = Transform3D(1, 2.55972e-06, 0, -2.55972e-06, 1, 1.06027e-06, 0, -1.06027e-06, 1, -8, 0, -2.50445)
+
+[node name="ObliqueTarget3" parent="Room" instance=ExtResource("9_a1mic")]
+transform = Transform3D(-4.37114e-08, 1.06027e-06, -1, -2.55972e-06, 1, 1.06027e-06, 1, 2.55972e-06, -4.37114e-08, -5.92467, 0, -4.50445)
+
+[node name="ObliqueTarget4" parent="Room" instance=ExtResource("9_a1mic")]
+transform = Transform3D(-4.37114e-08, 1.06027e-06, -1, -2.55972e-06, 1, 1.06027e-06, 1, 2.55972e-06, -4.37114e-08, 5.86441, 0, -4.50445)
 
 [node name="Wall2" parent="." instance=ExtResource("7_ci3e4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.11472, 0, 4.82367)
 
 [node name="Wall4" parent="." instance=ExtResource("7_ci3e4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.11472, 0, -0.680829)
-
-[node name="ObliqueTarget" parent="." instance=ExtResource("9_a1mic")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -5.76198)
-
-[node name="ObliqueTarget2" parent="." instance=ExtResource("9_a1mic")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -5.76198)
-
-[node name="ObliqueTarget3" parent="." instance=ExtResource("9_a1mic")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.51364, 0, -8.18881)
-
-[node name="ObliqueTarget4" parent="." instance=ExtResource("9_a1mic")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.62237, 0, -8.18881)
 
 [node name="Wall3" parent="." instance=ExtResource("6_y3ohd")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.35294, 0, 2.07341)
@@ -52,7 +51,10 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.352
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6, 0, 7.57392)
 
 [node name="Wall5" parent="." instance=ExtResource("6_y3ohd")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6, 0, -3.43159)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7.35643, 0, -6.747)
+
+[node name="Wall17" parent="." instance=ExtResource("6_y3ohd")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 7.64357, 0, -6.747)
 
 [node name="Wall6" parent="." instance=ExtResource("7_ci3e4")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 4.04069, 0, -0.680576)
@@ -64,25 +66,28 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 4.0406
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.27891, 0, 2.06968)
 
 [node name="Wall9" parent="." instance=ExtResource("6_y3ohd")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.92597, 0, -3.43083)
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 0, 0, -2.431)
+
+[node name="Wall13" parent="." instance=ExtResource("6_y3ohd")]
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, -3.10467, 0, -2.431)
+
+[node name="Wall16" parent="." instance=ExtResource("6_y3ohd")]
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 3.0322, 0, -2.431)
 
 [node name="Wall10" parent="." instance=ExtResource("6_y3ohd")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.92597, 0, 7.57468)
 
 [node name="Wall11" parent="." instance=ExtResource("7_ci3e4")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.71465, 0, -4.4394)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.75723, 0, -8.48822)
 
 [node name="Wall12" parent="." instance=ExtResource("7_ci3e4")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.78985, 0, -4.4394)
-
-[node name="Wall13" parent="." instance=ExtResource("6_y3ohd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0356083, 0, -2.67761)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.74727, 0, -8.48822)
 
 [node name="Wall14" parent="." instance=ExtResource("10_v006j")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.348, 0, -6.181)
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -4.30542, 0, -6.74662)
 
 [node name="Wall15" parent="." instance=ExtResource("10_v006j")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.32817, 0, -6.181)
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 4.37075, 0, -6.74662)
 
 [node name="objective" parent="." instance=ExtResource("11_8rj8f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.36696, 0, 2.01223)
@@ -91,7 +96,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.36696, 0, 2.01223)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.63304, 0, 2.01223)
 
 [node name="objective3" parent="." instance=ExtResource("11_8rj8f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00288773, 0, -4.98777)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.0454714, 0, -7.93985)
 
 [node name="Randomizer" type="Node3D" parent="."]
 script = ExtResource("9_n8b2e")
@@ -124,3 +129,9 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.091
 
 [node name="Reward" parent="Randomizer" instance=ExtResource("4_bfarw")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -9.9947, 5, -10.5945)
+
+[node name="Wall18" parent="." instance=ExtResource("12_j3iuo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.78386, 0, -1.63773)
+
+[node name="Wall19" parent="." instance=ExtResource("12_j3iuo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.86025, 0, -1.63773)

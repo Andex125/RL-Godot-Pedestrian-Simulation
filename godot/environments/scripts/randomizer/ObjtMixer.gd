@@ -21,12 +21,12 @@ func randomize_level_configuration():
 func apply_configuration():	
 	match current_configuration:
 		0:  # Config 0: Pedone SOPRA, Target SOTTO (lati opposti)
-			_position_entity_in_area(obj, area_up)
+			position_entity_in_area(obj, area_up)
 			
 		1:  # Config 1: Pedone SOTTO, Target SOPRA (lati opposti)
-			_position_entity_in_area(obj, area_down)
+			position_entity_in_area(obj, area_down)
 
-func _position_entity_in_area(entity_node: Node3D, area_node: Node3D):
+func position_entity_in_area(entity_node: Node3D, area_node: Node3D):
 	entity = entity_node
 	entity.global_position = area_node.global_position
 	

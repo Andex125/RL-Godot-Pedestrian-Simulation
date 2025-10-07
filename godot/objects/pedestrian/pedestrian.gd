@@ -26,12 +26,9 @@ var final_target_reached: bool = false       # Flag per indicare se ha raggiunto
 var target_reached: bool = false             # Flag per target intermedi raggiunti
 var disable: bool = false                    # Flag per disabilitare completamente il pedone
 var finished: bool = false                   # Flag per indicare se ha completato l'episodio
-var objective_just_collected: bool = false   # Flag per obiettivo appena raccolto
-var last_objective_collected: Area3D = null	 # Riferimento all'ultimo obiettivo
 
 # ===== VARIABILI DI MOVIMENTO =====
 var rotation_sens: int = Constants.ROTATION_SENS  # Sensibilità di rotazione
-var cumulated_reward: float = 0.0                 # Reward cumulato per l'AI
 var speed: float                                   # Velocità corrente
 
 # ===== VARIABILI PER TRACKING OBIETTIVI =====
@@ -43,6 +40,11 @@ var reached_objectives := []                 # Array degli obiettivi raccolti (c
 var objectives_collected: int = 0            # Contatore obiettivi raccolti
 var level_objectives_count: int = 0
 
+# Tracciamento movimento per penalità quando fermo
+var previous_position: Vector3 = Vector3.ZERO
+var stationary_frame_count: int = 0
+const STATIONARY_THRESHOLD: float = 0.01  # Soglia minima di movimento
+const STATIONARY_FRAMES_LIMIT: int = 5  # Numero di frame fermi prima della penalità
 
 func get_debug_info() -> Dictionary:
 	var info = {}
@@ -107,16 +109,15 @@ func reset():
 	set_speed_max()
 	
 	# Resetta tutte le variabili di stato
-	cumulated_reward = 0
 	finished = false
 	target_reached = false
 	final_target_reached = false
-	objective_just_collected = false  
-	last_objective_collected = null
 	reached_targets = []
 	
-	reached_objectives.clear()         # Resetta array obiettivi raccolti
-	objectives_collected = 0         # Resetta contatore obiettivi
+	reached_objectives.clear()         
+	objectives_collected = 0        
+	previous_position = global_position
+	stationary_frame_count = 0
 	
 ## Imposta la velocità massima usando una distribuzione gaussiana
 func set_speed_max():
@@ -140,6 +141,28 @@ func _physics_process(_delta):
 	
 	# Applica il movimento fisico
 	move_and_slide()
+## Controlla se il pedone è fermo e applica penalità se necessario
+func check_stationary_penalty() -> float:
+	var penalty: float = 0.0
+	
+	# Calcola la distanza percorsa dall'ultimo frame
+	var distance_moved = global_position.distance_to(previous_position)
+	
+	# Se il pedone si è mosso meno della soglia, è considerato fermo
+	if distance_moved < STATIONARY_THRESHOLD:
+		stationary_frame_count += 1
+		
+		# Applica penalità se fermo per almeno STATIONARY_FRAMES_LIMIT frame
+		if stationary_frame_count >= STATIONARY_FRAMES_LIMIT:
+			penalty = Constants.STATIONARY_PENALTY_REW
+	else:
+		# Se si è mosso, resetta il contatore
+		stationary_frame_count = 0
+	
+	# Aggiorna la posizione precedente per il prossimo frame
+	previous_position = global_position
+	
+	return penalty
 
 ## Imposta la velocità corrente del pedone basata sull'azione dell'AI
 func set_speed(action_0) -> void:
@@ -167,15 +190,16 @@ func compute_rewards() -> void:
 	# Penalty per ogni timestep (incoraggia a completare velocemente)
 	tot_reward += Constants.TIMESTEP_REW
 	
+	# Aggiungi penalità per immobilità
+	tot_reward += check_stationary_penalty()
+	
 	# Calcola reward solo se l'episodio non è finito
 	if not finished:
 		# ===== REWARD PER TARGET RAGGIUNTI =====
 		if target_reached:
 			# Penalty se il target è già stato raggiunto prima
 			if last_target_reached in reached_targets:
-				var target_index = reached_targets.find(last_target_reached)
-				var penalty_multiplier = calculate_position_penalty(target_index)
-				tot_reward += Constants.INTERMEDIATE_TARGET_ALREADY_REACHED_REW * penalty_multiplier
+				tot_reward += Constants.INTERMEDIATE_TARGET_ALREADY_REACHED_REW 
 			else:
 				reached_targets.append(last_target_reached)
 				tot_reward += Constants.INTERMEDIATE_TARGET_FIRST_TIME_REW
@@ -191,10 +215,6 @@ func compute_rewards() -> void:
 		var walls_and_objectives = obs[2] # Dati su muri e obiettivi
 		
 		# ===== REWARD PER OBIETTIVI =====
-		if objective_just_collected:
-			tot_reward += Constants.OBJECTIVE_COLLECTED_REW
-			objective_just_collected = false
-			last_objective_collected = null
 		# Conta quanti obiettivi sono visibili
 		var objectives_in_sight: int = 0
 		for i in range(0, walls_and_objectives.size(), 4):
@@ -204,7 +224,7 @@ func compute_rewards() -> void:
 		# Penalty se non ha raccolti tutti gli obbiettivi
 		if objectives_collected < level_objectives_count:
 			var remaining_ratio = float(level_objectives_count - objectives_collected) / float(level_objectives_count)
-			tot_reward += Constants.NO_OBJECTIVE_VISIBLE_REW * remaining_ratio
+			tot_reward += Constants.NO_ALL_OBJECTIVES_REW * remaining_ratio
 		
 		# ===== PENALTY PER VICINANZA AI MURI =====
 		var wall_near = false
@@ -249,7 +269,6 @@ func compute_rewards() -> void:
 				tot_reward += Constants.AGENT_COLLISION_LARGE_REW  # Penalty bassa
 			
 	# Aggiorna il reward cumulativo e invia all'AI
-	cumulated_reward += tot_reward
 	ai_controller_3d.reward += tot_reward
 	# Aggiorna l'interfaccia utente con il reward corrente
 	pedestrian_controller.set_reward_label_text(tot_reward)
@@ -268,17 +287,13 @@ func _on_final_target_entered(body):
 		
 		# ===== CONTROLLO OBIETTIVI RACCOLTI =====
 		if objectives_collected >= level_objectives_count:
-			# Ha raccolto tutti gli obiettivi, può finire l'episodio
 			finished = true
 			final_target_reached = true
-			# Aggiungi il reward finale completo
 			ai_controller_3d.reward += Constants.FINAL_TARGET_REW
-			#print("✅ TUTTI GLI OBIETTIVI RACCOLTI - Reward: %.3f" % Constants.FINAL_TARGET_REW)
+			pedestrian_controller.set_reward_label_text(Constants.FINAL_TARGET_REW)
 		else:
-			# Non ha raccolto tutti gli obiettivi, penalty e non finisce
 			ai_controller_3d.reward += Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW
-			#print("❌ OBIETTIVI MANCANTI - Penalty: %.3f" % Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW)
-		#print("====================================\n")
+			pedestrian_controller.set_reward_label_text(Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW)
 
 		
 ## Callback quando il pedone entra in un target intermedio
@@ -300,15 +315,15 @@ func _on_objective_entered(area, body):
 	area.set_meta("processing_" + str(get_instance_id()), true)
 	
 	
-	var debug_info = get_debug_info()
-	print("\n🎯 === OBIETTIVO RACCOLTO ===")
-	print("📍 Level Manager: %s (ID: %s)" % [debug_info.get("level_manager_name", "N/A"), debug_info.get("level_manager_id", "N/A")])
-	print("📍 Livello: %s (ID: %s)" % [debug_info.get("level_name", "N/A"), debug_info.get("level_id", "N/A")])
-	print("📍 Pedone: %s (ID: %s)" % [debug_info.get("pedestrian_name", "N/A"), debug_info.get("pedestrian_id", "N/A")])
-	print("📍 Obiettivo: %s (ID: %s)" % [area.name, area.get_instance_id()])
-	print("📍 Obiettivi raccolti: %d/%d" % [objectives_collected + 1, level_objectives_count])
-	print("📍 Reward assegnato: %.3f" % Constants.OBJECTIVE_COLLECTED_REW)
-	print("================================\n")
+	#var debug_info = get_debug_info()
+	#print("\n🎯 === OBIETTIVO RACCOLTO ===")
+	#print("📍 Level Manager: %s (ID: %s)" % [debug_info.get("level_manager_name", "N/A"), debug_info.get("level_manager_id", "N/A")])
+	#print("📍 Livello: %s (ID: %s)" % [debug_info.get("level_name", "N/A"), debug_info.get("level_id", "N/A")])
+	#print("📍 Pedone: %s (ID: %s)" % [debug_info.get("pedestrian_name", "N/A"), debug_info.get("pedestrian_id", "N/A")])
+	#print("📍 Obiettivo: %s (ID: %s)" % [area.name, area.get_instance_id()])
+	#print("📍 Obiettivi raccolti: %d/%d" % [objectives_collected + 1, level_objectives_count])
+	#print("📍 Reward assegnato: %.3f" % Constants.OBJECTIVE_COLLECTED_REW)
+	#print("================================\n")
 	
 	area.set_deferred("active", false) 
 	area.set_deferred("monitoring", false) 
@@ -319,13 +334,11 @@ func _on_objective_entered(area, body):
 	if collision:
 		collision.set_deferred("disabled", true)
 	
-	# Aggiorna contatori e imposta flag
+	# Aggiorna contatori 
 	objectives_collected += 1
 	reached_objectives.append(area)
-	
-	# Imposta i flag invece di assegnare direttamente la reward
-	objective_just_collected = true
-	last_objective_collected = area
+	ai_controller_3d.reward += Constants.OBJECTIVE_COLLECTED_REW
+	pedestrian_controller.set_reward_label_text(Constants.OBJECTIVE_COLLECTED_REW)
 		
 ## Restituisce la velocità normalizzata tra 0 e 1
 func get_speed_norm() -> float:

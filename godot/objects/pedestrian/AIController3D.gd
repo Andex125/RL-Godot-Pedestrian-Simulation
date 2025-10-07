@@ -75,6 +75,7 @@ func get_action_space() -> Dictionary:
 
 ## Set player's actions
 func set_action(action) -> void:	
+	#print("[TEST] Azione %s: Rotate=%.3f, Move=%.3f" % [ _player.name,action["rotate"][0],action["move"][0]])
 	_player.set_direction(clampf(action["rotate"][0], -1.0, 1.0))
 	_player.set_speed(clampf(action["move"][0], -1.0, 1.0))
 

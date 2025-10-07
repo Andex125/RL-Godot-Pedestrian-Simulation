@@ -26,7 +26,9 @@ const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 0.5
 const INTERMEDIATE_TARGET_ALREADY_REACHED_REW: float = -1.0
 
 const OBJECTIVE_COLLECTED_REW: float = 2.0
-const NO_OBJECTIVE_VISIBLE_REW: float = -0.06
+const NO_ALL_OBJECTIVES_REW: float = -0.06
+
+const STATIONARY_PENALTY_REW = -0.5
 
 const WALL_COLLISION_REW: float = -0.5
 const AGENT_COLLISION_SMALL_REW: float = -0.5
@@ -79,4 +81,4 @@ const TESTING_BATCH_SIZE: int = 1
 # Engine/Sync
 const PHYSICS_TICKS_PER_SECONDS: int = 60
 const TIME_SCALE: float = 1.0
-const SPEED_UP: float = 5.0
+const SPEED_UP: float = 10.0
