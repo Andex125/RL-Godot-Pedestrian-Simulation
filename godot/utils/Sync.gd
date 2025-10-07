@@ -402,8 +402,6 @@ func _get_args():
 			var key_value = argument.split("=")
 			arguments[key_value[0].lstrip("--")] = key_value[1]
 		else:
-			# Options without an argument will be present in the dictionary,
-			# with the value set to an empty string.
 			arguments[argument.lstrip("--")] = ""
 	
 	return arguments

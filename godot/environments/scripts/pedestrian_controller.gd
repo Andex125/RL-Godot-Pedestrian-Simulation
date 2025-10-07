@@ -45,6 +45,8 @@ var sample_frame_count: int = 0
 var ticks_between_log: int = Constants.TICKS_BETWEEN_LOG
 var tick_counter: int = 0
 
+var instance_id: int = -1
+
 var current_level_objectives_count: int = 0
 
 func set_objectives_count(count: int):
@@ -63,6 +65,11 @@ func init(lm: LevelManager):
 func _ready():
 	get_pedestrians()
 
+# NUOVO: Metodo per impostare l'instance_id dal level_manager
+func set_instance_id(id: int):
+	instance_id = id
+	print("PedestrianController instance_id set to: ", instance_id)
+	
 ## Get all pedestrians
 func get_pedestrians():
 	pedestrians = find_children('Pedestrian*')
@@ -170,7 +177,11 @@ func sample_data():
 		var x = p.global_position.x - level_manager.global_position.x
 		var y = p.global_position.y - level_manager.global_position.y
 		var z = p.global_position.z - level_manager.global_position.z
-		var group = p.collision_layer - 2
-		var data_line = str(id) + " " + str(sample_frame_count) + " " + str(x) + " " + str(-z) + " " + str(y) + " " + str(group)
+		
+		# MODIFICA: Combina instance_id con collision_layer nel campo group
+		var base_group = p.collision_layer - 2
+		var combined_group = base_group if instance_id < 0 else (instance_id * 10000 + base_group)
+		
+		var data_line = str(id) + " " + str(sample_frame_count) + " " + str(x) + " " + str(-z) + " " + str(y) + " " + str(combined_group)
 		log_file.store_line(data_line)
 	sample_frame_count += 1

@@ -6,6 +6,8 @@ signal notify_end_episode()
 
 var current_level: Node3D
 
+var instance_id: int = -1
+
 ## Resetta tutti gli obiettivi alla fine dell'episodio
 func reset_objectives():
 	if current_level == null:
@@ -144,9 +146,24 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 	pedestrian_controller.random_area = random_spawn
 	pedestrian_controller.random_rot = level.agent_rotate
 	pedestrian_controller.init(self)
+	if instance_id >= 0:
+		pedestrian_controller.set_instance_id(instance_id)
+		print("Setting instance_id ", instance_id, " on PedestrianController during set_level")
 	pedestrian_controller.set_objectives_count(objectives_count) 
 	pedestrian_controller.set_pedestrians_initial_state()
 
 ## Function called to emit signal for episode ending
 func trigger_end_episode() -> void:
 	notify_end_episode.emit()
+	
+# NUOVO: Metodo per impostare l'instance_id
+func set_instance_id(id: int):
+	instance_id = id
+	print("LevelManager instance_id set to: ", instance_id)
+	
+	# Passa l'instance_id al pedestrian_controller se esiste
+	if current_level:
+		var pedestrian_controller = current_level.find_child("PedestrianController")
+		if pedestrian_controller:
+			pedestrian_controller.set_instance_id(instance_id)
+			print("Propagating instance_id ", instance_id, " to PedestrianController")

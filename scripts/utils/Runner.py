@@ -106,6 +106,11 @@ class Runner:
         During retraining phase each level is executed in parallel to re-learn old features the model forgot and
         to maintain every newer feature.
         """
+        # NUOVO: Cancella il file session per creare una nuova session
+        session_file = "output/runs/training/current_session.txt"
+        if os.path.exists(session_file):
+            os.remove(session_file)
+            print("🗑️  Cleared previous session file")
 
         self.load_configs()
 

@@ -78,6 +78,10 @@ const DEFAULT_NUMBER_OF_EPISODE: int = 1
 const PATH_PEDPY_LOGS = "res://../output/pedpy/"
 const TESTING_BATCH_SIZE: int = 1
 
+# Training logs
+const SAVE_TRAINING_TRAJECTORIES: bool = true
+const PATH_TRAINING_LOGS = "res://../output/runs/"
+
 # Engine/Sync
 const PHYSICS_TICKS_PER_SECONDS: int = 60
 const TIME_SCALE: float = 1.0
