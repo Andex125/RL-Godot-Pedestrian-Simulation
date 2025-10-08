@@ -3,22 +3,22 @@ extends LevelBatch
 var end_episode_count: int = 0
 const number_of_episode:= Constants.DEFAULT_NUMBER_OF_EPISODE
 
-var pedpy_log_file: FileAccess
-var path = Constants.PATH_PEDPY_LOGS
-
 @onready var sync = $Sync
 
 ## Called when the node enters the scene tree for the first time
 func _ready():
 	batch_size = Constants.TESTING_BATCH_SIZE
 
-	pedpy_log_file = FileAccess.open(path + name + ".txt", FileAccess.WRITE)
+	# Usa Constants.PATH_PEDPY_LOGS invece di 'path'
+	var log_path = Constants.PATH_PEDPY_LOGS + name + ".txt"
+	pedpy_log_file = FileAccess.open(log_path, FileAccess.WRITE)
+	
 	if pedpy_log_file:
 		init_sample_file()
 	else:
-		push_error("Errore: impossibile aprire il file di log: " + path + name + ".txt")
+		push_error("Errore: impossibile aprire il file di log: " + log_path)
+	
 	spawn_level_managers()
-
 	sync.onnx_model_path = get_parent().onnx_model_path
 
 
