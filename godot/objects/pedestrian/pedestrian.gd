@@ -40,12 +40,6 @@ var reached_objectives := []                 # Array degli obiettivi raccolti (c
 var objectives_collected: int = 0            # Contatore obiettivi raccolti
 var level_objectives_count: int = 0
 
-# Tracciamento movimento per penalità quando fermo
-var previous_position: Vector3 = Vector3.ZERO
-var stationary_frame_count: int = 0
-const STATIONARY_THRESHOLD: float = 0.01  # Soglia minima di movimento
-const STATIONARY_FRAMES_LIMIT: int = 5  # Numero di frame fermi prima della penalità
-
 func get_debug_info() -> Dictionary:
 	var info = {}
 
@@ -74,12 +68,6 @@ func get_debug_info() -> Dictionary:
 
 	return info
 
-func calculate_position_penalty(target_index: int) -> float:
-	if reached_targets.size() <= 1:
-		return 1.0
-	var t = float(target_index) / float(reached_targets.size() - 1)
-	var penalty_multiplier = 3.0 - t
-	return penalty_multiplier
 	
 ## Inizializzazione del pedone quando entra nella scena
 func _ready():
@@ -116,8 +104,6 @@ func reset():
 	
 	reached_objectives.clear()         
 	objectives_collected = 0        
-	previous_position = global_position
-	stationary_frame_count = 0
 	
 ## Imposta la velocità massima usando una distribuzione gaussiana
 func set_speed_max():
@@ -141,28 +127,7 @@ func _physics_process(_delta):
 	
 	# Applica il movimento fisico
 	move_and_slide()
-## Controlla se il pedone è fermo e applica penalità se necessario
-func check_stationary_penalty() -> float:
-	var penalty: float = 0.0
-	
-	# Calcola la distanza percorsa dall'ultimo frame
-	var distance_moved = global_position.distance_to(previous_position)
-	
-	# Se il pedone si è mosso meno della soglia, è considerato fermo
-	if distance_moved < STATIONARY_THRESHOLD:
-		stationary_frame_count += 1
-		
-		# Applica penalità se fermo per almeno STATIONARY_FRAMES_LIMIT frame
-		if stationary_frame_count >= STATIONARY_FRAMES_LIMIT:
-			penalty = Constants.STATIONARY_PENALTY_REW
-	else:
-		# Se si è mosso, resetta il contatore
-		stationary_frame_count = 0
-	
-	# Aggiorna la posizione precedente per il prossimo frame
-	previous_position = global_position
-	
-	return penalty
+
 
 ## Imposta la velocità corrente del pedone basata sull'azione dell'AI
 func set_speed(action_0) -> void:
@@ -190,8 +155,6 @@ func compute_rewards() -> void:
 	# Penalty per ogni timestep (incoraggia a completare velocemente)
 	tot_reward += Constants.TIMESTEP_REW
 	
-	# Aggiungi penalità per immobilità
-	tot_reward += check_stationary_penalty()
 	
 	# Calcola reward solo se l'episodio non è finito
 	if not finished:
