@@ -376,9 +376,6 @@ func calculate_walls_objectives() -> Array:
 	
 	
 func calculate_walls_targets() -> Array:
-	# Calcola osservazioni per raggi muri/target
-	# Per ogni raggio ritorna: [distanza, muro, target_nuovo, target_visitato]
-	
 	var hit_objects := []
 	
 	# Walls and targets observations
@@ -389,8 +386,15 @@ func calculate_walls_targets() -> Array:
 		# hit object type is a one hot encoding
 		# 1,0,0: wall; 0,1,0: new target; 0,0,1: already visited target
 		var hit_object_type := [0, 0, 0]
+		
 		if ray.get_collider():
 			if ray.get_collider().is_in_group(Constants.TARGETS_GROUP):
+				# NUOVO: Salva quale lato del target sta vedendo
+				if ray.is_colliding() and ray.get_collider().has_method("get_side_from_normal"):
+					var collision_normal = ray.get_collision_normal()
+					var side = ray.get_collider().get_side_from_normal(collision_normal)
+					_store_target_view_side(ray.get_collider(), side)
+				
 				# Controlla se il target è già stato raggiunto
 				var target_already_reached = false
 				for reached_target in pedestrian.reached_targets:
@@ -409,6 +413,22 @@ func calculate_walls_targets() -> Array:
 		hit_objects.append_array(hit_object_type)
 		
 	return hit_objects
+
+# NUOVO: Memorizza quale lato del target il pedone sta vedendo
+func _store_target_view_side(target: Area3D, side: String):
+	# Usa i metadata del pedone per salvare temporaneamente quale lato sta vedendo
+	if not pedestrian.has_meta("viewed_target_sides"):
+		pedestrian.set_meta("viewed_target_sides", {})
+	
+	var viewed_sides = pedestrian.get_meta("viewed_target_sides")
+	
+	# Aggiorna solo se è un nuovo target o se il lato è cambiato
+	if not viewed_sides.has(target) or viewed_sides[target] != side:
+		viewed_sides[target] = side
+		pedestrian.set_meta("viewed_target_sides", viewed_sides)
+		
+		# Debug (opzionale - commenta se non serve)
+		# print("👁️ Pedone %s vede target '%s' dal lato: %s" % [pedestrian.name, target.name, side])
 
 func calculate_agents_walls() -> Array:
 	# Calcola osservazioni per raggi agenti/muri

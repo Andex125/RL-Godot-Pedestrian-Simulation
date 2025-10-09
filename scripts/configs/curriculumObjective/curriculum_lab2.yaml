@@ -11,7 +11,7 @@ Curriculum:
     mean_reward: 9.0
     episode_mean: 50
     cycles: 12
-  StartObjectiveRandom:
+  ProvaTarget:
     mean_reward: 8.5
     episode_mean: 70
     cycles: 15

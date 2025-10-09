@@ -31,13 +31,14 @@ var finished: bool = false                   # Flag per indicare se ha completat
 var rotation_sens: int = Constants.ROTATION_SENS  # Sensibilità di rotazione
 var speed: float                                   # Velocità corrente
 
-# ===== VARIABILI PER TRACKING OBIETTIVI =====
+# ===== VARIABILI PER TRACKING TARGET INTERMEDI =====
 var reached_targets := []                    # Array dei target intermedi già raggiunti
 var last_target_reached: Area3D = null       # Ultimo target raggiunto
 
 # ===== VARIABILI PER TRACKING OBIETTIVI =====
-var reached_objectives := []                 # Array degli obiettivi raccolti (cambiato da costante)
-var objectives_collected: int = 0            # Contatore obiettivi raccolti
+var reached_objectives := []                 # Array degli obiettivi raccolti
+var collected_objective_ids: Array[int] = [] # IDs degli obiettivi raccolti
+var objectives_collected: int = 0
 var level_objectives_count: int = 0
 
 func get_debug_info() -> Dictionary:
@@ -67,6 +68,21 @@ func get_debug_info() -> Dictionary:
 	info["pedestrian_name"] = name
 
 	return info
+
+
+# NUOVO: Recupera quale lato del target stava vedendo il pedone
+func get_last_viewed_side(target: Area3D) -> String:
+	if has_meta("viewed_target_sides"):
+		var viewed_sides = get_meta("viewed_target_sides")
+		if viewed_sides.has(target):
+			return viewed_sides[target]
+	return "unknown"
+
+# NUOVO: Pulisce i metadata dei lati visti
+func clear_viewed_sides():
+	if has_meta("viewed_target_sides"):
+		var viewed_sides = get_meta("viewed_target_sides")
+		viewed_sides.clear()
 
 	
 ## Inizializzazione del pedone quando entra nella scena
@@ -102,8 +118,12 @@ func reset():
 	final_target_reached = false
 	reached_targets = []
 	
-	reached_objectives.clear()         
-	objectives_collected = 0        
+	reached_objectives.clear()
+	collected_objective_ids.clear()
+	objectives_collected = 0
+	
+	# NUOVO: Pulisce i metadata dei lati visti
+	clear_viewed_sides()     
 	
 ## Imposta la velocità massima usando una distribuzione gaussiana
 func set_speed_max():
@@ -159,18 +179,69 @@ func compute_rewards() -> void:
 	# Calcola reward solo se l'episodio non è finito
 	if not finished:
 		# ===== REWARD PER TARGET RAGGIUNTI =====
+		# ===== REWARD PER TARGET RAGGIUNTI =====
 		if target_reached:
-			# Penalty se il target è già stato raggiunto prima
+			# Controlla se il target ha requisiti di obiettivi
+			var has_objective_requirements = (
+				last_target_reached.has_method("check_required_objectives") 
+				and last_target_reached.has_method("get_reward_for_objectives")
+			)
+			
+			# Verifica se ha raccolto tutti gli obiettivi richiesti
+			var all_objectives_collected = false
+			if has_objective_requirements:
+				all_objectives_collected = last_target_reached.check_required_objectives(collected_objective_ids)
+			
+			# Recupera il lato che stava vedendo prima di attraversarlo
+			var viewed_side = get_last_viewed_side(last_target_reached)
+			
+			# Reward base per aver raggiunto un target (prima volta o già visitato)
 			if last_target_reached in reached_targets:
-				tot_reward += Constants.INTERMEDIATE_TARGET_ALREADY_REACHED_REW 
+				tot_reward += Constants.INTERMEDIATE_TARGET_ALREADY_REACHED_REW
 			else:
 				reached_targets.append(last_target_reached)
 				tot_reward += Constants.INTERMEDIATE_TARGET_FIRST_TIME_REW
 			
+			# NUOVA LOGICA: Reward in base a obiettivi + lato
+			if has_objective_requirements:
+				var objective_reward = 0.0
+				
+				if viewed_side == "front":
+					# FRONTE
+					if all_objectives_collected:
+						# Completati + front = +1
+						objective_reward = Constants.INTERMEDIATE_TARGET_BONUS_REW
+						print("✅ Target '%s' - FRONT + Obiettivi COMPLETATI = +%.2f" % 
+							[last_target_reached.name, objective_reward])
+					else:
+						# Mancanti + front = -1
+						objective_reward = Constants.INTERMEDIATE_TARGET_MALUS_REW
+						print("❌ Target '%s' - FRONT + Obiettivi MANCANTI = %.2f" % 
+							[last_target_reached.name, objective_reward])
+				
+				elif viewed_side == "back":
+					# RETRO
+					if all_objectives_collected:
+						# Completati + back = -1
+						objective_reward = Constants.INTERMEDIATE_TARGET_MALUS_REW
+						print("❌ Target '%s' - BACK + Obiettivi COMPLETATI = %.2f" % 
+							[last_target_reached.name, objective_reward])
+					else:
+						# Mancanti + back = +1
+						objective_reward = Constants.INTERMEDIATE_TARGET_BONUS_REW
+						print("✅ Target '%s' - BACK + Obiettivi MANCANTI = +%.2f" % 
+							[last_target_reached.name, objective_reward])
+				
+				else:
+					# LATO o SCONOSCIUTO = neutro (nessun reward)
+					objective_reward = 0.0
+					print("➡️ Target '%s' - LATO/SCONOSCIUTO = 0.00" % last_target_reached.name)
+				
+				tot_reward += objective_reward
+			
 			# Resetta i flag
 			target_reached = false
 			last_target_reached = null
-
 		# Ottiene le osservazioni dai sensori
 		var obs = raycast_sensor.get_observation()
 		var walls_and_targets = obs[0]    # Dati su muri e target
@@ -259,14 +330,12 @@ func _on_final_target_entered(body):
 			pedestrian_controller.set_reward_label_text(Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW)
 
 		
-## Callback quando il pedone entra in un target intermedio
 func _on_target_entered(area, body):
 	# Verifica che sia proprio questo pedone
 	if body == self:
 		target_reached = true
 		last_target_reached = area
 		
-## Callback quando il pedone entra in un obiettivo da raccogliere
 func _on_objective_entered(area, body):
 	# CONTROLLI BASE
 	if body != self or not area.active or area in reached_objectives:
@@ -277,17 +346,12 @@ func _on_objective_entered(area, body):
 	
 	area.set_meta("processing_" + str(get_instance_id()), true)
 	
+	# Ottieni l'ID dell'obiettivo se disponibile
+	var objective_id: int = -1  # NUOVO: variabile locale
+	if area.has_method("get_objective_id"):
+		objective_id = area.get_objective_id()
 	
-	#var debug_info = get_debug_info()
-	#print("\n🎯 === OBIETTIVO RACCOLTO ===")
-	#print("📍 Level Manager: %s (ID: %s)" % [debug_info.get("level_manager_name", "N/A"), debug_info.get("level_manager_id", "N/A")])
-	#print("📍 Livello: %s (ID: %s)" % [debug_info.get("level_name", "N/A"), debug_info.get("level_id", "N/A")])
-	#print("📍 Pedone: %s (ID: %s)" % [debug_info.get("pedestrian_name", "N/A"), debug_info.get("pedestrian_id", "N/A")])
-	#print("📍 Obiettivo: %s (ID: %s)" % [area.name, area.get_instance_id()])
-	#print("📍 Obiettivi raccolti: %d/%d" % [objectives_collected + 1, level_objectives_count])
-	#print("📍 Reward assegnato: %.3f" % Constants.OBJECTIVE_COLLECTED_REW)
-	#print("================================\n")
-	
+	# Disabilita l'obiettivo
 	area.set_deferred("active", false) 
 	area.set_deferred("monitoring", false) 
 	area.set_deferred("monitorable", false) 
@@ -297,9 +361,14 @@ func _on_objective_entered(area, body):
 	if collision:
 		collision.set_deferred("disabled", true)
 	
-	# Aggiorna contatori 
+	# Aggiorna contatori e array
 	objectives_collected += 1
 	reached_objectives.append(area)
+	
+	# Aggiungi l'ID alla lista se valido
+	if objective_id >= 0:
+		collected_objective_ids.append(objective_id)  # NUOVO
+	
 	ai_controller_3d.reward += Constants.OBJECTIVE_COLLECTED_REW
 	pedestrian_controller.set_reward_label_text(Constants.OBJECTIVE_COLLECTED_REW)
 		

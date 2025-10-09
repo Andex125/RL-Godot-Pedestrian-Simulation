@@ -25,6 +25,10 @@ const FINAL_TARGET_WITHOUT_OBJECTIVES_REW: float = -4.0
 const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 0.5
 const INTERMEDIATE_TARGET_ALREADY_REACHED_REW: float = -1.0
 
+# Target intermediate rewards
+const INTERMEDIATE_TARGET_BONUS_REW: float = 1.0
+const INTERMEDIATE_TARGET_MALUS_REW: float = -1.0
+
 const OBJECTIVE_COLLECTED_REW: float = 2.0
 const NO_ALL_OBJECTIVES_REW: float = -0.06
 
@@ -69,7 +73,7 @@ const ROTATION_STEPS: int = 8
 const LEVELS_BATCH_OFFSET: float = 100.0
 const LEVELS_RETRAINING_OFFSET: float = 40.0
 const RETRAINING_INSTANCES_PER_LEVEL: int = 3
-const TRAINING_BATCH_SIZE: int = 10
+const TRAINING_BATCH_SIZE: int = 1
 
 # Test scene
 const DEFAULT_NUMBER_OF_EPISODE: int = 1
@@ -77,7 +81,7 @@ const PATH_PEDPY_LOGS = "res://../output/pedpy/"
 const TESTING_BATCH_SIZE: int = 1
 
 # Training logs
-const SAVE_TRAINING_TRAJECTORIES: bool = true
+const SAVE_TRAINING_TRAJECTORIES: bool = false
 const PATH_TRAINING_LOGS = "res://../output/runs/"
 
 # Engine/Sync
