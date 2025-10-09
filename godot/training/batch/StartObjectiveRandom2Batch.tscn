@@ -15,7 +15,7 @@ background_mode = 1
 background_color = Color(0.270171, 0.229928, 0.188594, 1)
 sky = SubResource("Sky_rnfhv")
 
-[node name="StartObjectiveRandomBatch" type="Node3D"]
+[node name="StartObjectiveRandom2Batch" type="Node3D"]
 script = ExtResource("1_f4p6f")
 level = ExtResource("2_mlh3d")
 

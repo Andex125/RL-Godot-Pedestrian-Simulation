@@ -28,8 +28,6 @@ max_steps = 150
 
 [node name="FinalTarget" parent="." instance=ExtResource("4_xu3o5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.96925)
-collision_layer = 16
-collision_mask = 20
 
 [node name="PedestrianController" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
@@ -56,8 +54,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2056, 0, 0)
 
 [node name="Target" parent="RandomPassage/Passage" instance=ExtResource("9_3tp41")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-collision_layer = 16
-collision_mask = 20
+required_objectives = Array[int]([0])
 
 [node name="Random" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.79249)
@@ -70,6 +67,7 @@ collision_layer = 2
 shape = SubResource("BoxShape3D_3nmna")
 
 [node name="objective" parent="Random" instance=ExtResource("11_cmw6t")]
+objective_id = 1
 
 [node name="Random2" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.20751)

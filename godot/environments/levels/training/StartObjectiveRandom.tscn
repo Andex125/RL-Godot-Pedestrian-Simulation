@@ -12,7 +12,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_086hm"]
 size = Vector3(13, 0, 10)
 
-[node name="Start" type="Node3D"]
+[node name="StartObjectiveRandom" type="Node3D"]
 script = ExtResource("1_36icx")
 
 [node name="Room" parent="." instance=ExtResource("2_8be4f")]

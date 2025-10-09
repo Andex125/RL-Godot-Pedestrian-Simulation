@@ -211,31 +211,23 @@ func compute_rewards() -> void:
 					if all_objectives_collected:
 						# Completati + front = +1
 						objective_reward = Constants.INTERMEDIATE_TARGET_BONUS_REW
-						print("✅ Target '%s' - FRONT + Obiettivi COMPLETATI = +%.2f" % 
-							[last_target_reached.name, objective_reward])
+						
 					else:
 						# Mancanti + front = -1
 						objective_reward = Constants.INTERMEDIATE_TARGET_MALUS_REW
-						print("❌ Target '%s' - FRONT + Obiettivi MANCANTI = %.2f" % 
-							[last_target_reached.name, objective_reward])
 				
 				elif viewed_side == "back":
 					# RETRO
 					if all_objectives_collected:
 						# Completati + back = -1
 						objective_reward = Constants.INTERMEDIATE_TARGET_MALUS_REW
-						print("❌ Target '%s' - BACK + Obiettivi COMPLETATI = %.2f" % 
-							[last_target_reached.name, objective_reward])
 					else:
 						# Mancanti + back = +1
 						objective_reward = Constants.INTERMEDIATE_TARGET_BONUS_REW
-						print("✅ Target '%s' - BACK + Obiettivi MANCANTI = +%.2f" % 
-							[last_target_reached.name, objective_reward])
 				
 				else:
 					# LATO o SCONOSCIUTO = neutro (nessun reward)
 					objective_reward = 0.0
-					print("➡️ Target '%s' - LATO/SCONOSCIUTO = 0.00" % last_target_reached.name)
 				
 				tot_reward += objective_reward
 			

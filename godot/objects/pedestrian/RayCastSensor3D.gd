@@ -93,20 +93,20 @@ func _create_debug_lines():
 	# Funzione che crea linee colorate per visualizzare i raggi
 	# Scopo: debug visivo per vedere cosa rilevano i raggi
 	
-	# PARTE 1: Gestione raggi per muri e target
+	# PARTE 1: Gestione raggi per muri e target - CON COLORI REWARD
 	for i in range(rays_walls_targets.size()):
 		if rays_walls_targets[i].is_colliding():
 			var point = rays_walls_targets[i].get_collision_point() - global_position
+			var collider = rays_walls_targets[i].get_collider()
 			
 			var material = ORMMaterial3D.new()
 			material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 			
 			# CONTROLLA SOLO TARGET - IGNORA MURI
-			if rays_walls_targets[i].get_collider().is_in_group(Constants.TARGETS_GROUP):
-				if rays_walls_targets[i].get_collider().name.begins_with("FinalTarget"):
-					material.albedo_color = "#43A047"  # Verde per target finali
-				else:
-					material.albedo_color = "#26C6DA"  # Ciano per target normali
+			if collider.is_in_group(Constants.TARGETS_GROUP):
+				# Determina il colore in base al reward previsto
+				var ray_color = _get_target_ray_color(collider, rays_walls_targets[i])
+				material.albedo_color = ray_color
 					
 				# Crea la mesh SOLO per target (non per muri)
 				var immediate_mesh = ImmediateMesh.new()
@@ -121,34 +121,28 @@ func _create_debug_lines():
 				# Se è un muro, NON disegnare la linea
 				lines_walls_targets[i].mesh = null
 	
-	# PARTE 2: Gestione raggi per agenti e muri
+	# PARTE 2: Gestione raggi per agenti e muri (lascia come prima)
 	for i in range(rays_agents_walls.size()):
 		if rays_agents_walls[i].is_colliding():
-			# Controlla se ha colpito specificatamente un pedone
 			if rays_agents_walls[i].get_collider().is_in_group(Constants.PEDESTRIAN_GROUP):
-				# Calcola il punto di collisione
 				var point = rays_agents_walls[i].get_collision_point() - global_position
 				
-				# Crea materiale giallo per i pedoni
 				var material = ORMMaterial3D.new()
 				material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 				material.albedo_color = "#FDD835"  # Giallo
 				
-				# Crea la mesh della linea (alzata di 1 unità per visibilità)
 				var immediate_mesh = ImmediateMesh.new()
 				immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
-				immediate_mesh.surface_add_vertex(position + Vector3(0, 1, 0))  # Alzata
-				immediate_mesh.surface_add_vertex(point + Vector3(0, 1, 0))     # Alzata
+				immediate_mesh.surface_add_vertex(position + Vector3(0, 1, 0))
+				immediate_mesh.surface_add_vertex(point + Vector3(0, 1, 0))
 				immediate_mesh.surface_end()
 				
-				# Applica la mesh
 				lines_agents_walls[i].mesh = immediate_mesh
 				lines_agents_walls[i].global_rotation = Vector3.ZERO
 			else:
-				# Se non ha colpito un pedone, nasconde la linea
 				lines_agents_walls[i].mesh = null
 				
-	# PARTE 3: Gestione raggi per muri e obiettivi
+	# PARTE 3: Gestione raggi per muri e obiettivi (lascia come prima)
 	for i in range(rays_walls_objectives.size()):
 		if rays_walls_objectives[i].is_colliding():
 			var point = rays_walls_objectives[i].get_collision_point() - global_position
@@ -156,14 +150,12 @@ func _create_debug_lines():
 			var material = ORMMaterial3D.new()
 			material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 			
-			# CONTROLLA SOLO OBJECTIVES - IGNORA MURI
 			if rays_walls_objectives[i].get_collider().is_in_group(Constants.OBJECTIVES_GROUP):
 				if rays_walls_objectives[i].get_collider() in pedestrian.reached_objectives:
 					material.albedo_color = "#808080"  # Grigio per obiettivi raccolti
 				else:
 					material.albedo_color = "#FF5722"  # Arancione per obiettivi nuovi
 					
-				# Crea la mesh SOLO per objectives (non per muri)
 				var immediate_mesh = ImmediateMesh.new()
 				immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
 				immediate_mesh.surface_add_vertex(position + Vector3(0, 2, 0))
@@ -173,8 +165,8 @@ func _create_debug_lines():
 				lines_walls_objectives[i].mesh = immediate_mesh
 				lines_walls_objectives[i].global_rotation = Vector3.ZERO
 			else:
-				# Se è un muro, NON disegnare la linea
 				lines_walls_objectives[i].mesh = null
+
 
 ## FUNZIONI DI CREAZIONE RAGGI
 
@@ -491,3 +483,58 @@ func _get_raycast_distance(ray: RayCast3D) -> float:
 	
 	# Normalizza la distanza (0-1)
 	return distance / Constants.RAY_LENGTH_OBS
+	
+	
+## Determina il colore del raggio in base al reward previsto
+func _get_target_ray_color(target: Area3D, ray: RayCast3D) -> Color:
+	# Colori di default
+	var COLOR_POSITIVE_REWARD = Color("#00FF00")  # Verde brillante per reward positivo
+	var COLOR_NEGATIVE_REWARD = Color("#FF0000")  # Rosso per reward negativo
+	var COLOR_NEUTRAL = Color("#FFFF00")          # Giallo per target senza requisiti
+	var COLOR_FINAL = Color("#43A047")            # Verde scuro per FinalTarget
+	
+	# Se è il FinalTarget, colora sempre di verde scuro
+	if target.name.begins_with("FinalTarget"):
+		return COLOR_FINAL
+	
+	# Verifica se il target ha requisiti di obiettivi
+	if not target.has_method("check_required_objectives"):
+		return COLOR_NEUTRAL  # Target senza requisiti
+	
+	if not target.has_method("get_side_from_normal"):
+		return COLOR_NEUTRAL  # Target senza rilevamento lato
+	
+	# Ottieni la normale di collisione per determinare il lato
+	if not ray.is_colliding():
+		return COLOR_NEUTRAL
+	
+	var collision_normal = ray.get_collision_normal()
+	var viewed_side = target.get_side_from_normal(collision_normal)
+	
+	# Verifica se ha raccolto tutti gli obiettivi richiesti
+	var all_objectives_collected = target.check_required_objectives(pedestrian.collected_objective_ids)
+	
+	# Calcola il reward previsto basato su lato + obiettivi
+	var predicted_reward = 0.0
+	
+	if viewed_side == "front":
+		# FRONTE
+		if all_objectives_collected:
+			predicted_reward = 1.0  # Completati + front = +1
+		else:
+			predicted_reward = -1.0  # Mancanti + front = -1
+	elif viewed_side == "back":
+		# RETRO
+		if all_objectives_collected:
+			predicted_reward = -1.0  # Completati + back = -1
+		else:
+			predicted_reward = 1.0  # Mancanti + back = +1
+	else:
+		# LATO o SCONOSCIUTO
+		return COLOR_NEUTRAL
+	
+	# Ritorna il colore appropriato
+	if predicted_reward > 0:
+		return COLOR_POSITIVE_REWARD  # Verde
+	else:
+		return COLOR_NEGATIVE_REWARD  # Rosso

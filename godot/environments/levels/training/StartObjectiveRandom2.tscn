@@ -15,7 +15,7 @@ size = Vector3(6, 0, 7)
 [sub_resource type="BoxShape3D" id="BoxShape3D_sr4xc"]
 size = Vector3(6, 1, 7)
 
-[node name="Start" type="Node3D"]
+[node name="StartObjectiveRandom2" type="Node3D"]
 script = ExtResource("1_kntoy")
 max_steps = 100
 

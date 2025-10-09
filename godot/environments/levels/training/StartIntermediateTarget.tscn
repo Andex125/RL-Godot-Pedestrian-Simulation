@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://eer5gcm7ehuc" path="res://objects/pedestrian/Pedestrian.tscn" id="4_alawp"]
 [ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="5_612v2"]
 [ext_resource type="PackedScene" uid="uid://dcw4hn5nqmlmn" path="res://objects/walls/wall3.tscn" id="6_auda7"]
-[ext_resource type="PackedScene" uid="uid://bsiiadkfddcmn" path="res://objects/targets/target_4.5x1.tscn" id="7_nb83c"]
+[ext_resource type="PackedScene" uid="uid://cpp4hwkoxmlph" path="res://objects/targets/target_4x0.2.tscn" id="8_g2dk3"]
 [ext_resource type="PackedScene" uid="uid://f0qwfq835sfr" path="res://objects/targets/final_target_3x3.tscn" id="8_y35xa"]
 
 [node name="Start" type="Node3D"]
@@ -29,8 +29,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 9)
 [node name="Wall2" parent="." instance=ExtResource("6_auda7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 9)
 
-[node name="ObliqueTarget" parent="." instance=ExtResource("7_nb83c")]
-transform = Transform3D(1, 2.55972e-06, 0, -2.55972e-06, 1, 1.06027e-06, 0, -1.06027e-06, 1, 0, 0, 7.98955)
-
 [node name="FinalTarget" parent="." instance=ExtResource("8_y35xa")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+
+[node name="Target" parent="." instance=ExtResource("8_g2dk3")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 8)

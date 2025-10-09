@@ -37,15 +37,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2056, 0, 0)
 
 [node name="Target" parent="RandomPassage/Passage" instance=ExtResource("5_kcnvs")]
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
-collision_layer = 16
-collision_mask = 20
 
 [node name="Reward" parent="." instance=ExtResource("10_8u685")]
 
 [node name="FinalTarget" parent="." instance=ExtResource("6_alo7g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8.96925)
-collision_layer = 16
-collision_mask = 20
 
 [node name="PedestrianController" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)

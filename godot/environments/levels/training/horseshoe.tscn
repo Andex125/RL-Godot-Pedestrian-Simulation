@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cijjngioxgwnt"]
+[gd_scene load_steps=13 format=3 uid="uid://cijjngioxgwnt"]
 
 [ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_fbakv"]
 [ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="2_tcyop"]
@@ -8,17 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://cuk1dy2pu7ws0" path="res://objects/walls/wall6_05.tscn" id="6_y3ohd"]
 [ext_resource type="PackedScene" uid="uid://drs1hl5ogwwny" path="res://objects/walls/wall4_05.tscn" id="7_ci3e4"]
 [ext_resource type="PackedScene" uid="uid://o6t0iemlmcj5" path="res://objects/targets/target_4.5x0.3.tscn" id="9_a1mic"]
-[ext_resource type="Script" path="res://environments/scripts/randomizer/PedestrianMixer.gd" id="9_n8b2e"]
 [ext_resource type="PackedScene" uid="uid://f0qwfq835sfr" path="res://objects/targets/final_target_3x3.tscn" id="10_dpad0"]
 [ext_resource type="PackedScene" uid="uid://ck4lwabd57rts" path="res://objects/walls/wall3_05.tscn" id="10_v006j"]
 [ext_resource type="PackedScene" uid="uid://bjcemydbx83lh" path="res://objects/targets/objective/objective_3x3.tscn" id="11_8rj8f"]
 [ext_resource type="PackedScene" uid="uid://cn8xu77glysrd" path="res://objects/walls/wall2_05.tscn" id="12_j3iuo"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_f3mcg"]
-size = Vector3(3, 0, 3)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_2hrkq"]
-size = Vector3(3, 0, 3)
 
 [node name="Start" type="Node3D"]
 script = ExtResource("1_fbakv")
@@ -27,16 +20,20 @@ max_steps = 100
 [node name="Room" parent="." instance=ExtResource("4_lbv53")]
 
 [node name="ObliqueTarget" parent="Room" instance=ExtResource("9_a1mic")]
-transform = Transform3D(1, 2.55972e-06, 0, -2.55972e-06, 1, 1.06027e-06, 0, -1.06027e-06, 1, 8, 0, -2.50445)
+transform = Transform3D(-1, -2.55972e-06, 8.74228e-08, -2.55972e-06, 1, 1.06027e-06, -8.74228e-08, 1.06027e-06, -1, 8, 0, -2.50445)
+required_objectives = Array[int]([0])
 
 [node name="ObliqueTarget2" parent="Room" instance=ExtResource("9_a1mic")]
 transform = Transform3D(1, 2.55972e-06, 0, -2.55972e-06, 1, 1.06027e-06, 0, -1.06027e-06, 1, -8, 0, -2.50445)
+required_objectives = Array[int]([0, 1])
 
 [node name="ObliqueTarget3" parent="Room" instance=ExtResource("9_a1mic")]
 transform = Transform3D(-4.37114e-08, 1.06027e-06, -1, -2.55972e-06, 1, 1.06027e-06, 1, 2.55972e-06, -4.37114e-08, -5.92467, 0, -4.50445)
+required_objectives = Array[int]([0, 1])
 
 [node name="ObliqueTarget4" parent="Room" instance=ExtResource("9_a1mic")]
 transform = Transform3D(-4.37114e-08, 1.06027e-06, -1, -2.55972e-06, 1, 1.06027e-06, 1, 2.55972e-06, -4.37114e-08, 5.86441, 0, -4.50445)
+required_objectives = Array[int]([0])
 
 [node name="Wall2" parent="." instance=ExtResource("7_ci3e4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.11472, 0, 4.82367)
@@ -45,7 +42,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.11472, 0, 4.82367)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.11472, 0, -0.680829)
 
 [node name="Wall3" parent="." instance=ExtResource("6_y3ohd")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.35294, 0, 2.07341)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.93384, 0, 2.07341)
 
 [node name="Wall" parent="." instance=ExtResource("6_y3ohd")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6, 0, 7.57392)
@@ -63,7 +60,7 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 4.0406
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 4.04069, 0, 4.82392)
 
 [node name="Wall8" parent="." instance=ExtResource("6_y3ohd")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.27891, 0, 2.06968)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.79256, 0, 2.06968)
 
 [node name="Wall9" parent="." instance=ExtResource("6_y3ohd")]
 transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 0, 0, -2.431)
@@ -90,50 +87,31 @@ transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -4.30542
 transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 4.37075, 0, -6.74662)
 
 [node name="objective" parent="." instance=ExtResource("11_8rj8f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.36696, 0, 2.01223)
-objective_id = 2
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.58716, 0, 2.01223)
 
 [node name="objective2" parent="." instance=ExtResource("11_8rj8f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.63304, 0, 2.01223)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.77584, 0, 2.01223)
+objective_id = 2
 
 [node name="objective3" parent="." instance=ExtResource("11_8rj8f")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.0454714, 0, -7.93985)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.0454714, 0, -8.39705)
 objective_id = 1
-
-[node name="Randomizer" type="Node3D" parent="."]
-script = ExtResource("9_n8b2e")
-
-[node name="up" type="Area3D" parent="Randomizer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
-
-[node name="CollisionShape1" type="CollisionShape3D" parent="Randomizer/up"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 15, 0, 8.04082)
-shape = SubResource("BoxShape3D_f3mcg")
-
-[node name="down" type="Area3D" parent="Randomizer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
-
-[node name="CollisionShape2" type="CollisionShape3D" parent="Randomizer/down"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05094, 0, 8)
-shape = SubResource("BoxShape3D_2hrkq")
-
-[node name="FinalTarget" parent="Randomizer" instance=ExtResource("10_dpad0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.05094, 0, 7.99571)
-
-[node name="PedestrianController" type="Node3D" parent="Randomizer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
-script = ExtResource("2_tcyop")
-
-[node name="Pedestrian" parent="Randomizer/PedestrianController" instance=ExtResource("3_fwyo8")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.09175, 0, 8.53513)
-
-[node name="livello" type="Node3D" parent="Randomizer"]
-
-[node name="Reward" parent="Randomizer" instance=ExtResource("4_bfarw")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -9.9947, 5, -10.5945)
 
 [node name="Wall18" parent="." instance=ExtResource("12_j3iuo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.78386, 0, -1.63773)
 
 [node name="Wall19" parent="." instance=ExtResource("12_j3iuo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.86025, 0, -1.63773)
+
+[node name="PedestrianController" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.16946, 0, 0)
+script = ExtResource("2_tcyop")
+
+[node name="Pedestrian" parent="PedestrianController" instance=ExtResource("3_fwyo8")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.09175, 0, 8.53513)
+
+[node name="FinalTarget" parent="." instance=ExtResource("10_dpad0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.05094, 0, 7.99571)
+
+[node name="Reward" parent="." instance=ExtResource("4_bfarw")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -9.9947, 5, -10.5945)
