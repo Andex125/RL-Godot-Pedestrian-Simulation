@@ -29,9 +29,11 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.723
 
 [node name="ObliqueTarget2" parent="." instance=ExtResource("5_6x081")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.193867, 0, -1.71596)
+required_objectives = Array[int]([0, 1, 2])
 
 [node name="ObliqueTarget4" parent="." instance=ExtResource("5_6x081")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.80613, 0, 8.28404)
+required_objectives = Array[int]([0])
 
 [node name="Wall2" parent="." instance=ExtResource("4_x2kca")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.78664, 0, 4.30402)
@@ -62,6 +64,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.4890
 
 [node name="objective5" parent="." instance=ExtResource("6_wa0j8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.954, 0, 2.961)
+objective_id = 2
 
 [node name="Wall7" parent="." instance=ExtResource("4_x2kca")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.31063, 0, -5.69598)
@@ -83,9 +86,11 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.944
 
 [node name="objective2" parent="." instance=ExtResource("6_wa0j8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.11453, 0, -6.178)
+objective_id = 3
 
 [node name="objective4" parent="." instance=ExtResource("6_wa0j8")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8.02045, 0, -6.178)
+objective_id = 1
 
 [node name="Wall10" parent="." instance=ExtResource("4_x2kca")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.95417, 0, 6.05635)
@@ -110,6 +115,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.97704, 0, -9.45658)
 
 [node name="ObliqueTarget" parent="." instance=ExtResource("13_1uuej")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 5)
+required_objectives = Array[int]([0])
 
 [node name="FinalTarget" parent="." instance=ExtResource("8_qq8lv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.03222, 0, 3.86736)

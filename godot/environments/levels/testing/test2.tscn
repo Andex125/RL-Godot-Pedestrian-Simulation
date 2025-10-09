@@ -72,18 +72,23 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -11.99
 
 [node name="objective2" parent="." instance=ExtResource("6_dht1y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 12)
+objective_id = 4
 
 [node name="objective3" parent="." instance=ExtResource("6_dht1y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+objective_id = 2
 
 [node name="objective8" parent="." instance=ExtResource("6_dht1y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 5)
+objective_id = 3
 
 [node name="objective9" parent="." instance=ExtResource("6_dht1y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 5)
+objective_id = 6
 
 [node name="objective5" parent="." instance=ExtResource("6_dht1y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -12)
+objective_id = 1
 
 [node name="objective4" parent="." instance=ExtResource("6_dht1y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
@@ -105,9 +110,11 @@ transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, 1.103, 0
 
 [node name="objective6" parent="." instance=ExtResource("6_dht1y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 1)
+objective_id = 7
 
 [node name="objective7" parent="." instance=ExtResource("6_dht1y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12)
+objective_id = 5
 
 [node name="FinalTarget" parent="." instance=ExtResource("7_x7h5x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -6)
@@ -174,13 +181,24 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.796
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.00475, 0, -9)
 
 [node name="ObliqueTarget4" parent="." instance=ExtResource("11_8voai")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.35852, 0, -5.31511)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.35852, 0, -5.91297)
+required_objectives = Array[int]([0, 1])
+
+[node name="ObliqueTarget7" parent="." instance=ExtResource("11_8voai")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.8306, 0, -11.6738)
+required_objectives = Array[int]([0])
 
 [node name="ObliqueTarget6" parent="." instance=ExtResource("11_8voai")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.35852, 0, 8.68489)
+required_objectives = Array[int]([0, 1, 2, 3, 4])
+
+[node name="ObliqueTarget8" parent="." instance=ExtResource("11_8voai")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.64148, 0, 8.68489)
+required_objectives = Array[int]([0, 1, 2, 3, 4, 5])
 
 [node name="ObliqueTarget5" parent="." instance=ExtResource("12_5gff8")]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, 12.2247)
+required_objectives = Array[int]([0, 1, 2, 3, 4, 5])
 
 [node name="Reward" parent="." instance=ExtResource("13_6t1fl")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -12.9947, 5, -14.5945)
