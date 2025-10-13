@@ -373,6 +373,28 @@ func get_speed_norm() -> float:
 	# Normalizza la velocità corrente rispetto ai limiti
 	return (speed - speed_min) / (speed_max - speed_min)
 
+func get_objectives_direction_vector() -> Array:
+	var checklist = []
+	
+	for i in range(Constants.MAX_OBJECTIVES_IN_CURRICULUM):
+		if i < level_objectives_count:
+			# Obiettivo ESISTE
+			if i in collected_objective_ids:
+				checklist.append(1)  # ✅ RACCOLTO
+			else:
+				checklist.append(0)  # ⬜ DA RACCOGLIERE
+		else:
+			# Obiettivo NON ESISTE
+			checklist.append(-1)  # ❌ PADDING
+	
+	# Target finale
+	if final_target_reached:
+		checklist.append(1)
+	else:
+		checklist.append(0)
+	
+	return checklist
+
 ## Disabilita il pedone quando raggiunge il target finale
 func disable_pedestrian():
 	disable = true

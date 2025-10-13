@@ -53,6 +53,12 @@ func set_level(level_scene: PackedScene, log_file: FileAccess) -> void:
 	
 	current_level = level
 	
+	if "max_steps" in level: 
+		var expected_steps = Constants.DEFAULT_MAX_TIMESTEPS
+		if level.max_steps != expected_steps:
+			print("[LevelManager] ⚠️ Override max_steps: %d → %d" % [level.max_steps, expected_steps])
+			level.max_steps = expected_steps
+	
 	# Setup pedestrian
 	var pedestrians = level.find_children("Pedestrian*", "Pedestrian")
 	for pedestrian in pedestrians:

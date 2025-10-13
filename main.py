@@ -31,7 +31,7 @@ def auto():
 
     runner = Runner(
         config_path="scripts/configs/sensitivity_studies/net_256_128_64.yaml",
-        curriculum_path="scripts/configs/curriculumObjective/curriculum_lab2.yaml",
+        curriculum_path="scripts/configs/curriculumObjective/curriculum_lab3.yaml",
         run_name=run_name,
     )
     runner.run()

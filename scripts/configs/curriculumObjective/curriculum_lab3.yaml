@@ -1,35 +1,59 @@
 Curriculum:
   StartEz:
-    mean_reward: 7.0
-    episode_mean: 100
-    cycles: 7
+    mean_reward: 5.7
+    episode_mean: 108
+    cycles: 20
   Start:
-    mean_reward: 7.0
+    mean_reward: 3.0
     episode_mean: 36
     cycles: 5
+  Observe:
+    mean_reward: -24.0
+    episode_mean: 30
+    cycles: 5
+  StartCorridor:
+    mean_reward: 4.5
+    episode_mean: 36
+    cycles: 15
+  StartIntermediateTarget:
+    mean_reward: 9.5
+    episode_mean: 36
+    cycles: 10
+  Turns:
+    mean_reward: 23.0
+    episode_mean: 36
+    cycles: 10
   CorridorObjective:
     mean_reward: 8.0
-    episode_mean: 50
+    episode_mean: 35
     cycles: 20
   StartObjectiveRandom:
     mean_reward: 8.0
-    episode_mean: 100
+    episode_mean: 80
     cycles: 20
   StartObjectiveRandom2:
     mean_reward: 8.5
-    episode_mean: 100
+    episode_mean: 70
     cycles: 20
+  NarrowDoor:
+    mean_reward: 5.0
+    episode_mean: 36
+    cycles: 15
+  TakeObjectiveAndPass2:
+    mean_reward: 5.0
+    episode_mean: 36
+    cycles: 15
   CorridorObjtFacile:
     mean_reward: 8.5
-    episode_mean: 100
+    episode_mean: 90
     cycles: 17
   CorridorObjtMedio:
     mean_reward: 8.7
-    episode_mean: 100
+    episode_mean: 80
     cycles: 17
   CorridorObjt:
     mean_reward: 8.7
-    episode_mean: 150
+    episode_mean: 50
     cycles: 25
   Horseshoe:
     mean_reward: 7.0

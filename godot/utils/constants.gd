@@ -5,7 +5,7 @@ const MAX_SPEED_MEAN: float = 1.5
 const MAX_SPEED_DEVIATION: float = 0.2
 const MIN_SPEED: float = 0.0
 const ROTATION_SENS: int = 25
-const WALL_COLLISION_DISTANCE: float = 0.3
+const WALL_COLLISION_DISTANCE: float = 0.4
 const AGENT_COLLISION_SMALL_DISTANCE: float = 0.6
 const AGENT_COLLISION_MEDIUM_DISTANCE: float = 1.0
 const AGENT_COLLISION_LARGE_DISTANCE: float = 1.4
@@ -22,15 +22,15 @@ const TICKS_BETWEEN_LOG: int = 2
 const FINAL_TARGET_REW: float = 8.0
 const FINAL_TARGET_WITHOUT_OBJECTIVES_REW: float = -4.0
 
-const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 0
-const INTERMEDIATE_TARGET_ALREADY_REACHED_REW: float = 0
+const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 1.0
+const INTERMEDIATE_TARGET_ALREADY_REACHED_REW: float = 0.0
 
 # Target intermediate rewards
 const INTERMEDIATE_TARGET_BONUS_REW: float = 0.0
 const INTERMEDIATE_TARGET_MALUS_REW: float = -1.5
 
 const OBJECTIVE_COLLECTED_REW: float = 2.0
-const NO_ALL_OBJECTIVES_REW: float = -0.06
+const NO_ALL_OBJECTIVES_REW: float = -0.005
 
 const WALL_COLLISION_REW: float = -0.5
 const AGENT_COLLISION_SMALL_REW: float = -0.5
@@ -38,6 +38,9 @@ const AGENT_COLLISION_MEDIUM_REW: float = -0.005
 const AGENT_COLLISION_LARGE_REW: float = -0.001     
 const TIMESTEP_REW: float = -0.0001
 const END_OF_TIMESTEPS_REW: float = -6.0
+
+# Numero massimo di obiettivi supportato in qualsiasi livello
+const MAX_OBJECTIVES_IN_CURRICULUM: int = 10
 
 # AI Controller
 const TICKS_PER_STEP: int = 20
@@ -61,8 +64,8 @@ const PEDESTRIAN_GROUP: String = "PEDESTRIAN"
 const OBJECTIVES_GROUP = "OBJECTIVES"   
 
 # Levels
-const DEFAULT_MAX_TIMESTEPS: int = 2000
-const TESTING_MAX_TIMESTEPS: int = 4500
+const DEFAULT_MAX_TIMESTEPS: int = 700
+const TESTING_MAX_TIMESTEPS: int = 700
 
 # Random area 
 const SPAWN_OFFSET: float = 0.5
@@ -81,10 +84,10 @@ const PATH_PEDPY_LOGS = "res://../output/pedpy/"
 const TESTING_BATCH_SIZE: int = 1
 
 # Training logs
-const SAVE_TRAINING_TRAJECTORIES: bool = false
+const SAVE_TRAINING_TRAJECTORIES: bool = true
 const PATH_TRAINING_LOGS = "res://../output/runs/"
 
 # Engine/Sync
 const PHYSICS_TICKS_PER_SECONDS: int = 60
 const TIME_SCALE: float = 1.0
-const SPEED_UP: float = 10.0
+const SPEED_UP: float = 5.0

@@ -375,9 +375,13 @@ func calculate_walls_targets() -> Array:
 		var norm_distance = _get_raycast_distance(ray)
 		hit_objects.append(norm_distance)
 		
-		# hit object type is a one hot encoding
-		# 1,0,0: wall; 0,1,0: new target; 0,0,1: already visited target
-		var hit_object_type := [0, 0, 0]
+		# NUOVO: hit object type è ora una one-hot encoding a 5 valori (Formula 3.2)
+		# [1,0,0,0,0]: muro
+		# [0,1,0,0,0]: target intermedio valido (con obiettivi richiesti)
+		# [0,0,1,0,0]: target intermedio non valido (senza obiettivi)
+		# [0,0,0,1,0]: target finale valido (tutti obiettivi raccolti)
+		# [0,0,0,0,1]: target finale non valido (obiettivi mancanti)
+		var hit_object_type := [0, 0, 0, 0, 0]
 		
 		if ray.get_collider():
 			if ray.get_collider().is_in_group(Constants.TARGETS_GROUP):
@@ -387,17 +391,37 @@ func calculate_walls_targets() -> Array:
 					var side = ray.get_collider().get_side_from_normal(collision_normal)
 					_store_target_view_side(ray.get_collider(), side)
 				
-				# Controlla se il target è già stato raggiunto
-				var target_already_reached = false
-				for reached_target in pedestrian.reached_targets:
-					if reached_target == ray.get_collider():
-						target_already_reached = true
-						break
+				# Determina se è un target finale o intermedio
+				var is_final_target = ray.get_collider().name.begins_with("FinalTarget")
 				
-				if target_already_reached:
-					hit_object_type[2] = 1  # Target già visitato
+				if is_final_target:
+					# TARGET FINALE
+					# Verifica se ha raccolto tutti gli obiettivi del livello
+					var all_objectives_collected = (pedestrian.objectives_collected >= pedestrian.level_objectives_count)
+					
+					if all_objectives_collected:
+						hit_object_type[3] = 1  # Target finale valido
+					else:
+						hit_object_type[4] = 1  # Target finale non valido
 				else:
-					hit_object_type[1] = 1  # Nuovo target
+					# TARGET INTERMEDIO
+					# Verifica se il target ha requisiti di obiettivi
+					var has_requirements = (
+						ray.get_collider().has_method("check_required_objectives") and
+						ray.get_collider().has_method("get_reward_for_objectives")
+					)
+					
+					if has_requirements:
+						# Verifica se ha raccolto gli obiettivi richiesti da QUESTO target
+						var requirements_met = ray.get_collider().check_required_objectives(pedestrian.collected_objective_ids)
+						
+						if requirements_met:
+							hit_object_type[1] = 1  # Target intermedio valido
+						else:
+							hit_object_type[2] = 1  # Target intermedio non valido
+					else:
+						# Target senza requisiti = sempre valido
+						hit_object_type[1] = 1  # Target intermedio valido
 				
 			elif ray.get_collider().is_in_group(Constants.WALLS_GROUP):
 				hit_object_type[0] = 1  # Muro
