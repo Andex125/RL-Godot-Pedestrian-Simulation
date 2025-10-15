@@ -22,7 +22,7 @@ const TICKS_BETWEEN_LOG: int = 2
 const FINAL_TARGET_REW: float = 8.0
 const FINAL_TARGET_WITHOUT_OBJECTIVES_REW: float = -4.0
 
-const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 1.0
+const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 0.5
 const INTERMEDIATE_TARGET_ALREADY_REACHED_REW: float = 0.0
 
 # Target intermediate rewards
@@ -40,7 +40,7 @@ const TIMESTEP_REW: float = -0.0001
 const END_OF_TIMESTEPS_REW: float = -6.0
 
 # Numero massimo di obiettivi supportato in qualsiasi livello
-const MAX_OBJECTIVES_IN_CURRICULUM: int = 10
+const MAX_OBJECTIVES_IN_CURRICULUM: int = 8
 
 # AI Controller
 const TICKS_PER_STEP: int = 20
@@ -54,7 +54,7 @@ const INITIAL_RAY_POS: float = 0.0
 const RAYS_GRAY_COLOR: String = "#787c82"
 # For better performance set SHOW_RAYS to remove the computation necessary to 
 # draw the rays lines
-const SHOW_RAYS: bool = true
+const SHOW_RAYS: bool = false
 
 # Groups
 const TARGETS_GROUP: String = "TARGET"

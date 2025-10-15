@@ -17,7 +17,7 @@ size = Vector3(6, 1, 7)
 
 [node name="StartObjectiveRandom2" type="Node3D"]
 script = ExtResource("1_kntoy")
-max_steps = 100
+max_steps = 130
 
 [node name="Room" parent="." instance=ExtResource("2_gwk5v")]
 

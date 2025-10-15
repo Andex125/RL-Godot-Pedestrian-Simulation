@@ -13,6 +13,7 @@
 
 [node name="Start" type="Node3D"]
 script = ExtResource("1_0b2pp")
+max_steps = 400
 
 [node name="Room" parent="." instance=ExtResource("4_782cb")]
 

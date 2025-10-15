@@ -35,7 +35,7 @@ size = Vector3(4, 0, 4)
 
 [node name="Observe" type="Node3D"]
 script = ExtResource("1_r36qn")
-max_steps = 30
+max_steps = 70
 can_move = false
 
 [node name="Room" parent="." instance=ExtResource("1_ov2rc")]
@@ -80,7 +80,6 @@ script = ExtResource("4_624ba")
 
 [node name="FinalTarget" parent="RandomTarget" instance=ExtResource("5_pcis2")]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -3, 0, 5)
-collision_mask = 20
 
 [node name="Area1" type="Area3D" parent="RandomTarget"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -7)

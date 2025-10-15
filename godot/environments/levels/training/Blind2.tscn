@@ -1,0 +1,102 @@
+[gd_scene load_steps=13 format=3 uid="uid://2nqgfk5ohp8a"]
+
+[ext_resource type="Script" path="res://environments/scripts/level.gd" id="1_u8s1t"]
+[ext_resource type="PackedScene" uid="uid://dpy68brsjfakd" path="res://objects/other/room20.tscn" id="2_ixdpm"]
+[ext_resource type="PackedScene" uid="uid://o6t0iemlmcj5" path="res://objects/targets/target_4.5x0.3.tscn" id="3_dyeps"]
+[ext_resource type="PackedScene" uid="uid://cuk1dy2pu7ws0" path="res://objects/walls/wall6_05.tscn" id="4_k6wic"]
+[ext_resource type="PackedScene" uid="uid://drs1hl5ogwwny" path="res://objects/walls/wall4_05.tscn" id="5_hkuuv"]
+[ext_resource type="PackedScene" uid="uid://bjcemydbx83lh" path="res://objects/targets/objective/objective_3x3.tscn" id="6_1xqsm"]
+[ext_resource type="PackedScene" uid="uid://cn8xu77glysrd" path="res://objects/walls/wall2_05.tscn" id="7_yvpyl"]
+[ext_resource type="Script" path="res://environments/scripts/pedestrian_controller.gd" id="8_furha"]
+[ext_resource type="PackedScene" uid="uid://eer5gcm7ehuc" path="res://objects/pedestrian/Pedestrian.tscn" id="9_yh87t"]
+[ext_resource type="PackedScene" uid="uid://f0qwfq835sfr" path="res://objects/targets/final_target_3x3.tscn" id="10_faj6e"]
+[ext_resource type="PackedScene" uid="uid://cdsfgd324gdrk" path="res://objects/other/reward.tscn" id="11_qm5w5"]
+[ext_resource type="PackedScene" uid="uid://ck4lwabd57rts" path="res://objects/walls/wall3_05.tscn" id="12_7ep2e"]
+
+[node name="Start" type="Node3D"]
+script = ExtResource("1_u8s1t")
+max_steps = 300
+
+[node name="Room" parent="." instance=ExtResource("2_ixdpm")]
+
+[node name="ObliqueTarget" parent="Room" instance=ExtResource("3_dyeps")]
+transform = Transform3D(-1, -2.55972e-06, 8.74228e-08, -2.55972e-06, 1, 1.06027e-06, -8.74228e-08, 1.06027e-06, -1, 8, 0, 3.59261)
+
+[node name="ObliqueTarget5" parent="Room" instance=ExtResource("3_dyeps")]
+transform = Transform3D(-1, -2.55972e-06, 8.74228e-08, -2.55972e-06, 1, 1.06027e-06, -8.74228e-08, 1.06027e-06, -1, 8, 0, -2.40739)
+
+[node name="ObliqueTarget2" parent="Room" instance=ExtResource("3_dyeps")]
+transform = Transform3D(1, 2.55972e-06, 0, -2.55972e-06, 1, 1.06027e-06, 0, -1.06027e-06, 1, -8, 0, 3.54849)
+required_objectives = Array[int]([0])
+
+[node name="ObliqueTarget6" parent="Room" instance=ExtResource("3_dyeps")]
+transform = Transform3D(1, 2.55972e-06, 0, -2.55972e-06, 1, 1.06027e-06, 0, -1.06027e-06, 1, -8, 0, -2.45151)
+required_objectives = Array[int]([0])
+
+[node name="ObliqueTarget3" parent="Room" instance=ExtResource("3_dyeps")]
+transform = Transform3D(-4.37114e-08, 1.06027e-06, -1, -2.55972e-06, 1, 1.06027e-06, 1, 2.55972e-06, -4.37114e-08, -5.92467, 0, -7.91638)
+required_objectives = Array[int]([0])
+
+[node name="ObliqueTarget4" parent="Room" instance=ExtResource("3_dyeps")]
+transform = Transform3D(-4.37114e-08, 1.06027e-06, -1, -2.55972e-06, 1, 1.06027e-06, 1, 2.55972e-06, -4.37114e-08, 5.86441, 0, -7.91638)
+
+[node name="Wall3" parent="." instance=ExtResource("4_k6wic")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6, 0, 2.073)
+
+[node name="Wall5" parent="." instance=ExtResource("4_k6wic")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6, 0, -1.927)
+
+[node name="Wall" parent="." instance=ExtResource("4_k6wic")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6, 0, 7.57392)
+
+[node name="Wall8" parent="." instance=ExtResource("4_k6wic")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6, 0, 2.07)
+
+[node name="Wall13" parent="." instance=ExtResource("4_k6wic")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6, 0, -1.93)
+
+[node name="Wall9" parent="." instance=ExtResource("4_k6wic")]
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, 0, 0, 0.420156)
+
+[node name="Wall10" parent="." instance=ExtResource("4_k6wic")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6, 0, 7.575)
+
+[node name="Wall11" parent="." instance=ExtResource("5_hkuuv")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.75723, 0, -4.04233)
+
+[node name="Wall14" parent="." instance=ExtResource("5_hkuuv")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.75723, 0, -1.43073)
+
+[node name="Wall12" parent="." instance=ExtResource("5_hkuuv")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.74727, 0, -4.04233)
+
+[node name="Wall15" parent="." instance=ExtResource("5_hkuuv")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.74727, 0, -1.44287)
+
+[node name="objective3" parent="." instance=ExtResource("6_1xqsm")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.045, 0, -1.49)
+
+[node name="Wall18" parent="." instance=ExtResource("7_yvpyl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -5.04993)
+
+[node name="Wall19" parent="." instance=ExtResource("7_yvpyl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -5.04993)
+
+[node name="PedestrianController" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.16946, 0, 0)
+script = ExtResource("8_furha")
+
+[node name="Pedestrian" parent="PedestrianController" instance=ExtResource("9_yh87t")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.09175, 0, 8.53513)
+
+[node name="FinalTarget" parent="." instance=ExtResource("10_faj6e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.05094, 0, 7.99571)
+
+[node name="Reward" parent="." instance=ExtResource("11_qm5w5")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -9.9947, 5, -10.5945)
+
+[node name="Wall2" parent="." instance=ExtResource("12_7ep2e")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.48135, 0, -5.79553)
+
+[node name="Wall4" parent="." instance=ExtResource("12_7ep2e")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.43924, 0, -5.79553)

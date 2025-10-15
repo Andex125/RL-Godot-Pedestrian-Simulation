@@ -7,25 +7,17 @@ Curriculum:
     mean_reward: 3.0
     episode_mean: 36
     cycles: 5
-  Observe:
-    mean_reward: -24.0
-    episode_mean: 30
-    cycles: 5
-  StartCorridor:
-    mean_reward: 4.5
-    episode_mean: 36
-    cycles: 15
   StartIntermediateTarget:
-    mean_reward: 9.5
+    mean_reward: 8.9
     episode_mean: 36
     cycles: 10
   Turns:
-    mean_reward: 23.0
+    mean_reward: 12.0
     episode_mean: 36
     cycles: 10
   CorridorObjective:
     mean_reward: 8.0
-    episode_mean: 35
+    episode_mean: 36
     cycles: 20
   StartObjectiveRandom:
     mean_reward: 8.0
@@ -33,45 +25,49 @@ Curriculum:
     cycles: 20
   StartObjectiveRandom2:
     mean_reward: 8.5
-    episode_mean: 70
+    episode_mean: 80
     cycles: 20
-  NarrowDoor:
-    mean_reward: 5.0
-    episode_mean: 36
-    cycles: 15
   TakeObjectiveAndPass2:
     mean_reward: 5.0
     episode_mean: 36
     cycles: 15
   CorridorObjtFacile:
-    mean_reward: 8.5
-    episode_mean: 90
+    mean_reward: 8.7
+    episode_mean: 100
     cycles: 17
   CorridorObjtMedio:
     mean_reward: 8.7
-    episode_mean: 80
+    episode_mean: 100
     cycles: 17
   CorridorObjt:
     mean_reward: 8.7
-    episode_mean: 50
+    episode_mean: 100
     cycles: 25
   Horseshoe:
-    mean_reward: 7.0
+    mean_reward: 12.0
+    episode_mean: 100
+    cycles: 20
+  Blind1:
+    mean_reward: 9.0
+    episode_mean: 100
+    cycles: 20
+  Blind2:
+    mean_reward: 9.0
     episode_mean: 100
     cycles: 20
   Labyrinth:
-    mean_reward: 10.0
-    episode_mean: 150
+    mean_reward: 11.5
+    episode_mean: 100
     cycles: 20
   Labyrinth2:
-    mean_reward: 12.0
-    episode_mean: 150
+    mean_reward: 11.0
+    episode_mean: 100
     cycles: 20
   Labyrinth3:
     mean_reward: 11.0
-    episode_mean: 150
+    episode_mean: 100
     cycles: 20
   Final:
     mean_reward: 10.5
-    episode_mean: 150
+    episode_mean: 100
     cycles: 20

@@ -15,7 +15,7 @@
 
 [node name="Start" type="Node3D"]
 script = ExtResource("1_fbakv")
-max_steps = 100
+max_steps = 300
 
 [node name="Room" parent="." instance=ExtResource("4_lbv53")]
 

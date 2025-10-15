@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dkuy33ye7frsg"]
 
 [ext_resource type="Script" path="res://testing/level_testing_batch.gd" id="1_coqpi"]
-[ext_resource type="PackedScene" uid="uid://de2vt7g14vfv6" path="res://environments/levels/testing/test1.tscn" id="2_0602m"]
+[ext_resource type="PackedScene" uid="uid://mgcrfee7k54e" path="res://environments/levels/testing/test1.tscn" id="2_6vonr"]
 [ext_resource type="Script" path="res://utils/Sync.gd" id="3_rd4h0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yj8b3"]
@@ -17,7 +17,7 @@ sky = SubResource("Sky_cvcu2")
 
 [node name="Test1Batch" type="Node3D"]
 script = ExtResource("1_coqpi")
-level = ExtResource("2_0602m")
+level = ExtResource("2_6vonr")
 
 [node name="Sync" type="Node" parent="."]
 script = ExtResource("3_rd4h0")

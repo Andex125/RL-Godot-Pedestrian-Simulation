@@ -15,6 +15,7 @@
 
 [node name="Start" type="Node3D"]
 script = ExtResource("1_v302s")
+max_steps = 400
 
 [node name="PedestrianController" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)
