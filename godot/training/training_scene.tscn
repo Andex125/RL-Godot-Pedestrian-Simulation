@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d1b4il1g7l2u3"]
+[gd_scene load_steps=18 format=3 uid="uid://d1b4il1g7l2u3"]
 
 [ext_resource type="Script" path="res://training/training_scene.gd" id="1_cxbx3"]
 [ext_resource type="PackedScene" uid="uid://b5i18lyv0wpap" path="res://training/batch/StartEzBatch.tscn" id="2_70rpg"]
@@ -9,13 +9,16 @@
 [ext_resource type="PackedScene" uid="uid://cxrmse7eix3tc" path="res://training/batch/CorridorObjtFacileBatch.tscn" id="8_jcj6x"]
 [ext_resource type="PackedScene" uid="uid://b1v41yugbv4mi" path="res://training/batch/CorridorObjtMedioBatch.tscn" id="9_xyyrp"]
 [ext_resource type="PackedScene" uid="uid://o3uvtb4mlyxr" path="res://training/batch/CorridorObjtBatch.tscn" id="11_egr16"]
+[ext_resource type="PackedScene" uid="uid://bbetco15ruw37" path="res://training/batch/Blind1Batch.tscn" id="11_rbilc"]
+[ext_resource type="PackedScene" uid="uid://cmgvpdp1kpxyv" path="res://training/batch/Blind2Batch.tscn" id="12_ij5p4"]
 [ext_resource type="PackedScene" uid="uid://3tw08trik3u3" path="res://training/batch/HorseshoeBatch.tscn" id="12_lh3lw"]
 [ext_resource type="PackedScene" uid="uid://bksdelrhdswi2" path="res://training/batch/Labyrinth3Batch.tscn" id="13_e24kr"]
 [ext_resource type="PackedScene" uid="uid://kg7otqqubexg" path="res://training/batch/LabyrinthBatch.tscn" id="13_lslq0"]
 [ext_resource type="PackedScene" uid="uid://mgba531dapvw" path="res://training/batch/Labyrinth2Batch.tscn" id="14_rjowg"]
 [ext_resource type="PackedScene" uid="uid://bvisl3o762vnt" path="res://training/batch/FinalBatch.tscn" id="14_wxxj6"]
+[ext_resource type="PackedScene" uid="uid://t1qukupifuna" path="res://training/batch/Labyrinth4Batch.tscn" id="16_s321k"]
 
 [node name="TrainingScene" type="Node3D"]
 transform = Transform3D(0.999979, 0.00644022, 0, -0.00644022, 0.999979, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_cxbx3")
-levels_path = Array[PackedScene]([ExtResource("2_70rpg"), ExtResource("3_nyig3"), ExtResource("5_j8jcc"), ExtResource("6_0hpos"), ExtResource("7_qwkm6"), ExtResource("8_jcj6x"), ExtResource("9_xyyrp"), ExtResource("11_egr16"), ExtResource("12_lh3lw"), ExtResource("13_lslq0"), ExtResource("14_rjowg"), ExtResource("13_e24kr"), ExtResource("14_wxxj6")])
+levels_path = Array[PackedScene]([ExtResource("2_70rpg"), ExtResource("3_nyig3"), ExtResource("5_j8jcc"), ExtResource("6_0hpos"), ExtResource("7_qwkm6"), ExtResource("8_jcj6x"), ExtResource("9_xyyrp"), ExtResource("11_egr16"), ExtResource("12_lh3lw"), ExtResource("11_rbilc"), ExtResource("12_ij5p4"), ExtResource("13_lslq0"), ExtResource("16_s321k"), ExtResource("14_rjowg"), ExtResource("13_e24kr"), ExtResource("14_wxxj6")])

@@ -22,15 +22,15 @@ const TICKS_BETWEEN_LOG: int = 2
 const FINAL_TARGET_REW: float = 8.0
 const FINAL_TARGET_WITHOUT_OBJECTIVES_REW: float = -4.0
 
-const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 0.5
+const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 0.0
 const INTERMEDIATE_TARGET_ALREADY_REACHED_REW: float = 0.0
 
 # Target intermediate rewards
 const INTERMEDIATE_TARGET_BONUS_REW: float = 0.0
-const INTERMEDIATE_TARGET_MALUS_REW: float = -1.5
+const INTERMEDIATE_TARGET_MALUS_REW: float = -2.0
 
 const OBJECTIVE_COLLECTED_REW: float = 2.0
-const NO_ALL_OBJECTIVES_REW: float = -0.005
+const NO_ALL_OBJECTIVES_REW: float = -0.002
 
 const WALL_COLLISION_REW: float = -0.5
 const AGENT_COLLISION_SMALL_REW: float = -0.5
@@ -54,7 +54,7 @@ const INITIAL_RAY_POS: float = 0.0
 const RAYS_GRAY_COLOR: String = "#787c82"
 # For better performance set SHOW_RAYS to remove the computation necessary to 
 # draw the rays lines
-const SHOW_RAYS: bool = false
+const SHOW_RAYS: bool = true
 
 # Groups
 const TARGETS_GROUP: String = "TARGET"
@@ -64,7 +64,7 @@ const PEDESTRIAN_GROUP: String = "PEDESTRIAN"
 const OBJECTIVES_GROUP = "OBJECTIVES"   
 
 # Levels
-const DEFAULT_MAX_TIMESTEPS: int = 700
+const DEFAULT_MAX_TIMESTEPS: int = 300
 const TESTING_MAX_TIMESTEPS: int = 700
 
 # Random area 

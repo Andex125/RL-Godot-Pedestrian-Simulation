@@ -368,35 +368,82 @@ func calculate_walls_objectives() -> Array:
 	
 	
 func calculate_walls_targets() -> Array:
+	"""
+	Calcola osservazioni per raggi muri/target.
+	
+	Per ogni raggio ritorna 7 valori:
+	  [0]: distanza normalizzata [0,1]
+	  [1-5]: one-hot encoding tipo target
+	  [6]: direction_alignment [-1,+1] (NUOVO!)
+	  
+	One-hot encoding:
+	  [1,0,0,0,0]: muro
+	  [0,1,0,0,0]: target intermedio valido
+	  [0,0,1,0,0]: target intermedio non valido
+	  [0,0,0,1,0]: target finale valido
+	  [0,0,0,0,1]: target finale non valido
+	  
+	Direction alignment:
+	  +1.0: Guardo perfettamente il fronte del target
+	   0.0: Guardo il lato o è un muro
+	  -1.0: Guardo perfettamente il retro del target
+	"""
 	var hit_objects := []
 	
-	# Walls and targets observations
+	# Itera su tutti i raggi walls_targets
 	for ray in rays_walls_targets:
+		# 1. DISTANZA NORMALIZZATA
 		var norm_distance = _get_raycast_distance(ray)
 		hit_objects.append(norm_distance)
 		
-		# NUOVO: hit object type è ora una one-hot encoding a 5 valori (Formula 3.2)
-		# [1,0,0,0,0]: muro
-		# [0,1,0,0,0]: target intermedio valido (con obiettivi richiesti)
-		# [0,0,1,0,0]: target intermedio non valido (senza obiettivi)
-		# [0,0,0,1,0]: target finale valido (tutti obiettivi raccolti)
-		# [0,0,0,0,1]: target finale non valido (obiettivi mancanti)
+		# 2. ONE-HOT ENCODING (5 valori)
 		var hit_object_type := [0, 0, 0, 0, 0]
 		
+		# 3. DIRECTION ALIGNMENT (1 valore) - NUOVO!
+		var direction_alignment = 0.0
+		
+		# 4. ANALISI COLLISIONE
 		if ray.get_collider():
 			if ray.get_collider().is_in_group(Constants.TARGETS_GROUP):
-				# NUOVO: Salva quale lato del target sta vedendo
+				# ============================================
+				# NUOVO: CALCOLA DIRECTION ALIGNMENT
+				# ============================================
 				if ray.is_colliding() and ray.get_collider().has_method("get_side_from_normal"):
+					# Ottieni la normale di collisione
 					var collision_normal = ray.get_collision_normal()
-					var side = ray.get_collider().get_side_from_normal(collision_normal)
+					
+					# Ottieni la direzione forward del target in coordinate globali
+					var target_forward = ray.get_collider().transform.basis * ray.get_collider().forward_direction.normalized()
+					
+					# La normale del ray punta VERSO il pedone (opposta alla direzione del raggio)
+					# Quindi invertiamo per ottenere la direzione di osservazione
+					var ray_direction = -collision_normal.normalized()
+					
+					# Calcola il dot product: 
+					# +1 = guardo esattamente il fronte
+					#  0 = guardo il lato (perpendicolare)
+					# -1 = guardo esattamente il retro
+					direction_alignment = ray_direction.dot(target_forward)
+					
+					# Determina il lato categorico per le reward
+					var side = "unknown"
+					if direction_alignment > 0.5:
+						side = "front"
+					elif direction_alignment < -0.5:
+						side = "back"
+					else:
+						side = "side"
+					
+					# Memorizza per le reward (questo metodo già esiste)
 					_store_target_view_side(ray.get_collider(), side)
 				
-				# Determina se è un target finale o intermedio
+				# ============================================
+				# DETERMINA TIPO TARGET (codice esistente)
+				# ============================================
 				var is_final_target = ray.get_collider().name.begins_with("FinalTarget")
 				
 				if is_final_target:
 					# TARGET FINALE
-					# Verifica se ha raccolto tutti gli obiettivi del livello
 					var all_objectives_collected = (pedestrian.objectives_collected >= pedestrian.level_objectives_count)
 					
 					if all_objectives_collected:
@@ -405,14 +452,12 @@ func calculate_walls_targets() -> Array:
 						hit_object_type[4] = 1  # Target finale non valido
 				else:
 					# TARGET INTERMEDIO
-					# Verifica se il target ha requisiti di obiettivi
 					var has_requirements = (
 						ray.get_collider().has_method("check_required_objectives") and
 						ray.get_collider().has_method("get_reward_for_objectives")
 					)
 					
 					if has_requirements:
-						# Verifica se ha raccolto gli obiettivi richiesti da QUESTO target
 						var requirements_met = ray.get_collider().check_required_objectives(pedestrian.collected_objective_ids)
 						
 						if requirements_met:
@@ -420,13 +465,17 @@ func calculate_walls_targets() -> Array:
 						else:
 							hit_object_type[2] = 1  # Target intermedio non valido
 					else:
-						# Target senza requisiti = sempre valido
-						hit_object_type[1] = 1  # Target intermedio valido
+						# Nessun requisito = sempre valido
+						hit_object_type[1] = 1
 				
 			elif ray.get_collider().is_in_group(Constants.WALLS_GROUP):
-				hit_object_type[0] = 1  # Muro
+				# MURO
+				hit_object_type[0] = 1
+				direction_alignment = 0.0  # Neutro per i muri
 
-		hit_objects.append_array(hit_object_type)
+		# 5. AGGIUNGI AI RISULTATI
+		hit_objects.append_array(hit_object_type)      # 5 valori
+		hit_objects.append(direction_alignment)         # 1 valore (NUOVO!)
 		
 	return hit_objects
 
@@ -511,54 +560,54 @@ func _get_raycast_distance(ray: RayCast3D) -> float:
 	
 ## Determina il colore del raggio in base al reward previsto
 func _get_target_ray_color(target: Area3D, ray: RayCast3D) -> Color:
-	# Colori di default
-	var COLOR_POSITIVE_REWARD = Color("#00FF00")  # Verde brillante per reward positivo
-	var COLOR_NEGATIVE_REWARD = Color("#FF0000")  # Rosso per reward negativo
-	var COLOR_NEUTRAL = Color("#FFFF00")          # Giallo per target senza requisiti
-	var COLOR_FINAL = Color("#43A047")            # Verde scuro per FinalTarget
+	"""
+	Determina il colore del raggio in base al reward previsto.
+	Usa il direction_alignment per determinare fronte/retro.
+	"""
+	var COLOR_POSITIVE_REWARD = Color("#00FF00")  # Verde
+	var COLOR_NEGATIVE_REWARD = Color("#FF0000")  # Rosso
+	var COLOR_NEUTRAL = Color("#FFFF00")          # Giallo
+	var COLOR_FINAL = Color("#43A047")            # Verde scuro
 	
-	# Se è il FinalTarget, colora sempre di verde scuro
+	# FinalTarget sempre verde scuro
 	if target.name.begins_with("FinalTarget"):
 		return COLOR_FINAL
 	
-	# Verifica se il target ha requisiti di obiettivi
+	# Verifica requisiti
 	if not target.has_method("check_required_objectives"):
-		return COLOR_NEUTRAL  # Target senza requisiti
+		return COLOR_NEUTRAL
 	
 	if not target.has_method("get_side_from_normal"):
-		return COLOR_NEUTRAL  # Target senza rilevamento lato
+		return COLOR_NEUTRAL
 	
-	# Ottieni la normale di collisione per determinare il lato
 	if not ray.is_colliding():
 		return COLOR_NEUTRAL
 	
+	# NUOVO: Usa direction_alignment calcolato
 	var collision_normal = ray.get_collision_normal()
-	var viewed_side = target.get_side_from_normal(collision_normal)
+	var target_forward = target.transform.basis * target.forward_direction.normalized()
+	var ray_direction = -collision_normal.normalized()
+	var direction_alignment = ray_direction.dot(target_forward)
 	
-	# Verifica se ha raccolto tutti gli obiettivi richiesti
+	# Determina il lato
+	var viewed_side = "side"
+	if direction_alignment > 0.5:
+		viewed_side = "front"
+	elif direction_alignment < -0.5:
+		viewed_side = "back"
+	
+	# Verifica obiettivi
 	var all_objectives_collected = target.check_required_objectives(pedestrian.collected_objective_ids)
 	
-	# Calcola il reward previsto basato su lato + obiettivi
+	# Calcola reward prevista
 	var predicted_reward = 0.0
 	
 	if viewed_side == "front":
-		# FRONTE
-		if all_objectives_collected:
-			predicted_reward = 1.0  # Completati + front = +1
-		else:
-			predicted_reward = -1.0  # Mancanti + front = -1
+		predicted_reward = 0.0 if all_objectives_collected else -1.5
 	elif viewed_side == "back":
-		# RETRO
-		if all_objectives_collected:
-			predicted_reward = -1.0  # Completati + back = -1
-		else:
-			predicted_reward = 1.0  # Mancanti + back = +1
+		predicted_reward = -1.5 if all_objectives_collected else 0.0
 	else:
-		# LATO o SCONOSCIUTO
-		return COLOR_NEUTRAL
+		return COLOR_NEUTRAL  # Lato
 	
-	# Ritorna il colore appropriato
-	if predicted_reward > 0:
-		return COLOR_POSITIVE_REWARD  # Verde
-	else:
-		return COLOR_NEGATIVE_REWARD  # Rosso
+	# Ritorna colore
+	return COLOR_POSITIVE_REWARD if predicted_reward >= 0 else COLOR_NEGATIVE_REWARD

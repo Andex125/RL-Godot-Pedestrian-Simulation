@@ -22,7 +22,7 @@ func _physics_process(_delta):
 		n_steps += 1
 		
 		# ========== DEBUG LOGGING  ==========
-		if n_steps % 100 == 0:
+		if n_steps % 10 == 0:
 			print("[%s] Step %d/%d | Finished: %s | Disable: %s | FinalTarget: %s" % 
 				[_player.name, n_steps, reset_after, _player.finished, 
 				 _player.disable, _player.final_target_reached])
@@ -59,6 +59,20 @@ func set_reset_after(steps: int):
 
 ## Returns dictionary containing the observations made
 func get_obs() -> Dictionary:
+	"""
+	Ritorna le osservazioni per la rete neurale.
+	
+	Struttura osservazioni (359 valori totali):
+	  - 2 valori: obiettivi raccolti/rimanenti (normalizzati)
+	  - 1 valore: velocità corrente (normalizzata)
+	  - 161 valori: raggi muri+target (23 × 7)
+		  • distanza [0,1]
+		  • tipo one-hot [5 valori]
+		  • direction_alignment [-1,+1]  ← NUOVO!
+	  - 92 valori: raggi muri+agenti (23 × 4)
+	  - 92 valori: raggi muri+obiettivi (23 × 4)
+	  - 11 valori: vettore stato obiettivi
+	"""
 	var obs := []
 	
 	if _player.disable == true:

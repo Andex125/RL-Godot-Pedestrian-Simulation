@@ -7,4 +7,4 @@
 [node name="TestingScene" type="Node3D"]
 script = ExtResource("1_phwvg")
 onnx_model_path = "C:\\Users\\asder\\OneDrive\\Desktop\\stage\\RL-Godot-Pedestrian-Simulation\\output\\runs\\stage\\p1\\model\\model.onnx"
-levels_path = Array[PackedScene]([ExtResource("2_kcxm5"), ExtResource("3_llgp2")])
+levels_path = Array[PackedScene]([ExtResource("3_llgp2"), ExtResource("2_kcxm5")])

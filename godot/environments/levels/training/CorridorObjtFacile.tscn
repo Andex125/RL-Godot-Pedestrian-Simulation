@@ -59,31 +59,31 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -9.994
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.01064, 0, -0.0303874)
 
 [node name="Wall" parent="." instance=ExtResource("11_k38g0")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, 0, -8)
-
-[node name="Wall2" parent="." instance=ExtResource("11_k38g0")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, 0, 8)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.03873, 0, -8.74866)
 
 [node name="Wall4" parent="." instance=ExtResource("12_kkxgn")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4, 0, -5)
 
-[node name="Wall5" parent="." instance=ExtResource("12_kkxgn")]
-transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 4, 0, 5)
-
 [node name="Wall6" parent="." instance=ExtResource("2_a7mlu")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5.80638, 0, 0.0182324)
-
-[node name="Wall7" parent="." instance=ExtResource("11_k38g0")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.79574, 0, 7.98785)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -6.28766, 0, 0.0182324)
 
 [node name="Wall8" parent="." instance=ExtResource("11_k38g0")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.79574, 0, -8.01216)
-
-[node name="Wall9" parent="." instance=ExtResource("12_kkxgn")]
-transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -3.79574, 0, 4.98785)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.02377, 0, -8.7831)
 
 [node name="Wall10" parent="." instance=ExtResource("12_kkxgn")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -3.79574, 0, -5.01215)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4.02371, 0, -5.01215)
+
+[node name="Wall2" parent="." instance=ExtResource("11_k38g0")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -2.0431, 0, 8.9767)
+
+[node name="Wall5" parent="." instance=ExtResource("12_kkxgn")]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -4.00438, 0, 5.22804)
+
+[node name="Wall9" parent="." instance=ExtResource("11_k38g0")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.01939, 0, 9.01115)
+
+[node name="Wall11" parent="." instance=ExtResource("12_kkxgn")]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 4.01934, 0, 5.24019)
 
 [node name="Random" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.20751)
@@ -102,7 +102,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
 collision_layer = 2
 
 [node name="CollisionShape2" type="CollisionShape3D" parent="Random/Area2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.26867, 0, -1.22033)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.795945, 0, -1.22033)
 shape = SubResource("BoxShape3D_6byv3")
 
 [node name="objective" parent="Random" instance=ExtResource("5_cjiwb")]

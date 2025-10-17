@@ -255,7 +255,7 @@ func compute_rewards() -> void:
 		# ===== PENALTY PER VICINANZA AI MURI =====
 		var wall_near = false
 		# Controlla tutti i raggi per rilevamento muri
-		for i in range(0, Constants.WALL_COLLISION_RAYS * 4, 4):
+		for i in range(0, Constants.WALL_COLLISION_RAYS * 7, 7):
 			# Se un muro è rilevato e troppo vicino
 			if walls_and_targets[i+1] == 1 and walls_and_targets[i] < Constants.WALL_COLLISION_DISTANCE / Constants.RAY_LENGTH_OBS:
 				wall_near = true

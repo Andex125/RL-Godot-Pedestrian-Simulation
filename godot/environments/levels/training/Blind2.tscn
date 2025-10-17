@@ -20,25 +20,25 @@ max_steps = 300
 [node name="Room" parent="." instance=ExtResource("2_ixdpm")]
 
 [node name="ObliqueTarget" parent="Room" instance=ExtResource("3_dyeps")]
-transform = Transform3D(-1, -2.55972e-06, 8.74228e-08, -2.55972e-06, 1, 1.06027e-06, -8.74228e-08, 1.06027e-06, -1, 8, 0, 3.59261)
+transform = Transform3D(1, 2.55972e-06, -2.13163e-14, -2.55972e-06, 1, 8.30025e-06, 1.85523e-11, -8.30025e-06, 1, 8, 0, 3.59261)
+required_objectives = Array[int]([0])
 
 [node name="ObliqueTarget5" parent="Room" instance=ExtResource("3_dyeps")]
-transform = Transform3D(-1, -2.55972e-06, 8.74228e-08, -2.55972e-06, 1, 1.06027e-06, -8.74228e-08, 1.06027e-06, -1, 8, 0, -2.40739)
+transform = Transform3D(1, 2.55972e-06, -2.84217e-14, -2.55972e-06, 1, 1.06027e-06, 2.84217e-14, -1.06027e-06, 1, 8, 0, -2.40739)
+required_objectives = Array[int]([0])
 
 [node name="ObliqueTarget2" parent="Room" instance=ExtResource("3_dyeps")]
-transform = Transform3D(1, 2.55972e-06, 0, -2.55972e-06, 1, 1.06027e-06, 0, -1.06027e-06, 1, -8, 0, 3.54849)
-required_objectives = Array[int]([0])
+transform = Transform3D(-1, -2.55972e-06, -8.74228e-08, -2.55972e-06, 1, 1.06027e-06, 8.74228e-08, 1.06027e-06, -1, -8, 0, 3.54849)
 
 [node name="ObliqueTarget6" parent="Room" instance=ExtResource("3_dyeps")]
-transform = Transform3D(1, 2.55972e-06, 0, -2.55972e-06, 1, 1.06027e-06, 0, -1.06027e-06, 1, -8, 0, -2.45151)
-required_objectives = Array[int]([0])
+transform = Transform3D(-1, -2.55972e-06, 8.74228e-08, -2.55972e-06, 1, 1.06027e-06, -8.74228e-08, 1.06027e-06, -1, -8, 0, -2.45151)
 
 [node name="ObliqueTarget3" parent="Room" instance=ExtResource("3_dyeps")]
-transform = Transform3D(-4.37114e-08, 1.06027e-06, -1, -2.55972e-06, 1, 1.06027e-06, 1, 2.55972e-06, -4.37114e-08, -5.92467, 0, -7.91638)
-required_objectives = Array[int]([0])
+transform = Transform3D(-4.37114e-08, -1.06027e-06, 1, -2.55972e-06, 1, 1.06027e-06, -1, -2.55972e-06, -4.37114e-08, -5.92467, 0, -7.91638)
 
 [node name="ObliqueTarget4" parent="Room" instance=ExtResource("3_dyeps")]
-transform = Transform3D(-4.37114e-08, 1.06027e-06, -1, -2.55972e-06, 1, 1.06027e-06, 1, 2.55972e-06, -4.37114e-08, 5.86441, 0, -7.91638)
+transform = Transform3D(-4.37114e-08, -1.06027e-06, 1, -2.55972e-06, 1, 1.06027e-06, -1, -2.55972e-06, -4.37114e-08, 5.86441, 0, -7.91638)
+required_objectives = Array[int]([0])
 
 [node name="Wall3" parent="." instance=ExtResource("4_k6wic")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6, 0, 2.073)
@@ -82,16 +82,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -5.04993)
 [node name="Wall19" parent="." instance=ExtResource("7_yvpyl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -5.04993)
 
-[node name="PedestrianController" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.16946, 0, 0)
-script = ExtResource("8_furha")
-
-[node name="Pedestrian" parent="PedestrianController" instance=ExtResource("9_yh87t")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.09175, 0, 8.53513)
-
-[node name="FinalTarget" parent="." instance=ExtResource("10_faj6e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.05094, 0, 7.99571)
-
 [node name="Reward" parent="." instance=ExtResource("11_qm5w5")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -9.9947, 5, -10.5945)
 
@@ -100,3 +90,12 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.4813
 
 [node name="Wall4" parent="." instance=ExtResource("12_7ep2e")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.43924, 0, -5.79553)
+
+[node name="FinalTarget" parent="." instance=ExtResource("10_faj6e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 7.99571)
+
+[node name="PedestrianController" type="Node3D" parent="."]
+script = ExtResource("8_furha")
+
+[node name="Pedestrian" parent="PedestrianController" instance=ExtResource("9_yh87t")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7.93866, 0, 8.53513)

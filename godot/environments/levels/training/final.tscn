@@ -16,7 +16,6 @@
 
 [node name="Start" type="Node3D"]
 script = ExtResource("1_nslhp")
-max_steps = 500
 
 [node name="PedestrianController" type="Node3D" parent="."]
 script = ExtResource("2_vt037")
