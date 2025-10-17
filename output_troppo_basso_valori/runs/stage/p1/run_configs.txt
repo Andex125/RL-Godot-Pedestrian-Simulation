@@ -1,0 +1,3 @@
+Curriculum settings: scripts/configs/curriculumObjective/curriculum_lab2.yaml
+Model settings: scripts/configs/sensitivity_studies/net_256_128_64.yaml
+Device: cpu
