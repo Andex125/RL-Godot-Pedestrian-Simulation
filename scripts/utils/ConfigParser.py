@@ -47,7 +47,7 @@ class ConfigParser:
 
     def validate_level(self, level_name: str, details: dict) -> bool:
         """
-        Validates mean_reward, episode_mean and cycles for a given level.
+        Validates mean_reward, episode_mean, cycles, and optional mean_var for a given level.
         If the level is valid, it will be added to the collection of levels self.levels
         :param level_name: Name of the level to validate. It corresponds to the key in the configuration dict
         :param details: Dictionary containing the needed values. It corresponds to the key in the configuration dict
@@ -55,9 +55,10 @@ class ConfigParser:
         """
         # Validate mean_reward
         mean_reward = details.get('mean_reward')
-        if not isinstance(mean_reward, float):
-            print(f"Error: mean_reward for {level_name} is not a float.")
+        if not isinstance(mean_reward, (int, float)):
+            print(f"Error: mean_reward for {level_name} is not a valid number.")
             return False
+        mean_reward = float(mean_reward)
 
         # Validate episode_mean
         episode_mean = details.get('episode_mean')
@@ -67,11 +68,19 @@ class ConfigParser:
 
         # Validate cycles
         cycles = details.get('cycles')
-        if (not isinstance(episode_mean, int)) or cycles <= 0:
+        if (not isinstance(cycles, int)) or cycles <= 0:
             print(f"Error: cycles for {level_name} is not valid")
             return False
 
-        self.levels.append(Level(level_name, mean_reward, episode_mean, cycles))
+        # Validate optional mean_var
+        mean_var = details.get('mean_var')
+        if mean_var is not None:
+            if not isinstance(mean_var, (int, float)) or mean_var < 0:
+                print(f"Error: mean_var for {level_name} is not a valid non-negative number.")
+                return False
+            mean_var = float(mean_var)
+
+        self.levels.append(Level(level_name, mean_reward, episode_mean, cycles, mean_var))
         return True
 
     def get_levels(self) -> Collection[Level]:

@@ -184,7 +184,8 @@ class Runner:
             monitor_logs_path,
             level.mean_reward,
             level.episodes_for_mean,
-            level.cycles
+            level.cycles,
+            max_var=level.mean_var,
         )
 
         self.log_env_change(level.name, level.mean_reward, "train")

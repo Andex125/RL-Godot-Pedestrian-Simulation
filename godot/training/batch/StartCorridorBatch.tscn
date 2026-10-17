@@ -4,8 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://b8geyovhk1ni8" path="res://environments/levels/training/StartCorridor.tscn" id="2_wdep8"]
 [ext_resource type="Script" path="res://utils/Sync.gd" id="3_qq6pc"]
 
-
-
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pi81p"]
 ground_bottom_color = Color(0.277634, 0.237635, 0.191207, 1)
 
