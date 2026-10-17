@@ -22,7 +22,7 @@ const TICKS_BETWEEN_LOG: int = 2
 const FINAL_TARGET_REW: float = 8.0
 const FINAL_TARGET_WITHOUT_OBJECTIVES_REW: float = -4.0
 
-const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 0.2
+const INTERMEDIATE_TARGET_FIRST_TIME_REW: float = 0.0
 const INTERMEDIATE_TARGET_ALREADY_REACHED_REW: float = 0.0
 
 # Target intermediate rewards
