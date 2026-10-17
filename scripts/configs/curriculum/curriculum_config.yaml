@@ -26,7 +26,7 @@ Curriculum:
     cycles: 10
   Turns:
     mean_reward: 4.5
-    mean_var: 4.5
+    mean_var: 3.0
     episode_mean: 36
     cycles: 10
   TurnObstacles:

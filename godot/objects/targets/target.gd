@@ -7,6 +7,8 @@ signal custom_body_entered(area: Area3D, body: Node3D)
 @export var check_objectives: bool = true  # Se false, ignora il controllo obiettivi
 
 @export_category("Target Orientation")
+## ON: rileva fronte/retro per la reward. OFF: rotazione indifferente (qualsiasi direzione di attraversamento è valida).
+@export var check_orientation: bool = true
 @export var forward_direction: Vector3 = Vector3(0, 0, 1)  # Direzione "fronte" del target (locale)
 
 func _ready():
@@ -66,6 +68,8 @@ func get_target_forward_global() -> Vector3:
 
 # Determina il lato in base al vettore movimento (velocità) del pedone
 func get_side_from_vector(dir: Vector3) -> String:
+	if not check_orientation:
+		return "indifferent"
 	if dir.length_squared() < 0.0001:
 		return "side"
 	var forward_global = get_target_forward_global()
@@ -82,6 +86,8 @@ func get_side_from_ray(ray_global_dir: Vector3) -> String:
 
 # Metodo di compatibilità: determina lato da normale di collisione
 func get_side_from_normal(collision_normal: Vector3) -> String:
+	if not check_orientation:
+		return "indifferent"
 	if collision_normal.length_squared() < 0.0001:
 		return "side"
 	var forward_global = get_target_forward_global()
@@ -94,6 +100,8 @@ func get_side_from_normal(collision_normal: Vector3) -> String:
 
 # Controllo booleano rapido
 func is_looking_at_front(dir: Vector3) -> bool:
+	if not check_orientation:
+		return true
 	return get_side_from_vector(dir) == "front"
 
 

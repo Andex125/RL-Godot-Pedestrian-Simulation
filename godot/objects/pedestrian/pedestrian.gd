@@ -226,21 +226,30 @@ func compute_rewards() -> void:
 			# Reward in base a obiettivi + lato
 			if has_objective_requirements:
 				var objective_reward = 0.0
+				var orientation_enabled = true
+				if "check_orientation" in last_target_reached:
+					orientation_enabled = last_target_reached.check_orientation
 				
-				if viewed_side == "front":
+				if not orientation_enabled or viewed_side == "indifferent":
+					# ROTAZIONE INDIFFERENTE (OFF): nessun vincolo fronte/retro
+					if not last_target_reached.check_objectives or last_target_reached.required_objectives.is_empty():
+						objective_reward = 0.0
+					elif all_objectives_collected:
+						objective_reward = Constants.INTERMEDIATE_TARGET_BONUS_REW
+					else:
+						objective_reward = Constants.INTERMEDIATE_TARGET_MALUS_REW
+				elif viewed_side == "front":
 					# FRONTE: verso l'uscita
 					if all_objectives_collected:
 						objective_reward = Constants.INTERMEDIATE_TARGET_BONUS_REW
 					else:
 						objective_reward = Constants.INTERMEDIATE_TARGET_MALUS_REW
-				
 				elif viewed_side == "back":
 					# RETRO: ritorno verso gli obiettivi
 					if all_objectives_collected:
 						objective_reward = Constants.INTERMEDIATE_TARGET_MALUS_REW
 					else:
 						objective_reward = Constants.INTERMEDIATE_TARGET_BONUS_REW
-				
 				else:
 					objective_reward = 0.0
 				

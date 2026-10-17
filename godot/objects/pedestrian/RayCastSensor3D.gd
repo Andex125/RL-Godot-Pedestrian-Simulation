@@ -411,20 +411,24 @@ func calculate_walls_targets() -> Array:
 					ray_global_dir = (ray.global_transform.basis * ray.target_position).normalized()
 				
 				var target_forward: Vector3 = Vector3.FORWARD
-				if collider.has_method("get_target_forward_global"):
-					target_forward = collider.get_target_forward_global()
-				elif "forward_direction" in collider:
-					target_forward = (collider.global_transform.basis * collider.forward_direction).normalized()
+				if "check_orientation" in collider and not collider.check_orientation:
+					direction_alignment = 0.0
+					_store_target_view_side(collider, "indifferent")
 				else:
-					target_forward = -collider.global_transform.basis.z.normalized()
-				direction_alignment = clampf(ray_global_dir.dot(target_forward), -1.0, 1.0)
-				
-				var side = "side"
-				if direction_alignment > 0.2:
-					side = "front"
-				elif direction_alignment < -0.2:
-					side = "back"
-				_store_target_view_side(collider, side)
+					if collider.has_method("get_target_forward_global"):
+						target_forward = collider.get_target_forward_global()
+					elif "forward_direction" in collider:
+						target_forward = (collider.global_transform.basis * collider.forward_direction).normalized()
+					else:
+						target_forward = -collider.global_transform.basis.z.normalized()
+					direction_alignment = clampf(ray_global_dir.dot(target_forward), -1.0, 1.0)
+					
+					var side = "side"
+					if direction_alignment > 0.2:
+						side = "front"
+					elif direction_alignment < -0.2:
+						side = "back"
+					_store_target_view_side(collider, side)
 				
 				if is_final_target:
 					# TARGET FINALE
@@ -573,7 +577,12 @@ func _get_target_ray_color(target: Area3D, ray: RayCast3D) -> Color:
 	# Calcola reward prevista
 	var predicted_reward = 0.0
 	
-	if viewed_side == "front":
+	if ("check_orientation" in target and not target.check_orientation) or viewed_side == "indifferent":
+		if not target.check_objectives or target.required_objectives.is_empty():
+			predicted_reward = 0.0
+		else:
+			predicted_reward = 0.0 if all_objectives_collected else -1.5
+	elif viewed_side == "front":
 		predicted_reward = 0.0 if all_objectives_collected else -1.5
 	elif viewed_side == "back":
 		predicted_reward = -1.5 if all_objectives_collected else 0.0

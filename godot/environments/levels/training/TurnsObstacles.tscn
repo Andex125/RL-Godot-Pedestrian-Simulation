@@ -23,89 +23,117 @@ max_steps = 400
 
 [node name="Target" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.51781, 0, 7.45689)
+check_orientation = false
 
 [node name="Target2" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.51781, 0, 3.27413)
+check_orientation = false
 
 [node name="Target3" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.51781, 0, -4.72587)
+check_orientation = false
 
 [node name="Target4" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.51781, 0, -9.1776)
+check_orientation = false
 
 [node name="Target5" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.51781, 0, -0.725865)
+check_orientation = false
 
 [node name="Target6" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.48219, 0, 7.42643)
+check_orientation = false
 
 [node name="Target7" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.48219, 0, 3.27413)
+check_orientation = false
 
 [node name="Target8" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.48219, 0, -4.72587)
+check_orientation = false
 
 [node name="Target9" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -1.48219, 0, -9.1776)
+check_orientation = false
 
 [node name="Target10" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.48219, 0, -0.725865)
+check_orientation = false
 
 [node name="Target11" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.51781, 0, 9)
+check_orientation = false
 
 [node name="Target12" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.51781, 0, 4.97936)
+check_orientation = false
 
 [node name="Target13" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.51781, 0, 0.806417)
+check_orientation = false
 
 [node name="Target14" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.51781, 0, -3.27514)
+check_orientation = false
 
 [node name="Target15" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.51781, 0, -7.30459)
+check_orientation = false
 
 [node name="Target16" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.48219, 0, 9)
+check_orientation = false
 
 [node name="Target17" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.48219, 0, 4.97936)
+check_orientation = false
 
 [node name="Target18" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -4.48219, 0, 0.806417)
+check_orientation = false
 
 [node name="Target19" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.48219, 0, -3.27514)
+check_orientation = false
 
 [node name="Target20" parent="AllTargets/Targets" instance=ExtResource("5_7kg38")]
 transform = Transform3D(-4.37114e-08, 3.82137e-15, -1, 8.74228e-08, 1, 8.47033e-22, 1, -8.74228e-08, -4.37114e-08, -4.48219, 0, -7.30459)
+check_orientation = false
 
 [node name="Oblique" type="Node3D" parent="AllTargets/Targets"]
 
 [node name="ObliqueTarget2" parent="AllTargets/Targets/Oblique" instance=ExtResource("5_cjwtp")]
 transform = Transform3D(-0.707066, 0, -0.842649, 0, 1.1, 0, 0.842649, 0, -0.707066, -8.5, -0.5, 8)
+check_orientation = false
 
 [node name="ObliqueTarget3" parent="AllTargets/Targets/Oblique" instance=ExtResource("5_cjwtp")]
 transform = Transform3D(-0.707066, 4.20351e-15, 0.842649, -7.36667e-08, 1.1, -6.18137e-08, -0.842649, -9.61651e-08, -0.707066, -8.5, -0.5, 4)
+check_orientation = false
 
 [node name="ObliqueTarget4" parent="AllTargets/Targets/Oblique" instance=ExtResource("5_cjwtp")]
 transform = Transform3D(-0.707066, 0, -0.842649, 0, 1.1, 0, 0.842649, 0, -0.707066, -8.5, -0.5, 0)
+check_orientation = false
 
 [node name="ObliqueTarget5" parent="AllTargets/Targets/Oblique" instance=ExtResource("5_cjwtp")]
 transform = Transform3D(-0.707066, 0, 0.842649, 0, 1.1, 0, -0.842649, 0, -0.707066, -8.5, -0.5, -4)
+check_orientation = false
 
 [node name="ObliqueTarget6" parent="AllTargets/Targets/Oblique" instance=ExtResource("5_cjwtp")]
 transform = Transform3D(-0.707066, 4.20351e-15, 0.842649, -7.36667e-08, 1.1, -6.18137e-08, -0.842649, -9.61651e-08, -0.707066, 8.5, -0.5, 4)
+check_orientation = false
 
 [node name="ObliqueTarget7" parent="AllTargets/Targets/Oblique" instance=ExtResource("5_cjwtp")]
 transform = Transform3D(-0.707066, 0, -0.842649, 0, 1.1, 0, 0.842649, 0, -0.707066, 8.5, -0.5, 0)
+check_orientation = false
 
 [node name="ObliqueTarget8" parent="AllTargets/Targets/Oblique" instance=ExtResource("5_cjwtp")]
 transform = Transform3D(-0.707066, 0, 0.842649, 0, 1.1, 0, -0.842649, 0, -0.707066, 8.5, -0.5, -4)
+check_orientation = false
 
 [node name="ObliqueTarget9" parent="AllTargets/Targets/Oblique" instance=ExtResource("5_cjwtp")]
 transform = Transform3D(-0.707066, 0, -0.842649, 0, 1.1, 0, 0.842649, 0, -0.707066, 8.5, -0.5, -8)
+check_orientation = false
 
 [node name="Final" type="Node3D" parent="AllTargets"]
 
