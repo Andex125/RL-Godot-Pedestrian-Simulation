@@ -253,9 +253,9 @@ class Runner:
         """
         print("Creating new model")
 
-        # Add device to hyperparameters if not present
+        # Add device to hyperparameters if not present or if cuda requested but not available
         hyperparams = self.configs['hyperparameters'].copy()
-        if 'device' not in hyperparams:
+        if 'device' not in hyperparams or (hyperparams['device'] == 'cuda' and not torch.cuda.is_available()):
             hyperparams['device'] = self.device
 
         self.model = PPO(
@@ -314,3 +314,12 @@ class Runner:
 
         print("Exporting onnx to:\n" + os.path.abspath(path))
         export_model_as_onnx(self.model, path)
+        try:
+            import onnx
+            onnx_model = onnx.load(path, load_external_data=True)
+            onnx.save_model(onnx_model, path, save_as_external_data=False)
+            data_file = path + ".data"
+            if os.path.exists(data_file):
+                os.remove(data_file)
+        except Exception as e:
+            print(f"Warning during ONNX consolidation: {e}")

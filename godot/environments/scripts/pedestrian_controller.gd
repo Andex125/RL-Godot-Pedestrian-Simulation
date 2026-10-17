@@ -75,6 +75,8 @@ func get_pedestrians():
 	pedestrians = find_children('Pedestrian*')
 	for p in pedestrians:
 		pedestrian_done[p] = false
+		if not ped_cycle_counter.has(p):
+			ped_cycle_counter[p] = 0
 
 ## Set initial pos and rot for each pedestrian
 func set_pedestrians_initial_state():
@@ -165,7 +167,9 @@ func set_end_episode(pedestrian):
 func _process(_delta):
 	if log_file != null:
 		tick_counter += 1
-		tick_counter %= Engine.physics_ticks_per_second
+		var pts = Engine.get_physics_ticks_per_second() if Engine.has_method("get_physics_ticks_per_second") else Constants.PHYSICS_TICKS_PER_SECONDS
+		if pts > 0:
+			tick_counter %= pts
 		
 		if tick_counter % ticks_between_log == 0:
 			sample_data()
@@ -173,7 +177,10 @@ func _process(_delta):
 ## Sample data from all pedestrians
 func sample_data():
 	for p in pedestrians:
-		var id = str(p.get_instance_id()) + str(ped_cycle_counter[p])
+		if not is_instance_valid(p) or not is_instance_valid(level_manager):
+			continue
+		var cycle = ped_cycle_counter.get(p, 0)
+		var id = str(p.get_instance_id()) + str(cycle)
 		var x = p.global_position.x - level_manager.global_position.x
 		var y = p.global_position.y - level_manager.global_position.y
 		var z = p.global_position.z - level_manager.global_position.z

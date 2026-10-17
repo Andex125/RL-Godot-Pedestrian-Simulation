@@ -2,3 +2,6 @@ godot/.godot
 output
 output2
 /godot/rec/
+__pycache__/
+*.pyc
+*.tmp.zip

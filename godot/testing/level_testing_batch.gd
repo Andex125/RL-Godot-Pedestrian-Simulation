@@ -9,7 +9,7 @@ const number_of_episode:= Constants.DEFAULT_NUMBER_OF_EPISODE
 func _ready():
 	batch_size = Constants.TESTING_BATCH_SIZE
 
-	# Usa Constants.PATH_PEDPY_LOGS invece di 'path'
+	create_directories(Constants.PATH_PEDPY_LOGS)
 	var log_path = Constants.PATH_PEDPY_LOGS + name + ".txt"
 	pedpy_log_file = FileAccess.open(log_path, FileAccess.WRITE)
 	

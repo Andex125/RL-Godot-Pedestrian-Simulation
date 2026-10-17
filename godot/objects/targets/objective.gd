@@ -30,3 +30,7 @@ func _custom_body_entered(body: Node3D):
 # Metodo helper per ottenere l'ID
 func get_objective_id() -> int:
 	return objective_id
+
+# Verifica se l'obiettivo è ancora attivo e raccoglibile
+func is_active() -> bool:
+	return active and is_inside_tree() and visible

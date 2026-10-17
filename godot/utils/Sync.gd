@@ -279,7 +279,7 @@ func _extract_action_dict(action_array: Array, action_space: Dictionary):
 	for key in action_space.keys():
 		var size = action_space[key]["size"]
 		if action_space[key]["action_type"] == "discrete":
-			result[key] = round(action_array[index])
+			result[key] = round(action_array[index]) if action_array.size() > index else 0
 		else:
 			result[key] = action_array.slice(index, index + size)
 		index += size
@@ -376,21 +376,32 @@ func _send_env_info():
 
 
 func connect_to_server():
-	print("Waiting for one second to allow server to start")
-	OS.delay_msec(1000)
-	print("trying to connect to server")
-	stream = StreamPeerTCP.new()
-
-	# "localhost" was not working on windows VM, had to use the IP
 	var ip = "127.0.0.1"
 	var port = _get_port()
-	var _connect = stream.connect_to_host(ip, port)
-	stream.set_no_delay(true)  # TODO check if this improves performance or not
-	stream.poll()
-	# Fetch the status until it is either connected (2) or failed to connect (3)
-	while stream.get_status() < 2:
-		stream.poll()
-	return stream.get_status() == 2
+	var max_attempts = 30
+
+	print("Connecting to Python server on port ", port, "...")
+	for attempt in range(max_attempts):
+		stream = StreamPeerTCP.new()
+		var err = stream.connect_to_host(ip, port)
+		if err == OK:
+			var wait_ms = 0
+			while stream.get_status() == StreamPeerTCP.STATUS_CONNECTING and wait_ms < 1000:
+				OS.delay_msec(50)
+				wait_ms += 50
+				stream.poll()
+
+			if stream.get_status() == StreamPeerTCP.STATUS_CONNECTED:
+				stream.set_no_delay(true)
+				print("Connection established with Python server!")
+				return true
+
+		if (attempt + 1) % 5 == 0:
+			prints("Waiting for Python server on port", port, "(attempt %d/%d)..." % [attempt + 1, max_attempts])
+		OS.delay_msec(1000)
+
+	push_warning("Could not connect to Python server after %d attempts." % max_attempts)
+	return false
 
 
 func _get_args():

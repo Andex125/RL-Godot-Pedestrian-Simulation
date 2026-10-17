@@ -42,6 +42,19 @@ const END_OF_TIMESTEPS_REW: float = -6.0
 # Numero massimo di obiettivi supportato in qualsiasi livello
 const MAX_OBJECTIVES_IN_CURRICULUM: int = 8
 
+# Anti-loop varchi (Grassi Cap. 4 - Eq. 4.2)
+const TARGET_REPEATED_CROSSING_FACTOR: float = 0.03
+
+# Spazio Osservazioni Potenziato (Opzione B: 414 float)
+const ARENA_DIAGONAL: float = 43.0
+const INTRINSIC_OBS_SIZE: int = 8
+const COMPASS_OBS_SIZE: int = 6
+const CHECKLIST_OBS_SIZE: int = 9
+const WALLS_TARGETS_OBS_SIZE: int = 184   # 23 raggi * 8 float
+const AGENTS_WALLS_OBS_SIZE: int = 115    # 23 raggi * 5 float
+const WALLS_OBJECTIVES_OBS_SIZE: int = 92  # 23 raggi * 4 float
+const TOTAL_OBS_SIZE: int = 414
+
 # AI Controller
 const TICKS_PER_STEP: int = 20
 

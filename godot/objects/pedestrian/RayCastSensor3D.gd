@@ -78,18 +78,16 @@ func _ready() -> void:
 	_spawn_nodes()
 
 func _process(_delta):
-	# Funzione chiamata ogni frame
-	# Scopo: aggiornare le linee di debug se necessario
-	
-	# Controlla due condizioni:
-	# 1. Il pedone non deve essere disabilitato
-	# 2. La costante SHOW_RAYS deve essere true (per il debug)
-	if not pedestrian.disable and Constants.SHOW_RAYS:
+	if DisplayServer.get_name() == "headless":
+		return
+	if is_instance_valid(pedestrian) and not pedestrian.disable and Constants.SHOW_RAYS:
 		_create_debug_lines()
 
 ## FUNZIONI DI DEBUG VISIVO
 
 func _create_debug_lines(): 
+	if DisplayServer.get_name() == "headless" or not is_inside_tree() or not is_instance_valid(pedestrian):
+		return
 	# Funzione che crea linee colorate per visualizzare i raggi
 	# Scopo: debug visivo per vedere cosa rilevano i raggi
 	
@@ -371,10 +369,11 @@ func calculate_walls_targets() -> Array:
 	"""
 	Calcola osservazioni per raggi muri/target.
 	
-	Per ogni raggio ritorna 7 valori:
-	  [0]: distanza normalizzata [0,1]
+	Per ogni raggio ritorna 8 valori:
+	  [0]: distanza normalizzata [0,1] (1.0 = libero)
 	  [1-5]: one-hot encoding tipo target
-	  [6]: direction_alignment [-1,+1] (NUOVO!)
+	  [6]: direction_alignment [-1,+1]
+	  [7]: n_attr_norm [-1,+1] (Grassi Cap. 4: contatore attraversamenti varco normalizzato, -1 se muro/assente)
 	  
 	One-hot encoding:
 	  [1,0,0,0,0]: muro
@@ -382,100 +381,91 @@ func calculate_walls_targets() -> Array:
 	  [0,0,1,0,0]: target intermedio non valido
 	  [0,0,0,1,0]: target finale valido
 	  [0,0,0,0,1]: target finale non valido
-	  
-	Direction alignment:
-	  +1.0: Guardo perfettamente il fronte del target
-	   0.0: Guardo il lato o è un muro
-	  -1.0: Guardo perfettamente il retro del target
 	"""
 	var hit_objects := []
 	
-	# Itera su tutti i raggi walls_targets
+	# Itera su tutti i raggi walls_targets (23 raggi)
 	for ray in rays_walls_targets:
-		# 1. DISTANZA NORMALIZZATA
+		# 1. DISTANZA NORMALIZZATA (1.0 se non collide)
 		var norm_distance = _get_raycast_distance(ray)
 		hit_objects.append(norm_distance)
 		
 		# 2. ONE-HOT ENCODING (5 valori)
-		var hit_object_type := [0, 0, 0, 0, 0]
+		var hit_object_type := [0.0, 0.0, 0.0, 0.0, 0.0]
 		
-		# 3. DIRECTION ALIGNMENT (1 valore) - NUOVO!
+		# 3. DIRECTION ALIGNMENT (1 valore in [-1, 1])
 		var direction_alignment = 0.0
 		
-		# 4. ANALISI COLLISIONE
-		if ray.get_collider():
-			if ray.get_collider().is_in_group(Constants.TARGETS_GROUP):
-				# ============================================
-				# NUOVO: CALCOLA DIRECTION ALIGNMENT
-				# ============================================
-				if ray.is_colliding() and ray.get_collider().has_method("get_side_from_normal"):
-					# Ottieni la normale di collisione
-					var collision_normal = ray.get_collision_normal()
-					
-					# Ottieni la direzione forward del target in coordinate globali
-					var target_forward = ray.get_collider().transform.basis * ray.get_collider().forward_direction.normalized()
-					
-					# La normale del ray punta VERSO il pedone (opposta alla direzione del raggio)
-					# Quindi invertiamo per ottenere la direzione di osservazione
-					var ray_direction = -collision_normal.normalized()
-					
-					# Calcola il dot product: 
-					# +1 = guardo esattamente il fronte
-					#  0 = guardo il lato (perpendicolare)
-					# -1 = guardo esattamente il retro
-					direction_alignment = ray_direction.dot(target_forward)
-					
-					# Determina il lato categorico per le reward
-					var side = "unknown"
-					if direction_alignment > 0.5:
-						side = "front"
-					elif direction_alignment < -0.5:
-						side = "back"
-					else:
-						side = "side"
-					
-					# Memorizza per le reward (questo metodo già esiste)
-					_store_target_view_side(ray.get_collider(), side)
+		# 4. N_ATTR_NORM (1 valore: contatore varchi Grassi Cap. 4, -1 se non target)
+		var n_attr_norm = -1.0
+		
+		# 5. ANALISI COLLISIONE
+		var collider = ray.get_collider()
+		if collider:
+			if collider.is_in_group(Constants.TARGETS_GROUP):
+				var is_final_target = collider.name.begins_with("FinalTarget")
 				
-				# ============================================
-				# DETERMINA TIPO TARGET (codice esistente)
-				# ============================================
-				var is_final_target = ray.get_collider().name.begins_with("FinalTarget")
+				# Calcola direzione raggio in coordinate globali
+				var ray_global_dir = (ray.get_collision_point() - ray.global_transform.origin).normalized()
+				if ray_global_dir.length_squared() < 0.001:
+					ray_global_dir = (ray.global_transform.basis * ray.target_position).normalized()
+				
+				var target_forward: Vector3 = Vector3.FORWARD
+				if collider.has_method("get_target_forward_global"):
+					target_forward = collider.get_target_forward_global()
+				elif "forward_direction" in collider:
+					target_forward = (collider.global_transform.basis * collider.forward_direction).normalized()
+				else:
+					target_forward = -collider.global_transform.basis.z.normalized()
+				direction_alignment = clampf(ray_global_dir.dot(target_forward), -1.0, 1.0)
+				
+				var side = "side"
+				if direction_alignment > 0.2:
+					side = "front"
+				elif direction_alignment < -0.2:
+					side = "back"
+				_store_target_view_side(collider, side)
 				
 				if is_final_target:
 					# TARGET FINALE
 					var all_objectives_collected = (pedestrian.objectives_collected >= pedestrian.level_objectives_count)
-					
 					if all_objectives_collected:
-						hit_object_type[3] = 1  # Target finale valido
+						hit_object_type[3] = 1.0  # Target finale valido
 					else:
-						hit_object_type[4] = 1  # Target finale non valido
+						hit_object_type[4] = 1.0  # Target finale non valido
+					n_attr_norm = 0.0
 				else:
 					# TARGET INTERMEDIO
 					var has_requirements = (
-						ray.get_collider().has_method("check_required_objectives") and
-						ray.get_collider().has_method("get_reward_for_objectives")
+						collider.has_method("check_required_objectives") and
+						collider.has_method("get_reward_for_objectives")
 					)
 					
 					if has_requirements:
-						var requirements_met = ray.get_collider().check_required_objectives(pedestrian.collected_objective_ids)
-						
+						var requirements_met = collider.check_required_objectives(pedestrian.collected_objective_ids)
 						if requirements_met:
-							hit_object_type[1] = 1  # Target intermedio valido
+							hit_object_type[1] = 1.0  # Target intermedio valido
 						else:
-							hit_object_type[2] = 1  # Target intermedio non valido
+							hit_object_type[2] = 1.0  # Target intermedio non valido
 					else:
-						# Nessun requisito = sempre valido
-						hit_object_type[1] = 1
+						hit_object_type[1] = 1.0
+					
+					# Contatore attraversamenti n_attr (Grassi Cap. 4)
+					if pedestrian.has_method("get_target_crossings"):
+						var crossings = pedestrian.get_target_crossings(collider)
+						n_attr_norm = clampf(float(crossings) / 5.0, 0.0, 1.0)
+					else:
+						n_attr_norm = 0.0
 				
-			elif ray.get_collider().is_in_group(Constants.WALLS_GROUP):
-				# MURO
-				hit_object_type[0] = 1
-				direction_alignment = 0.0  # Neutro per i muri
+			elif collider.is_in_group(Constants.WALLS_GROUP):
+				hit_object_type[0] = 1.0
+				direction_alignment = 0.0
+				n_attr_norm = -1.0
 
-		# 5. AGGIUNGI AI RISULTATI
-		hit_objects.append_array(hit_object_type)      # 5 valori
-		hit_objects.append(direction_alignment)         # 1 valore (NUOVO!)
+		# 6. AGGIUNGI AI RISULTATI (totale 8 valori per raggio)
+		hit_objects.append_array(hit_object_type)
+		hit_objects.append(direction_alignment)
+		hit_objects.append(n_attr_norm)
 		
 	return hit_objects
 
@@ -496,40 +486,39 @@ func _store_target_view_side(target: Area3D, side: String):
 		# print("👁️ Pedone %s vede target '%s' dal lato: %s" % [pedestrian.name, target.name, side])
 
 func calculate_agents_walls() -> Array:
-	# Calcola osservazioni per raggi agenti/muri
-	# Per ogni raggio ritorna: [distanza, tipo, direzione, velocità]
-	
+	# Calcola osservazioni per raggi agenti/muri (23 raggi)
+	# Per ogni raggio ritorna 5 valori: [distanza, tipo, cos_heading, sin_heading, velocità]
 	var hit_objects := []
 	
 	for ray in rays_agents_walls:
-		# PARTE 1: Distanza normalizzata
+		# 1. Distanza normalizzata (1.0 = libero)
 		var norm_distance = _get_raycast_distance(ray)
 		
-		# PARTE 2: Inizializza valori predefiniti
-		var type: int = 0        # 0 = niente, 1 = pedone
-		var direction: float = 0.0   # -1 a 1 (direzione relativa)
-		var speed: float = 0.0       # 0 a 1 (velocità normalizzata)
+		# 2. Inizializza valori predefiniti
+		var type: float = 0.0          # 0 = niente/muro, 1 = pedone
+		var cos_heading: float = 0.0   # Coseno angolo relativo
+		var sin_heading: float = 0.0   # Seno angolo relativo
+		var speed: float = 0.0         # 0 a 1 (velocità normalizzata)
 		
 		var collider = ray.get_collider()
 		if collider:
 			if collider.is_in_group(Constants.PEDESTRIAN_GROUP):
-				type = 1  # È un pedone
+				type = 1.0  # È un pedone
 				
-				# Calcola direzione relativa
-				var diffAng = clamp0360(
-					clamp0360(rad_to_deg(collider.rotation.y)) - 
-					clamp0360(rad_to_deg(rotation.y))
-				)
-				# Converte da 0-360° a -1 +1
-				direction = clamp((diffAng / 180) - 1, -1, 1)
+				# Calcola differenza di rotazione globale continua
+				var diff_rot = collider.global_rotation.y - pedestrian.global_rotation.y
+				cos_heading = cos(diff_rot)
+				sin_heading = sin(diff_rot)
 				
-				# Ottiene velocità normalizzata
-				speed = collider.get_speed_norm()
+				# Velocità normalizzata dell'altro pedone
+				if collider.has_method("get_speed_norm"):
+					speed = collider.get_speed_norm()
 		
-		# Aggiunge tutti i valori
+		# Aggiunge tutti i 5 valori
 		hit_objects.append(norm_distance)	
 		hit_objects.append(type)
-		hit_objects.append(direction)
+		hit_objects.append(cos_heading)
+		hit_objects.append(sin_heading)
 		hit_objects.append(speed)
 	
 	return hit_objects
@@ -538,24 +527,15 @@ func calculate_agents_walls() -> Array:
 
 func _get_raycast_distance(ray: RayCast3D) -> float:
 	# Calcola la distanza normalizzata (0-1) per un raggio
-	# 0 = nessuna collisione o distanza massima
-	# 1 = collisione molto vicina
-	
-	# Se il raggio non colpisce nulla
-	if !ray.is_colliding():
-		return 0.0
+	# Se il raggio non tocca alcun ostacolo, ritorna 1.0 (spazio libero fino a RAY_LENGTH_OBS)
+	# Se c'è collisione, ritorna dist / RAY_LENGTH_OBS compreso in [0, 1]
+	if not ray.is_colliding():
+		return 1.0
 
-	# Calcola la distanza reale
 	var origin = ray.global_transform.origin
 	var collision_point = ray.get_collision_point()
 	var distance = origin.distance_to(collision_point)
-	
-	# Se la distanza supera il limite osservabile
-	if distance > Constants.RAY_LENGTH_OBS:
-		return 1
-	
-	# Normalizza la distanza (0-1)
-	return distance / Constants.RAY_LENGTH_OBS
+	return clampf(distance / Constants.RAY_LENGTH_OBS, 0.0, 1.0)
 	
 	
 ## Determina il colore del raggio in base al reward previsto
@@ -577,24 +557,15 @@ func _get_target_ray_color(target: Area3D, ray: RayCast3D) -> Color:
 	if not target.has_method("check_required_objectives"):
 		return COLOR_NEUTRAL
 	
-	if not target.has_method("get_side_from_normal"):
-		return COLOR_NEUTRAL
-	
 	if not ray.is_colliding():
 		return COLOR_NEUTRAL
 	
-	# NUOVO: Usa direction_alignment calcolato
-	var collision_normal = ray.get_collision_normal()
-	var target_forward = target.transform.basis * target.forward_direction.normalized()
-	var ray_direction = -collision_normal.normalized()
-	var direction_alignment = ray_direction.dot(target_forward)
+	# Usa direzione raggio calcolata rispetto al target
+	var ray_direction = (ray.get_collision_point() - ray.global_transform.origin).normalized()
+	if ray_direction.length_squared() < 0.001:
+		ray_direction = (ray.global_transform.basis * ray.target_position).normalized()
 	
-	# Determina il lato
-	var viewed_side = "side"
-	if direction_alignment > 0.5:
-		viewed_side = "front"
-	elif direction_alignment < -0.5:
-		viewed_side = "back"
+	var viewed_side = target.get_side_from_vector(ray_direction) if target.has_method("get_side_from_vector") else "side"
 	
 	# Verifica obiettivi
 	var all_objectives_collected = target.check_required_objectives(pedestrian.collected_objective_ids)

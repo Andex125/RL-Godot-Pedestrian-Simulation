@@ -11,7 +11,7 @@ size = Vector3(3, 10, 3)
 margin = 0.0
 size = Vector3(3, 10, 3)
 
-[node name="objective" type="Area3D"]
+[node name="objective" type="Area3D" groups=["OBJECTIVES"]]
 collision_layer = 64
 collision_mask = 2
 script = ExtResource("1_57apo")

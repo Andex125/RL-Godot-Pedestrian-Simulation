@@ -27,13 +27,17 @@ var target_reached: bool = false             # Flag per target intermedi raggiun
 var disable: bool = false                    # Flag per disabilitare completamente il pedone
 var finished: bool = false                   # Flag per indicare se ha completato l'episodio
 
-# ===== VARIABILI DI MOVIMENTO =====
+# ===== VARIABILI DI MOVIMENTO & CINEMATICA =====
 var rotation_sens: int = Constants.ROTATION_SENS  # Sensibilità di rotazione
 var speed: float                                   # Velocità corrente
+var previous_action_move: float = 0.0              # Ultima azione move [-1, 1]
+var previous_action_rotate: float = 0.0            # Ultima azione rotate [-1, 1]
+var angular_velocity: float = 0.0                  # Velocità angolare normalizzata [-1, 1]
 
 # ===== VARIABILI PER TRACKING TARGET INTERMEDI =====
 var reached_targets := []                    # Array dei target intermedi già raggiunti
 var last_target_reached: Area3D = null       # Ultimo target raggiunto
+var target_crossings: Dictionary = {}        # Contatore attraversamenti varchi (Grassi Cap. 4)
 
 # ===== VARIABILI PER TRACKING OBIETTIVI =====
 var reached_objectives := []                 # Array degli obiettivi raccolti
@@ -117,13 +121,19 @@ func reset():
 	target_reached = false
 	final_target_reached = false
 	reached_targets = []
+	target_crossings.clear()
+	previous_action_move = 0.0
+	previous_action_rotate = 0.0
+	angular_velocity = 0.0
 	
 	reached_objectives.clear()
 	collected_objective_ids.clear()
 	objectives_collected = 0
 	
-	# NUOVO: Pulisce i metadata dei lati visti
-	clear_viewed_sides()     
+	# Pulisce i metadata dei lati visti
+	clear_viewed_sides()
+	if has_meta("actual_crossing_side"):
+		remove_meta("actual_crossing_side")     
 	
 ## Imposta la velocità massima usando una distribuzione gaussiana
 func set_speed_max():
@@ -151,6 +161,7 @@ func _physics_process(_delta):
 
 ## Imposta la velocità corrente del pedone basata sull'azione dell'AI
 func set_speed(action_0) -> void:
+	previous_action_move = clampf(action_0, -1.0, 1.0)
 	# Modifica la velocità in base all'azione, mantenendola nei limiti
 	speed = clampf(speed + action_0 * speed_max / 2, speed_min, speed_max)
 	
@@ -165,6 +176,8 @@ func set_speed(action_0) -> void:
 
 ## Imposta la direzione del pedone basata sull'azione dell'AI
 func set_direction(action_1) -> void:
+	previous_action_rotate = clampf(action_1, -1.0, 1.0)
+	angular_velocity = clampf(action_1, -1.0, 1.0)
 	# Modifica la rotazione Y (yaw) in base all'azione e alla sensibilità
 	rotation.y += deg_to_rad(action_1 * rotation_sens)
 
@@ -175,12 +188,15 @@ func compute_rewards() -> void:
 	# Penalty per ogni timestep (incoraggia a completare velocemente)
 	tot_reward += Constants.TIMESTEP_REW
 	
-	
 	# Calcola reward solo se l'episodio non è finito
 	if not finished:
 		# ===== REWARD PER TARGET RAGGIUNTI =====
-		# ===== REWARD PER TARGET RAGGIUNTI =====
 		if target_reached:
+			# Penalità varchi ripetuti (Grassi Cap. 4: -0.03 * nattr)
+			var crossings = target_crossings.get(last_target_reached, 1)
+			if crossings > 1:
+				tot_reward -= Constants.TARGET_REPEATED_CROSSING_FACTOR * float(crossings)
+				
 			# Controlla se il target ha requisiti di obiettivi
 			var has_objective_requirements = (
 				last_target_reached.has_method("check_required_objectives") 
@@ -192,8 +208,13 @@ func compute_rewards() -> void:
 			if has_objective_requirements:
 				all_objectives_collected = last_target_reached.check_required_objectives(collected_objective_ids)
 			
-			# Recupera il lato che stava vedendo prima di attraversarlo
-			var viewed_side = get_last_viewed_side(last_target_reached)
+			# Recupera il lato di attraversamento (priorità al lato fisico effettivo)
+			var viewed_side = "side"
+			if has_meta("actual_crossing_side"):
+				viewed_side = get_meta("actual_crossing_side")
+				remove_meta("actual_crossing_side")
+			else:
+				viewed_side = get_last_viewed_side(last_target_reached)
 			
 			# Reward base per aver raggiunto un target (prima volta o già visitato)
 			if last_target_reached in reached_targets:
@@ -202,31 +223,25 @@ func compute_rewards() -> void:
 				reached_targets.append(last_target_reached)
 				tot_reward += Constants.INTERMEDIATE_TARGET_FIRST_TIME_REW
 			
-			# NUOVA LOGICA: Reward in base a obiettivi + lato
+			# Reward in base a obiettivi + lato
 			if has_objective_requirements:
 				var objective_reward = 0.0
 				
 				if viewed_side == "front":
-					# FRONTE
+					# FRONTE: verso l'uscita
 					if all_objectives_collected:
-						# Completati + front = +1
 						objective_reward = Constants.INTERMEDIATE_TARGET_BONUS_REW
-						
 					else:
-						# Mancanti + front = -1
 						objective_reward = Constants.INTERMEDIATE_TARGET_MALUS_REW
 				
 				elif viewed_side == "back":
-					# RETRO
+					# RETRO: ritorno verso gli obiettivi
 					if all_objectives_collected:
-						# Completati + back = -1
 						objective_reward = Constants.INTERMEDIATE_TARGET_MALUS_REW
 					else:
-						# Mancanti + back = +1
 						objective_reward = Constants.INTERMEDIATE_TARGET_BONUS_REW
 				
 				else:
-					# LATO o SCONOSCIUTO = neutro (nessun reward)
 					objective_reward = 0.0
 				
 				tot_reward += objective_reward
@@ -234,84 +249,65 @@ func compute_rewards() -> void:
 			# Resetta i flag
 			target_reached = false
 			last_target_reached = null
+
 		# Ottiene le osservazioni dai sensori
 		var obs = raycast_sensor.get_observation()
-		var walls_and_targets = obs[0]    # Dati su muri e target
-		var agents_and_walls = obs[1]     # Dati su altri agenti e muri
-		var walls_and_objectives = obs[2] # Dati su muri e obiettivi
-		
-		# ===== REWARD PER OBIETTIVI =====
-		# Conta quanti obiettivi sono visibili
-		var objectives_in_sight: int = 0
-		for i in range(0, walls_and_objectives.size(), 4):
-			if walls_and_objectives[i+1] == 1:  # Nuovo obiettivo visibile
-				objectives_in_sight += 1
+		var walls_and_targets = obs[0]    # Dati su muri e target (stride 8)
+		var agents_and_walls = obs[1]     # Dati su altri agenti e muri (stride 5)
+		var walls_and_objectives = obs[2] # Dati su muri e obiettivi (stride 4)
 
-		# Penalty se non ha raccolti tutti gli obbiettivi
+		# Penalty se non ha raccolto tutti gli obiettivi
 		if objectives_collected < level_objectives_count:
 			var remaining_ratio = float(level_objectives_count - objectives_collected) / float(level_objectives_count)
 			tot_reward += Constants.NO_ALL_OBJECTIVES_REW * remaining_ratio
 		
-		# ===== PENALTY PER VICINANZA AI MURI =====
+		# ===== PENALTY PER VICINANZA AI MURI (stride 8: dist, 5 one-hot, align, nattr) =====
 		var wall_near = false
-		# Controlla tutti i raggi per rilevamento muri
-		for i in range(0, Constants.WALL_COLLISION_RAYS * 7, 7):
-			# Se un muro è rilevato e troppo vicino
-			if walls_and_targets[i+1] == 1 and walls_and_targets[i] < Constants.WALL_COLLISION_DISTANCE / Constants.RAY_LENGTH_OBS:
+		for i in range(0, Constants.WALL_COLLISION_RAYS * 8, 8):
+			if walls_and_targets[i+1] == 1.0 and walls_and_targets[i] < (Constants.WALL_COLLISION_DISTANCE / Constants.RAY_LENGTH_OBS):
 				wall_near = true
 				break
 		
 		if wall_near:
 			tot_reward += Constants.WALL_COLLISION_REW  # Penalty negativo
 			
-		# ===== PENALTY PER VICINANZA AD ALTRI AGENTI (PROXEMICA) =====
+		# ===== PENALTY PER VICINANZA AD ALTRI AGENTI (PROSSEMICA, stride 5: dist, type, cos, sin, vel) =====
 		var agent_near = false
 		
 		# Controlla zona personale (più vicina) - penalty maggiore
-		for i in range(0, Constants.AGENT_COLLISION_SMALL_RAYS * 4, 4):
-			if agents_and_walls[i+1] == 1 and agents_and_walls[i] < Constants.AGENT_COLLISION_SMALL_DISTANCE / Constants.RAY_LENGTH_OBS:
+		for i in range(0, Constants.AGENT_COLLISION_SMALL_RAYS * 5, 5):
+			if agents_and_walls[i+1] == 1.0 and agents_and_walls[i] < (Constants.AGENT_COLLISION_SMALL_DISTANCE / Constants.RAY_LENGTH_OBS):
 				agent_near = true
 				break
 		
 		if agent_near:
-			tot_reward += Constants.AGENT_COLLISION_SMALL_REW  # Penalty alta
+			tot_reward += Constants.AGENT_COLLISION_SMALL_REW
 			
 		# Se non è nella zona personale, controlla zona sociale (media)
 		if not agent_near:
-			for i in range(0, Constants.AGENT_COLLISION_MEDIUM_RAYS * 4, 4):
-				if agents_and_walls[i+1] == 1 and agents_and_walls[i] < Constants.AGENT_COLLISION_MEDIUM_DISTANCE / Constants.RAY_LENGTH_OBS:
+			for i in range(0, Constants.AGENT_COLLISION_MEDIUM_RAYS * 5, 5):
+				if agents_and_walls[i+1] == 1.0 and agents_and_walls[i] < (Constants.AGENT_COLLISION_MEDIUM_DISTANCE / Constants.RAY_LENGTH_OBS):
 					agent_near = true
 					break
 			if agent_near:
-				tot_reward += Constants.AGENT_COLLISION_MEDIUM_REW  # Penalty media
+				tot_reward += Constants.AGENT_COLLISION_MEDIUM_REW
 				
 		# Se non è nella zona sociale, controlla zona pubblica (lontana)
 		if not agent_near:
-			for i in range(0, Constants.AGENT_COLLISION_LARGE_RAYS * 4, 4):
-				if agents_and_walls[i+1] == 1 and agents_and_walls[i] < Constants.AGENT_COLLISION_LARGE_DISTANCE / Constants.RAY_LENGTH_OBS:
+			for i in range(0, Constants.AGENT_COLLISION_LARGE_RAYS * 5, 5):
+				if agents_and_walls[i+1] == 1.0 and agents_and_walls[i] < (Constants.AGENT_COLLISION_LARGE_DISTANCE / Constants.RAY_LENGTH_OBS):
 					agent_near = true
 					break
 			if agent_near:
-				tot_reward += Constants.AGENT_COLLISION_LARGE_REW  # Penalty bassa
+				tot_reward += Constants.AGENT_COLLISION_LARGE_REW
 			
 	# Aggiorna il reward cumulativo e invia all'AI
 	ai_controller_3d.reward += tot_reward
-	# Aggiorna l'interfaccia utente con il reward corrente
 	pedestrian_controller.set_reward_label_text(tot_reward)
 
 ## Callback quando il pedone entra nel target finale
 func _on_final_target_entered(body):
-	# Verifica che sia proprio questo pedone
 	if body == self:
-		# ====== DEBUG: STAMPA CONTROLLO FINALE ======
-		#var debug_info = get_debug_info()
-		#print("\n🏁 === TARGET FINALE RAGGIUNTO ===")
-		#print("📍 Level Manager: %s (ID: %s)" % [debug_info.get("level_manager_name", "N/A"), debug_info.get("level_manager_id", "N/A")])
-		#print("📍 Livello: %s (ID: %s)" % [debug_info.get("level_name", "N/A"), debug_info.get("level_id", "N/A")])
-		#print("📍 Pedone: %s (ID: %s)" % [debug_info.get("pedestrian_name", "N/A"), debug_info.get("pedestrian_id", "N/A")])
-		#print("📍 Obiettivi raccolti: %d/%d" % [objectives_collected, level_objectives_count])
-		
-		# ===== CONTROLLO OBIETTIVI RACCOLTI =====
 		if objectives_collected >= level_objectives_count:
 			finished = true
 			final_target_reached = true
@@ -321,12 +317,18 @@ func _on_final_target_entered(body):
 			ai_controller_3d.reward += Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW
 			pedestrian_controller.set_reward_label_text(Constants.FINAL_TARGET_WITHOUT_OBJECTIVES_REW)
 
-		
+## Callback quando il pedone entra in un target intermedio
 func _on_target_entered(area, body):
-	# Verifica che sia proprio questo pedone
 	if body == self:
 		target_reached = true
 		last_target_reached = area
+		target_crossings[area] = target_crossings.get(area, 0) + 1
+		
+		# Determina con precisione il lato geometrico di attraversamento
+		if area.has_method("get_side_from_vector"):
+			var move_dir = velocity if velocity.length_squared() > 0.01 else (transform.basis * Vector3(0, 0, 1))
+			var side = area.get_side_from_vector(move_dir)
+			set_meta("actual_crossing_side", side)
 		
 func _on_objective_entered(area, body):
 	# CONTROLLI BASE
@@ -374,26 +376,122 @@ func get_speed_norm() -> float:
 	return (speed - speed_min) / (speed_max - speed_min)
 
 func get_objectives_direction_vector() -> Array:
-	var checklist = []
+	var checklist := []
 	
 	for i in range(Constants.MAX_OBJECTIVES_IN_CURRICULUM):
 		if i < level_objectives_count:
 			# Obiettivo ESISTE
 			if i in collected_objective_ids:
-				checklist.append(1)  # ✅ RACCOLTO
+				checklist.append(1.0)  # RACCOLTO
 			else:
-				checklist.append(0)  # ⬜ DA RACCOGLIERE
+				checklist.append(0.0)  # DA RACCOGLIERE
 		else:
 			# Obiettivo NON ESISTE
-			checklist.append(-1)  # ❌ PADDING
+			checklist.append(-1.0)  # PADDING
 	
 	# Target finale
 	if final_target_reached:
-		checklist.append(1)
+		checklist.append(1.0)
 	else:
-		checklist.append(0)
+		checklist.append(0.0)
 	
 	return checklist
+
+## Restituisce il numero di attraversamenti effettuati per un determinato target
+func get_target_crossings(target: Area3D) -> int:
+	return target_crossings.get(target, 0)
+
+## Calcola coordinate polari relative (distanza norm, cos, sin) verso una posizione 3D
+func get_polar_to_position(target_pos: Vector3) -> Array:
+	var delta = target_pos - global_position
+	delta.y = 0.0
+	var dist = delta.length()
+	var dist_norm = clampf(dist / Constants.ARENA_DIAGONAL, 0.0, 1.0)
+	
+	# Direzione forward globale del pedone
+	var forward = (transform.basis * Vector3(0, 0, 1)).normalized()
+	forward.y = 0.0
+	forward = forward.normalized()
+	
+	var dir = delta.normalized() if dist > 0.001 else forward
+	var cos_angle = clampf(forward.dot(dir), -1.0, 1.0)
+	var sin_angle = clampf(forward.cross(dir).y, -1.0, 1.0)
+	
+	return [dist_norm, cos_angle, sin_angle]
+
+## Bussola polare verso l'obiettivo attivo non ancora raccolto più vicino (3 float)
+func get_nearest_active_objective_polar() -> Array:
+	var nearest_obj: Node3D = null
+	var min_dist = INF
+	
+	var objectives = get_tree().get_nodes_in_group(Constants.OBJECTIVES_GROUP)
+	for obj in objectives:
+		if not is_instance_valid(obj):
+			continue
+		if obj in reached_objectives:
+			continue
+		if obj.has_method("is_active") and not obj.is_active():
+			continue
+		elif "active" in obj and not obj.active:
+			continue
+		
+		var d = global_position.distance_to(obj.global_position)
+		if d < min_dist:
+			min_dist = d
+			nearest_obj = obj
+			
+	if nearest_obj != null and is_instance_valid(nearest_obj):
+		return get_polar_to_position(nearest_obj.global_position)
+	return [1.0, 0.0, 0.0]
+
+## Bussola polare verso il target finale (3 float)
+func get_final_target_polar() -> Array:
+	var targets = get_tree().get_nodes_in_group(Constants.TARGETS_GROUP)
+	var final_target: Node3D = null
+	var min_dist = INF
+	
+	for t in targets:
+		if is_instance_valid(t) and t.name.begins_with("FinalTarget"):
+			var d = global_position.distance_to(t.global_position)
+			if d < min_dist:
+				min_dist = d
+				final_target = t
+				
+	if final_target != null and is_instance_valid(final_target):
+		return get_polar_to_position(final_target.global_position)
+	return [1.0, 0.0, 0.0]
+
+## Vettore di stato cinematico e propriocezione (8 float)
+func get_intrinsic_state(ai_controller) -> Array:
+	var res := []
+	# 1. speed_norm [0, 1]
+	res.append(get_speed_norm())
+	# 2. angular_velocity_norm [-1, 1]
+	res.append(clampf(angular_velocity, -1.0, 1.0))
+	# 3. prev_action_move [-1, 1]
+	res.append(clampf(previous_action_move, -1.0, 1.0))
+	# 4. prev_action_rotate [-1, 1]
+	res.append(clampf(previous_action_rotate, -1.0, 1.0))
+	# 5. time_remaining_norm [0, 1]
+	var time_remaining = 0.0
+	if ai_controller.reset_after > 0:
+		time_remaining = clampf(float(ai_controller.reset_after - ai_controller.n_steps) / float(ai_controller.reset_after), 0.0, 1.0)
+	res.append(time_remaining)
+	# 6. objectives_collected_norm [0, 1]
+	var obj_collected_norm = 0.0
+	if level_objectives_count > 0:
+		obj_collected_norm = float(objectives_collected) / float(level_objectives_count)
+	res.append(obj_collected_norm)
+	# 7. objectives_remaining_norm [0, 1]
+	var obj_remaining_norm = 0.0
+	if level_objectives_count > 0:
+		var remaining = level_objectives_count - objectives_collected
+		obj_remaining_norm = float(remaining) / float(level_objectives_count)
+	res.append(obj_remaining_norm)
+	# 8. all_objectives_flag: +1.0 se completati tutti, -1.0 se mancano
+	var all_done = 1.0 if (objectives_collected >= level_objectives_count and level_objectives_count > 0) else (-1.0 if level_objectives_count > 0 else 1.0)
+	res.append(all_done)
+	return res
 
 ## Disabilita il pedone quando raggiunge il target finale
 func disable_pedestrian():

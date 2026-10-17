@@ -10,6 +10,8 @@ signal custom_body_entered(area: Area3D, body: Node3D)
 @export var forward_direction: Vector3 = Vector3(0, 0, 1)  # Direzione "fronte" del target (locale)
 
 func _ready():
+	if not is_in_group(Constants.TARGETS_GROUP):
+		add_to_group(Constants.TARGETS_GROUP)
 	self.body_entered.connect(_custom_body_entered)
 	_remove_duplicates()
 	
@@ -58,34 +60,40 @@ func get_reward_for_objectives(collected_objective_ids: Array[int]) -> float:
 	else:
 		return Constants.INTERMEDIATE_TARGET_MALUS_REW
 
-# NUOVO: Determina se la normale del raycast corrisponde al fronte o retro
-func get_side_from_normal(collision_normal: Vector3) -> String:
-	# Ottieni la direzione forward del target in coordinate globali
-	# transform.basis trasforma il vettore locale in globale considerando la rotazione
-	var target_forward_global = transform.basis * forward_direction.normalized()
-	
-	# La normale del raycast punta VERSO l'origine del raggio (il pedone)
-	# Per capire se il pedone guarda il fronte, invertiamo la normale
-	var ray_direction = -collision_normal.normalized()
-	
-	# Calcola il dot product
-	var dot = ray_direction.dot(target_forward_global)
-	
-	# dot > 0.5 = il raggio colpisce il fronte del target
-	# dot < -0.5 = il raggio colpisce il retro del target
-	# altrimenti = lato
-	
-	if dot > 0.5:
-		return "front"
-	elif dot < -0.5:
-		return "back"
-	else:
-		return "side"
+# Restituisce la normale forward del target in coordinate globali
+func get_target_forward_global() -> Vector3:
+	return (global_transform.basis * forward_direction).normalized()
 
-# NUOVO: Versione booleana semplice per controlli veloci
-func is_looking_at_front(collision_normal: Vector3) -> bool:
-	var target_forward_global = transform.basis * forward_direction.normalized()
-	var ray_direction = -collision_normal.normalized()
-	return ray_direction.dot(target_forward_global) > 0.5
+# Determina il lato in base al vettore movimento (velocità) del pedone
+func get_side_from_vector(dir: Vector3) -> String:
+	if dir.length_squared() < 0.0001:
+		return "side"
+	var forward_global = get_target_forward_global()
+	var dot = dir.normalized().dot(forward_global)
+	if dot > 0.2:
+		return "front"
+	elif dot < -0.2:
+		return "back"
+	return "side"
+
+# Determina il lato in base alla direzione del raggio
+func get_side_from_ray(ray_global_dir: Vector3) -> String:
+	return get_side_from_vector(ray_global_dir)
+
+# Metodo di compatibilità: determina lato da normale di collisione
+func get_side_from_normal(collision_normal: Vector3) -> String:
+	if collision_normal.length_squared() < 0.0001:
+		return "side"
+	var forward_global = get_target_forward_global()
+	var dot = collision_normal.normalized().dot(forward_global)
+	if dot > 0.2:
+		return "front"
+	elif dot < -0.2:
+		return "back"
+	return "side"
+
+# Controllo booleano rapido
+func is_looking_at_front(dir: Vector3) -> bool:
+	return get_side_from_vector(dir) == "front"
 
 

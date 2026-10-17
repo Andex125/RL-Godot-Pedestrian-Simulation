@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="RL-Godot-Pedestrian-Simulation"
-run/main_scene="res://training/training_scene.tscn"
+run/main_scene="res://training/training_scene_base.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -31,7 +31,7 @@ project/assembly_name="RL-Godot-Pedestrian-Simulation"
 [editor]
 
 movie_writer/mjpeg_quality=0.9
-movie_writer/movie_file="E:/GitHub/RL-Godot-Pedestrian-Simulation/godot/rec/test.avi"
+movie_writer/movie_file="res://rec/test.avi"
 movie_writer/fps=30
 
 [editor_plugins]
